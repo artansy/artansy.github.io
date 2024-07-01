@@ -55,15 +55,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         // Документ (.docx)
                         const documentCell = document.createElement('td');
-                        if (graduate.document_url && graduate.document_url.trim() !== '') {
+                        if (graduate.document_file && graduate.document_file.trim() !== '') {
                             const link = document.createElement('a');
-                            link.href = graduate.document_url;
+                            link.href = graduate.document_file;
                             link.textContent = 'Скачать';
                             documentCell.appendChild(link);
                         } else {
                             documentCell.textContent = 'Нет файла';
                         }
                         row.appendChild(documentCell);
+                        console.log('Значение document_file:', graduate.document_file);
 
                         tableBody.appendChild(row);
                     });

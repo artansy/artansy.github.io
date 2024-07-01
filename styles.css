@@ -253,3 +253,31 @@ footer p {
 #graduatesTable td:nth-child(8) {
     text-align: center; /* Выравнивание для колонки с количеством часов */
 }
+
+@media screen and (max-width: 600px) {
+    #graduatesTable {
+        border: 0;
+    }
+
+    #graduatesTable thead {
+        display: none;
+    }
+
+    #graduatesTable tbody tr {
+        border-bottom: 1px solid #dddddd;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #graduatesTable tbody td {
+        display: block;
+        text-align: center; /* Центрируем текст */
+    }
+
+    #graduatesTable tbody td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}

@@ -18,7 +18,7 @@ def get_graduates():
     cursor = conn.cursor()
     cursor.execute("""
         SELECT g.full_name, g.specialty, g.graduation_date, dt.type as document_type, 
-               g.document_series, g.document_number, g.supervisor, g.hours
+               g.document_series, g.document_number, g.supervisor, g.hours, g.document_file
         FROM graduates g
         JOIN document_types dt ON g.document_type = dt.id
     """)

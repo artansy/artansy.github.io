@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запишитесь на обучение</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <img src="логотип Ависты.png" alt="лого" class="logo">
+        <h1>Учебный центр Ависта</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Учебные программы и МТО</a></li>
+            <li><a href="teachers.html">Преподаватели и расписание</a></li>
+            <li><a href="enroll.html">Запись на обучение</a></li>
+            <li><a href="license.html">Основные сведения и структура</a></li>
+            <li><a href="documents.html">Документы</a></li>
+            <li><a href="center.html">Учебный центр Ависта</a></li>
+            <li><a href="management.html">Руководство</a></li>
+            <li><a href="projects.html">Дипломные работы выпускников</a></li>
+            <li><a href="calculator.html">Калькулятор</a></li>
+        </ul>
+    </nav>
+
+    <section id="enroll">
+        <h2>Запишитесь на обучение по электронной почте</h2>
+
+        <div class="sd-block-text-desc">Напишите на нашу почту vmaeva@gmail.com, позвоните по телефону +79022689898, или напишите по этому же номеру в Телеграмм&nbsp;</div>
+        <!-- Formspree form -->
+        <form id="enrollForm" action="https://formspree.io/f/mrbzzjlg" method="POST">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Телефон:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <button type="submit">Отправить</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Учебный центр Ависта. Все права защищены.</p>
+    </footer>
+</body>
+</html>

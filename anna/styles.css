@@ -1,0 +1,391 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+header {
+    background:rgb(0, 0, 0);
+    color: #fff;
+    padding: 8px 0;
+    text-align: center;
+}
+
+header, #programs h2 {
+    text-align: center;
+    padding: 16px;
+}
+
+nav {
+    background:rgb(0, 0, 0);
+    color: #fff;
+    padding: 8px 0;
+    top: 40px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.2s, font-size 0.2s, color 0.2s; /* Плавный переход */
+}
+
+nav ul li a:hover {
+    transform: scale(0.1); /* Увеличение текста */
+    font-size: 1.1em; /* Дополнительное увеличение размера шрифта */
+}
+
+section {
+    padding: 20px;
+    margin: 10px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.map-container {
+    position: relative;
+    padding-bottom: 25.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: rgb(20, 20, 20);
+    color: #fff;
+    position: relative;
+    width: 100%;
+}
+
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form label {
+    margin-top: 10px;
+} 
+
+form input, form select, form button {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    margin-top: 10px;
+    background: #ee5630;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background: #690b0b;
+    transition: background-color 0.3s ease;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+section#programs {
+    padding: 20px;
+}
+
+#programs {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.program {
+    display: flex;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    
+}
+
+.program-image {
+    flex: 1;
+    max-width: 150px;
+    margin-right: 1rem;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.program-details {
+    flex: 3;
+}
+
+.program h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.program p {
+    margin-bottom: 0.5rem;
+}
+
+.program ul {
+    margin-top: 0.5rem;
+    padding-left: 20px;
+}
+
+.program ul li {
+    list-style: disc;
+    margin-bottom: 0.5rem;
+}
+
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+}
+
+#teachers {
+    padding: 20px;
+    text-align: center;
+}
+
+.teacher {
+    margin-bottom: 20px;
+}
+
+.teacher-info {
+    display: inline-block;
+    text-align: left;
+    max-width: 600px;
+}
+
+.teacher-info img {
+    float: left;
+    margin-right: 20px;
+
+}
+
+.gallery {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px 0;
+}
+
+.gallery-scroll {
+    display: inline-flex;
+    gap: 10px;
+}
+
+.img-col {
+    display: inline-block;
+}
+
+.img-col img {
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.img-col img:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    /* Медиа-запрос для мобильных устройств */
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    .program {
+        flex-direction: column;
+        text-align: center; /* Центрирование текста на мобильных устройствах */
+    }
+
+    .program-image {
+        margin: 0 auto 20px auto;
+    }
+
+    .program-details {
+        text-align: left; /* Левое выравнивание для контента на мобильных устройствах */
+    }
+
+    /* Стили для адаптивной таблицы */
+    #graduatesTable {
+        border: 0;
+    }
+
+    #graduatesTable thead {
+        display: none;
+    }
+
+    #graduatesTable tbody tr {
+        border-bottom: 1px solid #dddddd;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    #graduatesTable tbody td {
+        display: block;
+        text-align: center; /* Центрируем текст */
+    }
+
+    #graduatesTable tbody td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}
+.slider {
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+}
+
+.slide img {
+    max-width: 200px;
+}
+
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slider-track .program-card {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+#programs {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.program-card {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.program-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.program-image {
+    width: 100%;
+    max-width: 200px;
+    margin-right: 1rem;
+    border-radius: 5px;
+    transition: transform 0.2s; /* Smooth transition */
+    align-self: flex-start; /* Initial alignment */
+}
+
+.program-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.program-content h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+}
+
+.program-content p {
+    margin: 0.5rem 0;
+}
+
+.program-content p b {
+    color: #9b2020;
+}
+
+
+
+nav ul li a:hover {
+    border-radius: 5px;
+    text-decoration: underline;
+}
+
+

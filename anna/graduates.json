@@ -1,0 +1,36 @@
+[
+    {
+      "Name": "Иванов Иван Иванович",
+      "Specialty": "Бухгалтерия",
+      "GraduationDate": "2024-05-20",
+      "DocumentType": "диплом",
+      "DocumentSeries": "331",
+      "DocumentNumber": "443325",
+      "Supervisor": "Петров Петр Петрович",
+      "Hours": "252",
+      "DocumentURL": "https://mega.nz/file/3QAiAYDa#cfdy8jI1tHi9iljLcbXvCYO82Yk8f_9anVfj7wRyC6E"
+    },
+    {
+      "Name": "Петрова Анна",
+      "Specialty": "Программирование",
+      "GraduationDate": "2024-08-21",
+      "DocumentType": "свидетельство",
+      "DocumentSeries": "123",
+      "DocumentNumber": "777666",
+      "Supervisor": "Ельвин Виктор Николаевич",
+      "Hours": "453",
+      "DocumentURL": "https://mega.nz/file/3QAiAYDa#cfdy8jI1tHi9iljLcbXvCYO82Yk8f_9anVfj7wRyC6E"
+    },
+    {
+      "Name": "Петрова Алена Анатолевна",
+      "Specialty": "Бухгалтерия",
+      "GraduationDate": "2023-07-24",
+      "DocumentType": "Удостоверение",
+      "DocumentSeries": "563",
+      "DocumentNumber": "334536",
+      "Supervisor": "Петров Петр Петрович",
+      "Hours": "456",
+      "DocumentURL": "https://mega.nz/file/3QAiAYDa#cfdy8jI1tHi9iljLcbXvCYO82Yk8f_9anVfj7wRyC6E"
+    }
+  ]
+  

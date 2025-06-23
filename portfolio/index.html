@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTANSY - Creative Dimension</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Raleway:wght@300;400;600;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: #0a0a0a;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+            z-index: 10000000;
+            transition: transform 0.05s ease-out, opacity 0.1s ease;
+            mix-blend-mode: difference;
+            will-change: transform;
+        }
+        
+        .cursor-outer {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ff006e;
+            border-radius: 50%;
+            position: absolute;
+            animation: cursor-pulse 2s infinite;
+        }
+        
+        .cursor-inner {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(255, 0, 110, 0.8);
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 0, 110, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999999;
+            transition: all 0.1s ease-out;
+            will-change: transform;
+        }
+        
+        @keyframes cursor-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        /* Cursor hover states */
+        .custom-cursor.hover {
+            transform: scale(1.5);
+        }
+        
+        .custom-cursor.hover .cursor-outer {
+            border-color: #8338ec;
+            animation: cursor-hover 1s infinite;
+        }
+        
+        .custom-cursor.hover .cursor-inner {
+            background: linear-gradient(45deg, #8338ec, #3a86ff);
+            box-shadow: 0 0 25px rgba(131, 56, 236, 0.9);
+        }
+        
+        @keyframes cursor-hover {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+        }
+        
+        /* Cursor click state */
+        .custom-cursor.click {
+            transform: scale(0.8);
+        }
+        
+        .custom-cursor.click .cursor-outer {
+            border-color: #3a86ff;
+            border-width: 3px;
+        }
+        
+        .custom-cursor.click .cursor-inner {
+            background: #3a86ff;
+            box-shadow: 0 0 30px rgba(58, 134, 255, 1);
+        }
+        
+        /* Glitch Effect */
+        .glitch {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            color: #fff;
+            font-size: 8rem;
+            animation: glitch 2s linear infinite;
+        }
+        
+        .glitch:before,
+        .glitch:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch:before {
+            animation: glitch-top 1s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+        }
+        
+        .glitch:after {
+            animation: glitch-bottom 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+        }
+        
+        @keyframes glitch {
+            2%,64%{transform: translate(2px,0) skew(0deg);}
+            4%,60%{transform: translate(-2px,0) skew(0deg);}
+            62%{transform: translate(0,0) skew(5deg);}
+        }
+        
+        @keyframes glitch-top {
+            2%,64%{transform: translate(2px,-2px);}
+            4%,60%{transform: translate(-2px,2px);}
+            62%{transform: translate(13px,-1px) skew(-13deg);}
+        }
+        
+        @keyframes glitch-bottom {
+            2%,64%{transform: translate(-2px,0);}
+            4%,60%{transform: translate(-2px,0);}
+            62%{transform: translate(-22px,5px) skew(21deg);}
+        }
+        
+        /* ENHANCED PRICE GLITCH EFFECT */
+        .price-glitch {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            color: #fff;
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: price-glitch 3s linear infinite;
+        }
+        
+        .price-glitch:before,
+        .price-glitch:after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .price-glitch:before {
+            animation: price-glitch-top 2s linear infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+            color: #fff;
+        }
+        
+        .price-glitch:after {
+            animation: price-glitch-bottom 2.5s linear infinite;
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+            color: #fff;
+        }
+        
+        @keyframes price-glitch {
+            0%,90%,100% {
+                transform: translate(0);
+            }
+            10% {
+                transform: translate(-1px, 0);
+            }
+            20% {
+                transform: translate(1px, 0);
+            }
+            30% {
+                transform: translate(-1px, 0);
+            }
+            40% {
+                transform: translate(1px, 0);
+            }
+            50% {
+                transform: translate(-1px, 0);
+            }
+            60% {
+                transform: translate(1px, 0);
+            }
+            70% {
+                transform: translate(-1px, 0);
+            }
+            80% {
+                transform: translate(1px, 0);
+            }
+        }
+        
+        @keyframes price-glitch-top {
+            0%,90%,100% {
+                transform: translate(0);
+            }
+            10% {
+                transform: translate(-2px, 0);
+            }
+            20% {
+                transform: translate(2px, 0);
+            }
+            30% {
+                transform: translate(-2px, 0);
+            }
+            40% {
+                transform: translate(2px, 0);
+            }
+            50% {
+                transform: translate(-2px, 0);
+            }
+            60% {
+                transform: translate(2px, 0);
+            }
+            70% {
+                transform: translate(-2px, 0);
+            }
+            80% {
+                transform: translate(2px, 0);
+            }
+        }
+        
+        @keyframes price-glitch-bottom {
+            0%,90%,100% {
+                transform: translate(0);
+            }
+            15% {
+                transform: translate(2px, 0);
+            }
+            25% {
+                transform: translate(-2px, 0);
+            }
+            35% {
+                transform: translate(2px, 0);
+            }
+            45% {
+                transform: translate(-2px, 0);
+            }
+            55% {
+                transform: translate(2px, 0);
+            }
+            65% {
+                transform: translate(-2px, 0);
+            }
+            75% {
+                transform: translate(2px, 0);
+            }
+            85% {
+                transform: translate(-2px, 0);
+            }
+        }
+        
+        /* Cyber Grid */
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(255, 0, 110, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 110, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+        
+        /* Hologram Card */
+        .holo-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 110, 0.1) 0%,
+                rgba(131, 56, 236, 0.1) 50%,
+                rgba(58, 134, 255, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        
+        .holo-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .holo-card:hover:before {
+            left: 100%;
+        }
+        
+        .holo-card:hover {
+            transform: scale(1.05) rotateY(10deg);
+            box-shadow: 0 25px 50px rgba(255, 0, 110, 0.3);
+        }
+        
+        /* Neon Text */
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #ff006e,
+                0 0 10px #ff006e,
+                0 0 15px #ff006e,
+                0 0 20px #ff006e;
+            animation: neon-flicker 2s infinite alternate;
+        }
+        
+        @keyframes neon-flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 
+                    0 0 5px #ff006e,
+                    0 0 10px #ff006e,
+                    0 0 15px #ff006e,
+                    0 0 20px #ff006e;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+        
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: #ff006e;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* Social Media Buttons */
+        .social-btn {
+            position: relative;
+            background: rgba(10, 10, 10, 0.7);
+            border: 2px solid;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            cursor: none;
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+        }
+        
+        /* Telegram Button */
+        .telegram-btn {
+            border-color: #24a1de;
+            box-shadow: 0 0 10px rgba(36, 161, 222, 0.3);
+        }
+        
+        .telegram-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(36, 161, 222, 0.1) 0%,
+                rgba(36, 161, 222, 0.3) 50%,
+                rgba(36, 161, 222, 0.1) 100%
+            );
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .telegram-btn:hover {
+            transform: scale(1.05) rotateZ(1deg);
+            box-shadow: 
+                0 0 30px rgba(36, 161, 222, 0.8),
+                0 0 60px rgba(36, 161, 222, 0.4);
+            border-color: #0088cc;
+        }
+        
+        .telegram-btn:hover::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Discord Button */
+        .discord-btn {
+            border-color: #7289da;
+            box-shadow: 0 0 10px rgba(114, 137, 218, 0.3);
+        }
+        
+        .discord-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                -45deg,
+                rgba(114, 137, 218, 0.1) 0%,
+                rgba(88, 101, 242, 0.3) 50%,
+                rgba(114, 137, 218, 0.1) 100%
+            );
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .discord-btn:hover {
+            transform: scale(1.05) rotateZ(-1deg);
+            box-shadow: 
+                0 0 30px rgba(114, 137, 218, 0.8),
+                0 0 60px rgba(114, 137, 218, 0.4);
+            border-color: #5865f2;
+        }
+        
+        .discord-btn:hover::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Furaffinity Button */
+        .furaffinity-btn {
+            border-color: #faaf3a;
+            box-shadow: 0 0 10px rgba(250, 175, 58, 0.3);
+        }
+        
+        .furaffinity-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(250, 175, 58, 0.1) 0%,
+                rgba(255, 140, 0, 0.3) 50%,
+                rgba(250, 175, 58, 0.1) 100%
+            );
+            border-radius: 25px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .furaffinity-btn:hover {
+            transform: scale(1.05) rotateZ(2deg);
+            box-shadow: 
+                0 0 30px rgba(250, 175, 58, 0.8),
+                0 0 60px rgba(250, 175, 58, 0.4);
+            border-color: #ff8c00;
+        }
+        
+        .furaffinity-btn:hover::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        /* Pulse animations for social buttons */
+        .social-btn {
+            animation: social-pulse 3s ease-in-out infinite;
+        }
+        
+        .telegram-btn {
+            animation-delay: 0s;
+        }
+        
+        .discord-btn {
+            animation-delay: 1s;
+        }
+        
+        .furaffinity-btn {
+            animation-delay: 2s;
+        }
+        
+        @keyframes social-pulse {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            }
+        }
+        
+        /* Inner light effect for social buttons */
+        .social-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+            border-radius: 25px;
+        }
+        
+        .social-btn:hover::after {
+            left: 100%;
+        }
+        
+        /* Text styling */
+        .social-text {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .telegram-btn:hover .social-text {
+            text-shadow: 
+                0 0 10px rgba(36, 161, 222, 0.9),
+                0 0 20px rgba(36, 161, 222, 0.6);
+        }
+        
+        .discord-btn:hover .social-text {
+            text-shadow: 
+                0 0 10px rgba(114, 137, 218, 0.9),
+                0 0 20px rgba(114, 137, 218, 0.6);
+        }
+        
+        .furaffinity-btn:hover .social-text {
+            text-shadow: 
+                0 0 10px rgba(250, 175, 58, 0.9),
+                0 0 20px rgba(250, 175, 58, 0.6);
+        }
+        
+        /* Click effects */
+        .social-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* Quantum Explore Button */
+        .quantum-btn {
+            position: relative;
+            background: transparent;
+            border: 2px solid #ff006e;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            padding: 16px 40px;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-transform: uppercase;
+            cursor: none;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.3);
+        }
+        
+        .quantum-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 0, 110, 0.3), 
+                rgba(131, 56, 236, 0.3), 
+                rgba(58, 134, 255, 0.3), 
+                transparent);
+            transition: left 0.8s ease;
+            z-index: 1;
+        }
+        
+        .quantum-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 0, 110, 0.8) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+            z-index: 0;
+            border-radius: 50%;
+        }
+        
+        .quantum-btn:hover::before {
+            left: 100%;
+        }
+        
+        .quantum-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .quantum-btn:hover {
+            border-color: #8338ec;
+            transform: scale(1.05) rotateZ(2deg);
+            box-shadow: 
+                0 0 40px rgba(255, 0, 110, 0.9),
+                0 0 80px rgba(131, 56, 236, 0.7),
+                0 0 120px rgba(58, 134, 255, 0.5),
+                0 0 160px rgba(255, 0, 110, 0.3);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 1);
+        }
+        
+        .quantum-btn:active {
+            transform: scale(0.98) rotateZ(-1deg);
+            box-shadow: 
+                0 0 20px rgba(255, 0, 110, 0.9),
+                inset 0 0 20px rgba(131, 56, 236, 0.3);
+        }
+        
+        .quantum-text {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+        
+        .quantum-btn:hover .quantum-text {
+            color: #ffffff !important;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 1),
+                0 0 20px rgba(255, 0, 110, 0.9),
+                0 0 30px rgba(131, 56, 236, 0.8),
+                0 0 40px rgba(58, 134, 255, 0.6);
+        }
+        
+        /* Quantum particles */
+        .quantum-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #ff006e;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        .quantum-btn:hover .quantum-particle {
+            animation: quantum-float 2s ease-in-out infinite;
+        }
+        
+        .quantum-particle:nth-child(1) { 
+            top: 20%; 
+            left: 20%; 
+            animation-delay: 0s; 
+            background: #ff006e;
+        }
+        .quantum-particle:nth-child(2) { 
+            top: 80%; 
+            left: 80%; 
+            animation-delay: 0.3s; 
+            background: #8338ec;
+        }
+        .quantum-particle:nth-child(3) { 
+            top: 60%; 
+            left: 30%; 
+            animation-delay: 0.6s; 
+            background: #3a86ff;
+        }
+        .quantum-particle:nth-child(4) { 
+            top: 30%; 
+            left: 70%; 
+            animation-delay: 0.9s; 
+            background: #ff006e;
+        }
+        .quantum-particle:nth-child(5) { 
+            top: 50%; 
+            left: 50%; 
+            animation-delay: 1.2s; 
+            background: #8338ec;
+        }
+        
+        @keyframes quantum-float {
+            0%, 100% { 
+                opacity: 0; 
+                transform: translateY(0) scale(0.5); 
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateY(-20px) scale(1.2); 
+            }
+        }
+        
+        /* Price Card Animations */
+        .price-cyber {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-cyber:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #ff006e);
+            background-size: 400% 400%;
+            animation: gradient-shift 3s ease infinite;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+        
+        .price-cyber:hover:before {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.6);
+        }
+        
+        /* Wave Animation */
+        .price-cyber::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                rgba(255, 0, 110, 0.3), 
+                rgba(131, 56, 236, 0.3), 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+        }
+        
+        .price-cyber:hover::after {
+            left: 100%;
+        }
+        
+        /* Enhanced glow effect */
+        .price-cyber:hover {
+            box-shadow: 
+                0 0 20px rgba(255, 0, 110, 0.4),
+                0 0 40px rgba(255, 0, 110, 0.2),
+                0 0 60px rgba(255, 0, 110, 0.1);
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Navigation Header */
+        .nav-header {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 0, 110, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 5px 20px rgba(255, 0, 110, 0.3);
+        }
+        
+        /* Footer Header Style */
+        .footer-header {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 0, 110, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 110, 0.1), transparent);
+            animation: footer-shine 4s linear infinite;
+        }
+        
+        @keyframes footer-shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .lang-switch {
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lang-switch:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.5);
+        }
+        
+        .lang-switch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.3s ease;
+        }
+        
+        .lang-switch:hover::before {
+            left: 100%;
+        }
+        
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        /* Typing Animation */
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid #ff006e;
+            white-space: nowrap;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #ff006e; }
+        }
+        
+        /* Matrix Rain */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .matrix-bg canvas {
+            display: block;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: rgba(20, 20, 20, 0.9);
+            border: 2px solid rgba(255, 0, 110, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff006e, #8338ec);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1000001;
+        }
+        
+        .modal-close:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.5);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-top: 15px;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        
+        /* Hide custom cursor on mobile */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+            
+            .custom-cursor,
+            .cursor-trail {
+                display: none !important;
+            }
+        }
+        
+        /* Desktop and tablet responsive */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .glitch {
+                font-size: 5rem;
+            }
+            
+            .text-6xl {
+                font-size: 4rem !important;
+            }
+            
+            .price-glitch {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .glitch {
+                font-size: 4rem;
+            }
+            
+            .text-6xl {
+                font-size: 3rem !important;
+            }
+            
+            .text-2xl {
+                font-size: 1.5rem !important;
+            }
+            
+            .price-glitch {
+                font-size: 1.8rem;
+            }
+            
+            .nav-header {
+                padding: 1rem;
+            }
+            
+            .nav-header .flex {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-header .space-x-6 {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4 {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
+            }
+            
+            .price-cyber {
+                padding: 1.5rem;
+            }
+            
+            .px-12 {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+            
+            .py-20 {
+                padding-top: 3rem !important;
+                padding-bottom: 3rem !important;
+            }
+            
+            .mb-20 {
+                margin-bottom: 3rem !important;
+            }
+            
+            .text-lg {
+                font-size: 1rem !important;
+            }
+            
+            .min-h-screen {
+                padding-top: 120px;
+            }
+            
+            .modal-content {
+                max-width: 95vw;
+                max-height: 95vh;
+                padding: 15px;
+            }
+            
+            .modal-image {
+                max-height: 75vh;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .glitch {
+                font-size: 3rem;
+            }
+            
+            .text-6xl {
+                font-size: 2.5rem !important;
+            }
+            
+            .price-glitch {
+                font-size: 1.5rem;
+            }
+            
+            .holo-card img {
+                height: 250px;
+            }
+            
+            .nav-header .flex {
+                align-items: center;
+            }
+            
+            .nav-header .text-2xl {
+                font-size: 1.25rem !important;
+            }
+            
+            .space-x-6 > * {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor">
+        <div class="cursor-outer"></div>
+        <div class="cursor-inner"></div>
+    </div>
+    
+    <!-- Matrix Background -->
+    <div class="matrix-bg">
+        <canvas id="matrix"></canvas>
+    </div>
+    
+    <!-- Navigation Header -->
+    <nav class="nav-header py-4 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold neon-text">ARTANSY</div>
+            <div class="flex items-center space-x-6">
+                <a href="#portfolio" class="text-gray-300 hover:text-pink-400 transition-colors">PORTFOLIO</a>
+                <a href="#pricing" class="text-gray-300 hover:text-pink-400 transition-colors">PRICING</a>
+                <a href="#contact" class="text-gray-300 hover:text-pink-400 transition-colors">CONTACT</a>
+                <button class="lang-switch" onclick="toggleLanguage()">
+                    <span id="langText">EN</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative cyber-grid" style="z-index: 2; padding-top: 80px;">
+        <!-- Floating Particles -->
+        <div class="particle" style="top: 10%; left: 10%; width: 4px; height: 4px; animation-delay: 0s;"></div>
+        <div class="particle" style="top: 20%; right: 20%; width: 6px; height: 6px; animation-delay: 1s;"></div>
+        <div class="particle" style="bottom: 30%; left: 30%; width: 3px; height: 3px; animation-delay: 2s;"></div>
+        <div class="particle" style="bottom: 10%; right: 10%; width: 5px; height: 5px; animation-delay: 3s;"></div>
+        
+        <div class="text-center px-4 relative z-10">
+            <h1 class="glitch mb-8" data-text="ARTANSY">ARTANSY</h1>
+            <p class="text-2xl neon-text mb-4 typewriter" style="display: inline-block;" data-en="DIGITAL ART CREATOR" data-ru="СОЗДАТЕЛЬ ЦИФРОВОГО ИСКУССТВА">DIGITAL ART CREATOR</p>
+            <p class="text-lg text-gray-300 mb-12" data-en=" Where imagination becomes reality " data-ru=" Где воображение становится реальностью "> Where imagination becomes reality </p>
+            
+            <button onclick="enterPortfolio()" class="quantum-btn" data-en="EXPLORE MY ART" data-ru="МОИ РАБОТЫ">
+                <div class="quantum-particle"></div>
+                <div class="quantum-particle"></div>
+                <div class="quantum-particle"></div>
+                <div class="quantum-particle"></div>
+                <div class="quantum-particle"></div>
+                <span class="quantum-text">EXPLORE MY ART</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 relative" style="z-index: 2;">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-6xl font-bold text-center mb-20 neon-text" data-en="PORTFOLIO" data-ru="ПОРТФОЛИО">
+                PORTFOLIO
+            </h2>
+            
+            <div class="portfolio-grid">
+                <!-- Art Piece 1 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1701278159/1701278159.artansy_светлый_глитч.png', 'Sunset Dreams')">
+                        <img src="https://d.furaffinity.net/art/artansy/1701278159/1701278159.artansy_светлый_глитч.png" alt="Sunset Character" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Sunset Dreams" data-ru="Солнечные мечты">Sunset Dreams</h3>
+                                <p class="text-gray-300 text-sm" data-en="The character on the roof" data-ru="Персонаж на крыше">The character on the roof</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Art Piece 2 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1693838034/1693838034.artansy_сфв_тени_c_глич.png', 'Cyberpunk character')">
+                        <img src="https://d.furaffinity.net/art/artansy/1693838034/1693838034.artansy_сфв_тени_c_глич.png" alt="MAC Character" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Cyberpunk character" data-ru="Киберпанк персонаж"> Cyberpunk character</h3>
+                                <p class="text-gray-300 text-sm" data-en="Fantasy character design" data-ru="Дизайн фэнтези персонажа">Fantasy character design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Art Piece 3 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1714837253/1714837253.artansy_мышь1.png', 'Floral Harmony')">
+                        <img src="https://d.furaffinity.net/art/artansy/1714837253/1714837253.artansy_мышь1.png" alt="Floral Portrait" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Floral Harmony" data-ru="Цветочная Гармония">Floral Harmony</h3>
+                                <p class="text-gray-300 text-sm" data-en="Mouse portrait" data-ru="Рисунок мы">Mouse portrait</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Art Piece 4 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1709664463/1709664463.artansy_0a44e088-5cf6-4a1d-befc-be6f39adb4f6_jpeg.jpg', 'Romantic Scene')">
+                        <img src="https://d.furaffinity.net/art/artansy/1709664463/1709664463.artansy_0a44e088-5cf6-4a1d-befc-be6f39adb4f6_jpeg.jpg" alt="Romantic Scene" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Eternal Bond" data-ru="Вечная Связь">Eternal Bond</h3>
+                                <p class="text-gray-300 text-sm" data-en="Romantic couple illustration" data-ru="Романтическая пара">Romantic couple illustration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Art Piece 5 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1644730084/1644730084.artansy_18e06114-b9a7-467e-9b24-7132aaf47075.jpg', 'A character on the beach')">
+                        <img src="https://d.furaffinity.net/art/artansy/1644730084/1644730084.artansy_18e06114-b9a7-467e-9b24-7132aaf47075.jpg" alt="Fantasy Character" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Beach holiday" data-ru="Пляжный отдых">Beach holiday</h3>
+                                <p class="text-gray-300 text-sm" data-en="A character on the beach" data-ru="Персонаж на берегу">A character on the beach</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Art Piece 6 -->
+                <div class="holo-card rounded-3xl overflow-hidden">
+                    <div class="relative group cursor-pointer" onclick="openModal('https://d.furaffinity.net/art/artansy/1733772821/1733772821.artansy_для_фии.png', 'Midnight Magic')">
+                        <img src="https://d.furaffinity.net/art/artansy/1733772821/1733772821.artansy_для_фии.png" alt="Night Magic" class="w-full h-80 object-contain transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-2xl font-bold neon-text mb-2" data-en="Midnight Magic" data-ru="Полуночная Магия">Midnight Magic</h3>
+                                <p class="text-gray-300 text-sm" data-en="Nocturnal fantasy scene" data-ru="Ночная фэнтези сцена">Nocturnal fantasy scene</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 relative" style="z-index: 2;">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-6xl font-bold text-center mb-20 neon-text" data-en="COMMISSION PRICES" data-ru="ЦЕНЫ НА ЗАКАЗЫ">
+                COMMISSION PRICES
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Headshot -->
+                <div class="price-cyber rounded-2xl p-8 text-center transform hover:scale-105 transition-all duration-500">
+                    <div class="text-5xl mb-6 text-white">♡</div>
+                    <h3 class="text-2xl font-bold mb-4 neon-text" data-en="Portrait Art" data-ru="Портерт">Portrait Art</h3>
+                    <div class="price-glitch mb-4" data-text="$56-65">$56-65</div>
+                    <p class="text-gray-400 text-sm" data-en="Character headshot illustration" data-ru="Портретная иллюстрация персонажа">Character headshot illustration</p>
+                    <div class="mt-6 h-1 bg-gradient-to-r from-pink-500 to-purple-500 rounded"></div>
+                </div>
+                
+                <!-- Half-body -->
+                <div class="price-cyber rounded-2xl p-8 text-center transform hover:scale-105 transition-all duration-500">
+                    <div class="text-5xl mb-6 text-white">♡</div>
+                    <h3 class="text-2xl font-bold mb-4 neon-text" data-en="Half-Body Art" data-ru="Арт по Пояс">Half-Body Art</h3>
+                    <div class="price-glitch mb-4" data-text="$70-130">$70-130</div>
+                    <p class="text-gray-400 text-sm" data-en="Character illustration to waist" data-ru="Иллюстрация персонажа по пояс">Character illustration to waist</p>
+                    <div class="mt-6 h-1 bg-gradient-to-r from-blue-500 to-green-500 rounded"></div>
+                </div>
+                
+                <!-- Full-body -->
+                <div class="price-cyber rounded-2xl p-8 text-center transform hover:scale-105 transition-all duration-500">
+                    <div class="text-5xl mb-6 text-white">♡</div>
+                    <h3 class="text-2xl font-bold mb-4 neon-text" data-en="Full-Body Art" data-ru="Арт в Полный Рост">Full-Body Art</h3>
+                    <div class="price-glitch mb-4" data-text="$139-199">$139-199</div>
+                    <p class="text-gray-400 text-sm" data-en="Full-length character illustration" data-ru="Иллюстрация персонажа в полный рост">Full-length character illustration</p>
+                    <div class="mt-6 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded"></div>
+                </div>
+                
+                <!-- Reference Sheet -->
+                <div class="price-cyber rounded-2xl p-8 text-center transform hover:scale-105 transition-all duration-500">
+                    <div class="text-5xl mb-6 text-white">♡</div>
+                    <h3 class="text-2xl font-bold mb-4 neon-text" data-en="Reference Sheet" data-ru="Референс Лист">Reference Sheet</h3>
+                    <div class="price-glitch mb-4" data-text="$150-240">$150-240</div>
+                    <p class="text-gray-400 text-sm" data-en="Complete character reference" data-ru="Референс персонажа">Complete character reference</p>
+                    <div class="mt-6 h-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 relative" style="z-index: 2;">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h2 class="text-6xl font-bold mb-8 neon-text" data-en="GET IN TOUCH" data-ru="СВЯЗАТЬСЯ СО МНОЙ">
+                GET IN TOUCH
+            </h2>
+            <p class="text-xl mb-12 text-gray-300" data-en=" Ready to bring your characters to life? Let's create something amazing together! " data-ru=" Готовы оживить ваших персонажей? Давайте создадим что-то удивительное вместе! ">
+                 Ready to bring your characters to life? Let's create something amazing together! 
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-8">
+                <a href="https://t.me/artansy" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn telegram-btn" data-en="Telegram" data-ru="Телеграм">
+                        <span class="social-text">Telegram</span>
+                    </button>
+                </a>
+                <button class="social-btn discord-btn" data-en="Discord: Artansy" data-ru="Discord: Artansy">
+                    <span class="social-text">Discord: Artansy</span>
+                </button>
+                <a href="https://www.furaffinity.net/user/artansy" target="_blank" rel="noopener noreferrer">
+                    <button class="social-btn furaffinity-btn" data-en="Furaffinity" data-ru="Фурафинити">
+                        <span class="social-text">Furaffinity</span>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <div id="modalTitle" class="modal-title"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-header py-8 text-center border-t border-pink-400" style="z-index: 2; position: relative;">
+        <p class="text-gray-300"><span class="neon-text">ARTANSY </span> &copy; 2025 </p>
+    </footer>
+
+    <script>
+        // Language system
+        let currentLanguage = 'en';
+        
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ru' : 'en';
+            document.getElementById('langText').textContent = currentLanguage.toUpperCase();
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-en][data-ru]').forEach(element => {
+                element.textContent = element.getAttribute('data-' + currentLanguage);
+            });
+        }
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.nav-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced Custom Cursor System
+        const cursor = document.getElementById('cursor');
+        const trails = [];
+        let isMouseDown = false;
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        // Create cursor trails
+        for (let i = 0; i < 3; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push({
+                element: trail,
+                x: 0,
+                y: 0,
+                targetX: 0,
+                targetY: 0,
+                delay: (i + 1) * 0.05
+            });
+        }
+        
+        // Update cursor position smoothly
+        function updateCursor() {
+            // Smooth cursor following
+            cursorX += (mouseX - cursorX) * 0.95;
+            cursorY += (mouseY - cursorY) * 0.95;
+            
+            cursor.style.transform = `translate(${cursorX - 12}px, ${cursorY - 12}px)`;
+            
+            // Update trails
+            trails.forEach((trail, index) => {
+                trail.targetX += (cursorX - trail.targetX) * (0.3 - trail.delay);
+                trail.targetY += (cursorY - trail.targetY) * (0.3 - trail.delay);
+                
+                trail.element.style.transform = `translate(${trail.targetX - 2}px, ${trail.targetY - 2}px)`;
+                trail.element.style.opacity = (3 - index) / 3 * 0.5;
+            });
+            
+            requestAnimationFrame(updateCursor);
+        }
+        
+        // Start cursor animation loop
+        updateCursor();
+        
+        // Mouse move handler
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Ensure cursor is always visible on mouse move
+            cursor.style.opacity = '1';
+            cursor.style.display = 'block';
+            trails.forEach(trail => {
+                trail.element.style.opacity = (3 - trails.indexOf(trail)) / 3 * 0.5;
+            });
+        });
+        
+        // Mouse down/up handlers
+        document.addEventListener('mousedown', () => {
+            isMouseDown = true;
+            cursor.classList.add('click');
+        });
+        
+        document.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            cursor.classList.remove('click');
+        });
+        
+        // Enhanced hover effects for interactive elements
+        function updateInteractiveElements() {
+            const interactiveElements = document.querySelectorAll('a, button, .cursor-pointer, [onclick], .modal-close, .social-btn, .quantum-btn, .lang-switch, .holo-card');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursor.style.opacity = '1';
+                    cursor.style.display = 'block';
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursor.style.opacity = '1';
+                    cursor.style.display = 'block';
+                });
+                
+                element.addEventListener('mousemove', () => {
+                    cursor.style.opacity = '1';
+                    cursor.style.display = 'block';
+                });
+            });
+        }
+        
+        // Quantum button particles effect
+        function initQuantumButton() {
+            const quantumBtn = document.querySelector('.quantum-btn');
+            if (quantumBtn) {
+                quantumBtn.addEventListener('mouseenter', () => {
+                    // Create additional floating particles on hover
+                    for (let i = 0; i < 8; i++) {
+                        setTimeout(() => {
+                            createFloatingParticle(quantumBtn);
+                        }, i * 200);
+                    }
+                });
+            }
+        }
+        
+        function createFloatingParticle(button) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '2px';
+            particle.style.height = '2px';
+            particle.style.background = ['#ff006e', '#8338ec', '#3a86ff'][Math.floor(Math.random() * 3)];
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '10';
+            
+            const rect = button.getBoundingClientRect();
+            particle.style.left = Math.random() * rect.width + 'px';
+            particle.style.top = Math.random() * rect.height + 'px';
+            
+            button.appendChild(particle);
+            
+            // Animate particle
+            particle.animate([
+                { 
+                    opacity: 0, 
+                    transform: 'translateY(0) scale(0.5)' 
+                },
+                { 
+                    opacity: 1, 
+                    transform: 'translateY(-30px) scale(1.5)' 
+                },
+                { 
+                    opacity: 0, 
+                    transform: 'translateY(-60px) scale(0.2)' 
+                }
+            ], {
+                duration: 2000,
+                easing: 'ease-out'
+            }).onfinish = () => {
+                particle.remove();
+            };
+        }
+        
+        // Initial setup
+        updateInteractiveElements();
+        initQuantumButton();
+        
+        // Force cursor visibility on page load
+        setTimeout(() => {
+            cursor.style.opacity = '1';
+            cursor.style.display = 'block';
+            updateInteractiveElements();
+        }, 100);
+        
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            trails.forEach(trail => {
+                trail.element.style.opacity = '0';
+            });
+        });
+        
+        // Show cursor when entering window
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+        });
+        
+        // Ensure cursor is visible in modal
+        document.addEventListener('DOMContentLoaded', () => {
+            // Force cursor visibility
+            cursor.style.display = 'block';
+            cursor.style.opacity = '1';
+        });
+
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrixChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}';
+        const matrixArray = matrixChars.split('');
+
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#ff006e';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Smooth scroll function
+        function enterPortfolio() {
+            document.getElementById('portfolio').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Enhanced Modal functionality
+        function openModal(imageSrc, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modal.classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            
+            // Ensure cursor remains visible in modal
+            cursor.style.display = 'block';
+            cursor.style.opacity = '1';
+            cursor.style.zIndex = '10000000';
+            
+            // Update interactive elements for modal
+            setTimeout(() => {
+                updateInteractiveElements();
+            }, 50);
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+            
+            // Maintain cursor visibility
+            cursor.style.display = 'block';
+            cursor.style.opacity = '1';
+        }
+        
+        // Close modal on background click
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Add interactive hover effects
+        document.querySelectorAll('.holo-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotateY(10deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1) rotateY(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>

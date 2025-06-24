@@ -1841,7 +1841,8 @@
                 
                 <div class="mt-6 bg-gradient-to-r from-pink-900/30 to-purple-900/30 p-4 border border-pink-500/30">
                     <p class="text-sm text-gray-300">
-                        Давай считать звезды, а не деньги :3
+                        Не знаю что больше писать... 
+                        Наверно, если напишешь, то узнаешь больше)
                     </p>
                 </div>
             </div>
@@ -2533,55 +2534,60 @@
             console.log('❌ Элемент машинки не найден!');
         }
         
-        // Долгое нажатие на заголовок для хакерского режима (мобильная версия)
+        // Долгое нажатие на заголовок для хакерского режима (улучшено для мобильных)
         let titlePressTimer = null;
-        const titleElement = document.querySelector('.random-glitch');
         
-        // Touch события для мобильных
-        titleElement?.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            titlePressTimer = setTimeout(() => {
-                console.log('Долгое нажатие на заголовок - активация хакерского режима!');
-                toggleHackerMode();
-            }, 1500); // 1.5 секунды для мобильных
-        });
+        // Инициализация обработчиков долгого нажатия
+        function initTitleLongPressHandlers() {
+            const titleEl = document.querySelector('.random-glitch');
+            if (!titleEl) return;
+            
+            // Mouse события для десктопа
+            titleEl.addEventListener('mousedown', () => {
+                titlePressTimer = setTimeout(() => {
+                    console.log('💻 Долгое нажатие на заголовок (мышь) - активация хакерского режима!');
+                    toggleHackerMode();
+                    titlePressTimer = null;
+                }, 1500);
+            });
+            
+            titleEl.addEventListener('mouseup', () => {
+                if (titlePressTimer) {
+                    clearTimeout(titlePressTimer);
+                    titlePressTimer = null;
+                }
+            });
+            
+            titleEl.addEventListener('mouseleave', () => {
+                if (titlePressTimer) {
+                    clearTimeout(titlePressTimer);
+                    titlePressTimer = null;
+                }
+            });
+            
+            // Touch события для мобильных (обновлены для совместимости)
+            titleEl.addEventListener('touchstart', (e) => {
+                // Запускаем таймер долгого нажатия
+                titlePressTimer = setTimeout(() => {
+                    console.log('📱 Долгое нажатие на заголовок (тач) - активация хакерского режима!');
+                    toggleHackerMode();
+                    titlePressTimer = null;
+                    triggerVibration([200, 100, 200, 100, 300]);
+                }, 2000); // Увеличиваем до 2 секунд для мобильных, чтобы не мешать обычному тапу
+            }, { passive: true });
+            
+            titleEl.addEventListener('touchcancel', (e) => {
+                if (titlePressTimer) {
+                    clearTimeout(titlePressTimer);
+                    titlePressTimer = null;
+                }
+            });
+            
+            console.log('✅ Обработчики долгого нажатия для хакерского режима настроены');
+        }
         
-        titleElement?.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            if (titlePressTimer) {
-                clearTimeout(titlePressTimer);
-                titlePressTimer = null;
-            }
-        });
-        
-        titleElement?.addEventListener('touchcancel', (e) => {
-            if (titlePressTimer) {
-                clearTimeout(titlePressTimer);
-                titlePressTimer = null;
-            }
-        });
-        
-        // Mouse события для десктопа (сохраняем существующую функциональность)
-        titleElement?.addEventListener('mousedown', () => {
-            titlePressTimer = setTimeout(() => {
-                console.log('Долгое нажатие на заголовок - активация хакерского режима!');
-                toggleHackerMode();
-            }, 1500);
-        });
-        
-        titleElement?.addEventListener('mouseup', () => {
-            if (titlePressTimer) {
-                clearTimeout(titlePressTimer);
-                titlePressTimer = null;
-            }
-        });
-        
-        titleElement?.addEventListener('mouseleave', () => {
-            if (titlePressTimer) {
-                clearTimeout(titlePressTimer);
-                titlePressTimer = null;
-            }
-        });
+        // Инициализируем обработчики
+        initTitleLongPressHandlers();
         
         // Долгое нажатие на статус
         let statusPressTimer = null;
@@ -3059,12 +3065,14 @@
             uptime++;
         }, 1000);
         
-        // Пасхалка переключения ANNA.EXE <-> Artansy.exe
+        // Пасхалка переключения ANNA.EXE <-> Artansy.exe (улучшено для мобильных)
         let isArtansyMode = false;
         
-        // Интенсивные глитчи при клике на заголовок с пасхалкой
-        document.querySelector('.random-glitch')?.addEventListener('click', () => {
+        // Функция переключения имени
+        function toggleNameMode() {
             const title = document.querySelector('.random-glitch');
+            
+            console.log(`📱 Переключение режима имени: ${isArtansyMode ? 'ANNA' : 'ARTANSY'}`);
             
             // Серия быстрых глитчей
             for (let i = 0; i < 5; i++) {
@@ -3089,6 +3097,12 @@
                     `;
                     
                     isArtansyMode = true;
+                    console.log('✨ Переключено на ARTANSY.EXE');
+                    
+                    // Мобильная обратная связь
+                    triggerVibration([100, 50, 100, 50, 200]);
+                    playBeep(800, 200);
+                    
                 } else {
                     // Возвращаем обратно на ANNA.EXE
                     title.textContent = 'ANNA.EXE';
@@ -3100,29 +3114,91 @@
                     title.style.textShadow = '0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41';
                     
                     isArtansyMode = false;
+                    console.log('✨ Возвращено на ANNA.EXE');
+                    
+                    // Мобильная обратная связь
+                    triggerVibration([200, 100, 200]);
+                    playBeep(1000, 200);
                 }
             }, 600);
             
-            // Глитч всех карточек одновременно
-            setTimeout(() => {
-                const cards = document.querySelectorAll('.card-glitch');
-                cards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.add('glitching');
-                        
-                        // Дополнительные эффекты для пасхалки
-                        if (isArtansyMode) {
-                            card.style.filter = 'hue-rotate(320deg) saturate(1.5) contrast(1.2)';
-                        }
-                        
+            // Глитч всех карточек одновременно (только на десктопе для производительности)
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (!isMobile) {
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.card-glitch');
+                    cards.forEach((card, index) => {
                         setTimeout(() => {
-                            card.classList.remove('glitching');
-                            card.style.filter = '';
-                        }, 300);
-                    }, index * 100);
-                });
-            }, 200);
-        });
+                            card.classList.add('glitching');
+                            
+                            // Дополнительные эффекты для пасхалки
+                            if (isArtansyMode) {
+                                card.style.filter = 'hue-rotate(320deg) saturate(1.5) contrast(1.2)';
+                            }
+                            
+                            setTimeout(() => {
+                                card.classList.remove('glitching');
+                                card.style.filter = '';
+                            }, 300);
+                        }, index * 100);
+                    });
+                }, 200);
+            }
+        }
+        
+        // Получаем элемент заголовка для переключения имени
+        const titleForNameToggle = document.querySelector('.random-glitch');
+        
+        if (titleForNameToggle) {
+            // Click для десктопа
+            titleForNameToggle.addEventListener('click', (e) => {
+                // Проверяем, что это НЕ долгое нажатие для хакерского режима
+                if (!titlePressTimer) {
+                    toggleNameMode();
+                }
+            });
+            
+            // Touch события для мобильных
+            let touchStartTime = 0;
+            let touchMoved = false;
+            
+            titleForNameToggle.addEventListener('touchstart', (e) => {
+                touchStartTime = Date.now();
+                touchMoved = false;
+            }, { passive: true });
+            
+            titleForNameToggle.addEventListener('touchmove', (e) => {
+                touchMoved = true;
+            }, { passive: true });
+            
+            titleForNameToggle.addEventListener('touchend', (e) => {
+                const touchDuration = Date.now() - touchStartTime;
+                
+                // Только если это быстрый тап (не долгое нажатие) и без движения
+                if (touchDuration < 1000 && !touchMoved) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Отменяем таймер долгого нажатия если он есть
+                    if (titlePressTimer) {
+                        clearTimeout(titlePressTimer);
+                        titlePressTimer = null;
+                    }
+                    
+                    console.log('📱 Мобильный тап по заголовку - переключение имени');
+                    toggleNameMode();
+                }
+            }, { passive: false });
+            
+            console.log('✅ Обработчики переключения имени настроены для мобильных и десктопа');
+        } else {
+            console.log('❌ Элемент заголовка для переключения имени не найден');
+        }
+        
+        // Убеждаемся, что все переменные определены
+        if (typeof titleElement !== 'undefined') {
+            console.log('⚠️ Старая переменная titleElement все еще существует, удаляем ссылки');
+        }
         
         // Старый глитч эффект для заголовка (оставляем как дополнительный)
         setInterval(() => {

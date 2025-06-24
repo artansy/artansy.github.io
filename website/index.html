@@ -2031,11 +2031,13 @@
             }
         }
         
-        // Случайные глитчи для карточек
+        // Случайные глитчи для карточек (исправлено)
         function randomCardGlitch() {
             glitchCounter++;
             const cards = document.querySelectorAll('.card-glitch');
+            if (cards.length === 0) return;
             const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            if (!randomCard) return;
             
             if (randomCard && Math.random() < 0.25) {
                 randomCard.classList.add('glitching');
@@ -2159,7 +2161,8 @@
         
         // Интерактивность для кнопок
         document.querySelectorAll('.cyber-button').forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                // Визуальный эффект
                 button.style.animation = 'none';
                 button.style.transform = 'scale(0.95)';
                 button.style.boxShadow = '0 0 50px rgba(0,255,65,0.8)';
@@ -2169,6 +2172,27 @@
                     button.style.transform = '';
                     button.style.boxShadow = '';
                 }, 200);
+                
+                // Проверяем, если это кнопка портфолио
+                if (button.textContent.includes('ACCESS_PORTFOLIO') || button.textContent.includes('portfolio')) {
+                    console.log('🎯 Переход на портфолио!');
+                    // Вибрация при переходе
+                    triggerVibration([100, 50, 100]);
+                    // Звук перехода
+                    playBeep(1000, 200);
+                    // Небольшая задержка для эффекта, затем переход
+                    setTimeout(() => {
+                        window.open('https://artansy.github.io/portfolio/', '_blank');
+                    }, 300);
+                }
+                
+                // Проверяем, если это кнопка подключения
+                if (button.textContent.includes('INIT_CONNECTION') || button.id === 'initConnectionBtn') {
+                    console.log('🔗 Клик на кнопку подключения');
+                    // Обычный клик - просто звук и вибрация
+                    triggerVibration([50]);
+                    playBeep(800, 100);
+                }
             });
         });
         
@@ -2266,7 +2290,14 @@
                         isLoading = false;
                         
                         // Перенаправление на Telegram
-                        window.open('https://t.me/artansy', '_blank');
+                        console.log('🚀 Перенаправляем на Telegram: https://t.me/artansy');
+                        const opened = window.open('https://t.me/artansy', '_blank');
+                        if (!opened) {
+                            console.log('❌ Всплывающее окно заблокировано, пробуем location.href');
+                            window.location.href = 'https://t.me/artansy';
+                        } else {
+                            console.log('✅ Новая вкладка открыта успешно');
+                        }
                     }, 1500);
                 }
             }, 350);

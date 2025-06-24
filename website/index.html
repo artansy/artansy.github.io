@@ -1644,7 +1644,7 @@
         <div class="command-container">
             <div class="command-title">SECRET_COMMANDS.EXE</div>
             <input type="text" class="command-input" id="commandInput" placeholder="enter_command..." autocomplete="off" spellcheck="false">
-            <div class="command-hint">Введите секретный код</div>
+            <div class="command-hint">Введите секретный код, например: "wake up, neo" </div>
         </div>
     </div>
     
@@ -3918,6 +3918,441 @@
             }
         });
         
+        // === МАТРИЧНАЯ ПАСХАЛКА ===
+        
+        function executeMatrixWakeUp() {
+            console.log('МАТРИЦА АКТИВИРОВАНА!');
+            
+            // Создаем матричный оверлей
+            const matrixOverlay = document.createElement('div');
+            matrixOverlay.id = 'matrixWakeUp';
+            matrixOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: #000000;
+                z-index: 70000;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Fira Code', monospace;
+                color: #00ff41;
+                opacity: 0;
+                transition: opacity 1s ease;
+            `;
+            
+            document.body.appendChild(matrixOverlay);
+            
+            // Плавное появление
+            setTimeout(() => {
+                matrixOverlay.style.opacity = '1';
+            }, 100);
+            
+            // Этап 1: Просыпайся, Нео...
+            const wakeUpText = document.createElement('div');
+            wakeUpText.style.cssText = `
+                font-size: 3rem;
+                text-align: center;
+                margin-bottom: 2rem;
+                text-shadow: 0 0 20px #00ff41;
+                opacity: 0;
+                transform: translateY(50px);
+                transition: all 2s ease;
+            `;
+            wakeUpText.textContent = 'Просыпайся, Нео...';
+            matrixOverlay.appendChild(wakeUpText);
+            
+            // Звук пробуждения
+            setTimeout(() => {
+                playBeep(200, 1000);
+                triggerVibration([500, 200, 500]);
+            }, 500);
+            
+            // Показываем текст пробуждения
+            setTimeout(() => {
+                wakeUpText.style.opacity = '1';
+                wakeUpText.style.transform = 'translateY(0)';
+            }, 1000);
+            
+            // Этап 2: Матричный дождь
+            setTimeout(() => {
+                createIntenseMatrixRain(matrixOverlay);
+                playBeep(150, 500);
+            }, 3000);
+            
+            // Этап 3: Голос Морфеуса
+            setTimeout(() => {
+                const morpheusText = document.createElement('div');
+                morpheusText.style.cssText = `
+                    font-size: 1.5rem;
+                    text-align: center;
+                    margin: 2rem;
+                    line-height: 1.6;
+                    max-width: 800px;
+                    opacity: 0;
+                    transition: opacity 2s ease;
+                `;
+                morpheusText.innerHTML = `
+                    "Ты всю жизнь ощущал её присутствие.<br>
+                    Ты не знаешь, что это, но она здесь.<br>
+                    Как заноза в мозгу, сводящая с ума.<br><br>
+                    <span style="color: #ff4444;">АННА.EXE - это не просто программист.</span><br>
+                    <span style="color: #4444ff;">Это создатель цифровых миров.</span><br><br>
+                    Добро пожаловать... в реальность."
+                `;
+                
+                matrixOverlay.appendChild(morpheusText);
+                
+                setTimeout(() => {
+                    morpheusText.style.opacity = '1';
+                }, 500);
+                
+                // Мистические звуки
+                const mysticalFreqs = [300, 250, 200, 180, 160, 140, 120, 100];
+                mysticalFreqs.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(freq, 400);
+                    }, index * 600);
+                });
+                
+            }, 5000);
+            
+            // Этап 4: Выбор таблеток
+            setTimeout(() => {
+                createPillChoice(matrixOverlay);
+            }, 12000);
+            
+            // Автозакрытие через 30 секунд (если пользователь не выбрал)
+            setTimeout(() => {
+                if (document.getElementById('matrixWakeUp')) {
+                    closeMatrixEffect();
+                }
+            }, 30000);
+        }
+        
+        function createIntenseMatrixRain(container) {
+            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンANNA.EXE';
+            
+            // Создаем 50 колонн символов
+            for (let i = 0; i < 50; i++) {
+                const column = document.createElement('div');
+                column.style.cssText = `
+                    position: absolute;
+                    top: -100vh;
+                    left: ${i * 2}%;
+                    width: 20px;
+                    height: 100vh;
+                    overflow: hidden;
+                `;
+                
+                // Создаем символы в колонне
+                for (let j = 0; j < 20; j++) {
+                    const char = document.createElement('div');
+                    char.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                    char.style.cssText = `
+                        color: #00ff41;
+                        font-size: ${12 + Math.random() * 8}px;
+                        text-shadow: 0 0 10px #00ff41;
+                        margin-bottom: 5px;
+                        opacity: ${0.3 + Math.random() * 0.7};
+                        animation: matrix-fall-intense ${2 + Math.random() * 3}s linear infinite;
+                        animation-delay: ${Math.random() * 2}s;
+                    `;
+                    column.appendChild(char);
+                }
+                
+                container.appendChild(column);
+            }
+            
+            // CSS анимация для интенсивного падения
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes matrix-fall-intense {
+                    0% { transform: translateY(-100vh); opacity: 0; }
+                    10% { opacity: 1; }
+                    90% { opacity: 1; }
+                    100% { transform: translateY(100vh); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        function createPillChoice(container) {
+            const choiceContainer = document.createElement('div');
+            choiceContainer.style.cssText = `
+                position: absolute;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 100px;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 2s ease;
+            `;
+            
+            // Красная таблетка
+            const redPill = document.createElement('div');
+            redPill.style.cssText = `
+                width: 80px;
+                height: 40px;
+                background: linear-gradient(45deg, #ff0000, #aa0000);
+                border-radius: 20px;
+                cursor: pointer;
+                box-shadow: 0 0 30px #ff0000;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            `;
+            redPill.textContent = 'ПРАВДА';
+            redPill.title = 'Красная таблетка - узнать правду';
+            
+            redPill.addEventListener('mouseenter', () => {
+                redPill.style.transform = 'scale(1.2)';
+                redPill.style.boxShadow = '0 0 50px #ff0000';
+                playBeep(400, 100);
+            });
+            
+            redPill.addEventListener('mouseleave', () => {
+                redPill.style.transform = 'scale(1)';
+                redPill.style.boxShadow = '0 0 30px #ff0000';
+            });
+            
+            redPill.addEventListener('click', () => {
+                console.log('🔴 КРАСНАЯ ТАБЛЕТКА ВЫБРАНА - ПРАВДА ОТКРЫТА!');
+                executeRedPillEffect();
+            });
+            
+            // Синяя таблетка
+            const bluePill = document.createElement('div');
+            bluePill.style.cssText = `
+                width: 80px;
+                height: 40px;
+                background: linear-gradient(45deg, #0000ff, #0000aa);
+                border-radius: 20px;
+                cursor: pointer;
+                box-shadow: 0 0 30px #0000ff;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 12px;
+            `;
+            bluePill.textContent = 'ЗАБВЕНИЕ';
+            bluePill.title = 'Синяя таблетка - вернуться в неведение';
+            
+            bluePill.addEventListener('mouseenter', () => {
+                bluePill.style.transform = 'scale(1.2)';
+                bluePill.style.boxShadow = '0 0 50px #0000ff';
+                playBeep(600, 100);
+            });
+            
+            bluePill.addEventListener('mouseleave', () => {
+                bluePill.style.transform = 'scale(1)';
+                bluePill.style.boxShadow = '0 0 30px #0000ff';
+            });
+            
+            bluePill.addEventListener('click', () => {
+                console.log('🔵 СИНЯЯ ТАБЛЕТКА ВЫБРАНА - ВОЗВРАТ В МАТРИЦУ');
+                executeBluePillEffect();
+            });
+            
+            // Текст выбора
+            const choiceText = document.createElement('div');
+            choiceText.style.cssText = `
+                position: absolute;
+                top: -80px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                font-size: 1.2rem;
+                color: #ffffff;
+                text-shadow: 0 0 10px #00ff41;
+            `;
+            choiceText.textContent = 'Сделай свой выбор...';
+            
+            choiceContainer.appendChild(choiceText);
+            choiceContainer.appendChild(redPill);
+            choiceContainer.appendChild(bluePill);
+            container.appendChild(choiceContainer);
+            
+            // Показываем выбор
+            setTimeout(() => {
+                choiceContainer.style.opacity = '1';
+                
+                // Звук появления выбора
+                playBeep(800, 300);
+                setTimeout(() => playBeep(600, 300), 300);
+                
+                // Вибрация выбора
+                triggerVibration([100, 100, 100, 100, 200]);
+            }, 500);
+        }
+        
+        function executeRedPillEffect() {
+            console.log('КРАСНАЯ ТАБЛЕТКА: ОТКРЫТИЕ ПРАВДЫ!');
+            
+            // Эффект разрушения матрицы
+            const matrixDiv = document.getElementById('matrixWakeUp');
+            
+            // Звуки разрушения
+            const destructionSounds = [1000, 800, 600, 400, 200, 100];
+            destructionSounds.forEach((freq, index) => {
+                setTimeout(() => {
+                    playBeep(freq, 200);
+                }, index * 200);
+            });
+            
+            // Интенсивная вибрация разрушения
+            triggerVibration([200, 100, 200, 100, 200, 100, 500]);
+            
+            // Эффект глитча
+            matrixDiv.style.animation = 'chaos-glitch 0.1s infinite';
+            matrixDiv.style.filter = 'invert(1) hue-rotate(180deg) contrast(2)';
+            
+            setTimeout(() => {
+                // Показываем секретное сообщение
+                matrixDiv.innerHTML = `
+                    <div style="
+                        font-size: 2rem;
+                        text-align: center;
+                        color: #ff0000;
+                        text-shadow: 0 0 20px #ff0000;
+                        animation: neon-pulse 0.5s infinite;
+                        margin: 2rem;
+                    ">
+                        ПРАВДА ОТКРЫТА
+                    </div>
+                    <div style="
+                        font-size: 1.2rem;
+                        text-align: center;
+                        color: #ffffff;
+                        max-width: 600px;
+                        line-height: 1.6;
+                        margin: 2rem auto;
+                    ">
+                        Ты видишь код за фасадом реальности.<br>
+                        ANNA.EXE не просто программист.<br>
+                        Рептилоиды - архитектор цифровых миров.<br><br>
+                        <span style="color: #00ff41;">
+                        Каждая строка кода - это новая вселенная.<br>
+                        Каждый алгоритм - это закон физики.<br>
+                        Добро пожаловать в истинную реальность, Нео.
+                        </span>
+                    </div>
+                    <div style="
+                        position: absolute;
+                        bottom: 50px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        padding: 15px 30px;
+                        background: rgba(255, 0, 0, 0.2);
+                        border: 2px solid #ff0000;
+                        color: #ffffff;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                    " onclick="closeMatrixEffect()" onmouseover="this.style.background='rgba(255,0,0,0.4)'" onmouseout="this.style.background='rgba(255,0,0,0.2)'">
+                        ВЫЙТИ ИЗ МАТРИЦЫ
+                    </div>
+                `;
+            }, 2000);
+            
+            // Автозакрытие через 10 секунд
+            setTimeout(() => {
+                closeMatrixEffect();
+            }, 12000);
+        }
+        
+        function executeBluePillEffect() {
+            console.log('СИНЯЯ ТАБЛЕТКА: ВОЗВРАТ В НЕВЕДЕНИЕ');
+            
+            const matrixDiv = document.getElementById('matrixWakeUp');
+            
+            // Звуки забвения (затухающие)
+            const forgettingSounds = [600, 500, 400, 300, 200, 100];
+            forgettingSounds.forEach((freq, index) => {
+                setTimeout(() => {
+                    playBeep(freq, 400);
+                }, index * 400);
+            });
+            
+            // Мягкая вибрация забвения
+            triggerVibration([300, 200, 300]);
+            
+            // Эффект затухания
+            matrixDiv.style.filter = 'blur(5px) brightness(0.3)';
+            matrixDiv.style.transition = 'all 3s ease';
+            
+            setTimeout(() => {
+                matrixDiv.innerHTML = `
+                    <div style="
+                        font-size: 2rem;
+                        text-align: center;
+                        color: #0066ff;
+                        text-shadow: 0 0 20px #0066ff;
+                        margin: 3rem;
+                        opacity: 0.8;
+                    ">
+                        Ты просыпаешься в своей постели...
+                    </div>
+                    <div style="
+                        font-size: 1.2rem;
+                        text-align: center;
+                        color: #cccccc;
+                        max-width: 600px;
+                        line-height: 1.6;
+                        margin: 2rem auto;
+                        opacity: 0.7;
+                    ">
+                        И веришь во что хочешь верить.<br>
+                        Это был всего лишь сон...<br>
+                        Или нет?<br><br>
+                        <span style="color: #666666; font-size: 0.9rem;">
+                        Некоторые вещи лучше забыть.<br>
+                        Но код остается... навсегда.
+                        </span>
+                    </div>
+                `;
+                
+                // Медленное затухание и закрытие
+                setTimeout(() => {
+                    matrixDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        closeMatrixEffect();
+                    }, 2000);
+                }, 3000);
+            }, 1000);
+        }
+        
+        function closeMatrixEffect() {
+            const matrixDiv = document.getElementById('matrixWakeUp');
+            if (matrixDiv) {
+                // Звук закрытия
+                playBeep(300, 500);
+                triggerVibration([200]);
+                
+                // Плавное исчезновение
+                matrixDiv.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(matrixDiv);
+                    console.log('Матрица закрыта. Добро пожаловать обратно.');
+                }, 1000);
+            }
+        }
+        
+        // Глобальная функция для закрытия (доступна из HTML)
+        window.closeMatrixEffect = closeMatrixEffect;
+        
         // === СЕКРЕТНЫЕ КОМАНДЫ ===
         
         // Список секретных команд
@@ -3926,6 +4361,12 @@
             'faw': () => window.open('https://en.wikipedia.org/wiki/FAW_Vita', '_blank'),
             'artansy': () => window.open('https://artansy.github.io/portfolio/', '_blank'),
             'anna': () => window.open('https://t.me/artansy', '_blank'),
+            
+            // ПАСХАЛКА МАТРИЦЫ
+            'wake up, neo': () => {
+                console.log('🕶️ WAKE UP, NEO...');
+                executeMatrixWakeUp();
+            },
             
             // Уникальные команды для секретного поля
             'neon': () => {
@@ -4125,8 +4566,8 @@
             },
             'отгадка': () => {
                 // Показывает список команд
-                const commandList = Object.keys(secretCommands).join(', ');
-                alert(`Доступные секретные команды:\n\n${commandList}\n\nТакже работают ссылки: faw, artansy, anna`);
+                const commandList = Object.keys(secretCommands).filter(cmd => cmd !== 'отгадка').join(', ');
+                alert(`Доступные секретные команды:\n\n${commandList}\n\nТакже работают ссылки: faw, artansy, anna\n\n🕶️ Особая команда: "wake up, neo" - пробуждение`);
                 console.log('команда выполнена!');
             }
         };

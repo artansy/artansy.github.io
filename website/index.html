@@ -1900,7 +1900,7 @@
         function createMatrixRain() {
             const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             if (isMobile) {
-                console.log('📱 Матричный дождь отключен на мобильных для производительности');
+
                 return;
             }
             
@@ -2084,11 +2084,11 @@
         function triggerCarAnimation() {
             const carImg = document.getElementById('carImage');
             if (!carImg) {
-                console.log('❌ Элемент машинки не найден для анимации!');
+                console.log('Элемент машинки не найден для анимации!');
                 return;
             }
             
-            console.log('🚗 Запуск анимации машинки...');
+            console.log('Запуск анимации машинки...');
             
             // Проверяем устройство
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -2110,35 +2110,35 @@
             // Принудительный reflow для сброса состояния
             carImg.offsetHeight;
             
-            console.log(`📱 Устройство: iOS=${isIOS}, Android=${isAndroid}, Mobile=${isMobile}`);
+            console.log(`Устройство: iOS=${isIOS}, Android=${isAndroid}, Mobile=${isMobile}`);
             
             // Используем CSS анимацию для всех устройств
             if (isMobile) {
-                console.log('🚗 Мобильная CSS анимация машинки');
+                console.log('Мобильная CSS анимация машинки');
                 carImg.classList.add('car-simple-animation');
                 
                 setTimeout(() => {
                     carImg.classList.remove('car-simple-animation');
                     carImg.style.transform = originalTransform;
                     carImg.style.filter = originalFilter;
-                    console.log('✅ Мобильная анимация машинки завершена');
+                    console.log('Мобильная анимация машинки завершена');
                 }, 2000);
                 
             } else {
-                console.log('🚗 Десктопная CSS анимация машинки');
+                console.log('Десктопная CSS анимация машинки');
                 carImg.classList.add('car-drive-away');
                 
                 setTimeout(() => {
                     carImg.classList.remove('car-drive-away');
                     carImg.style.transform = originalTransform;
                     carImg.style.filter = originalFilter;
-                    console.log('✅ Десктопная анимация машинки завершена');
+                    console.log('Десктопная анимация машинки завершена');
                 }, 3000);
             }
             
             // Звуковые эффекты поездки (имитация движения)
             if (isMobile) {
-                console.log('🔊 Мобильные звуки машинки');
+                console.log('Мобильные звуки машинки');
                 // Звуки разгона
                 setTimeout(() => playBeep(300, 200), 100);   // Старт двигателя
                 setTimeout(() => playBeep(400, 150), 300);   // Разгон 1
@@ -2149,7 +2149,7 @@
                 setTimeout(() => playBeep(400, 150), 1500);  // Замедление 2
                 setTimeout(() => playBeep(350, 200), 1800);  // Остановка
             } else {
-                console.log('🔊 Десктопные звуки машинки');
+                console.log('Десктопные звуки машинки');
                 // Расширенная звуковая схема для десктопа
                 const engineSounds = [
                     {freq: 250, duration: 200, delay: 100},   // Запуск
@@ -2171,7 +2171,7 @@
             }
             
             // Адаптивная вибрация
-            console.log('📳 Вибрация машинки');
+            console.log('Вибрация машинки');
             if (isIOS) {
                 triggerVibration([250]); // Один длинный сигнал для iOS
             } else if (isAndroid) {
@@ -2181,7 +2181,7 @@
             }
             
             // Дополнительная обратная связь
-            console.log('🎉 МАШИНКА ПОЕХАЛА! ФАЗЕРАТИ В ДВИЖЕНИИ!');
+            console.log('МАШИНКА ПОЕХАЛА! ФАЗЕРАТИ В ДВИЖЕНИИ!');
         }
         
         // Массовый глитч режим
@@ -2335,7 +2335,7 @@
                 if (doubleTapTimer) clearTimeout(doubleTapTimer);
                 
                 if (tapCount === 2) {
-                    console.log('Двойной тап по статусу - активация режима хаоса!');
+
                     triggerVibration([100, 50, 100, 50, 200]);
                     toggleChaosMode();
                     tapCount = 0;
@@ -2433,21 +2433,21 @@
         const carImageElement = document.getElementById('carImage');
         
         if (carImageElement) {
-            console.log('🚗 Инициализация обработчиков машинки...');
+
             
             // Функция обработки клика/тача
             function handleCarInteraction(e) {
                 // Предотвращаем конфликты с анимацией
                 if (carImageElement.classList.contains('car-drive-away') || 
                     carImageElement.classList.contains('car-simple-animation')) {
-                    console.log('🚗 Анимация уже идет, пропускаем клик');
+                    console.log('Анимация уже идет, пропускаем клик');
                     return;
                 }
                 
                 e.preventDefault();
                 e.stopPropagation();
                 
-                console.log(`🚗 Взаимодействие с машинкой: ${carClickCount + 1}/3`);
+                console.log(`Взаимодействие с машинкой: ${carClickCount + 1}/3`);
                 
                 carClickCount++;
                 
@@ -2471,7 +2471,7 @@
                 }, 100);
                 
                 if (carClickCount >= 3) {
-                    console.log('🚗 Тройной клик достигнут - запуск анимации!');
+                    console.log('Тройной клик достигнут - запуск анимации!');
                     
                     // Небольшая задержка для завершения визуальной обратной связи
                     setTimeout(() => {
@@ -2488,7 +2488,7 @@
                         triggerVibration([100, 50, 100, 50, 200]); // Паттерн для Android
                     }
                     
-                    console.log('🎉 МАШИНКА АКТИВИРОВАНА!');
+                    console.log('МАШИНКА АКТИВИРОВАНА!');
                     
                 } else {
                     // Короткая обратная связь при промежуточных кликах
@@ -2496,7 +2496,7 @@
                     playBeep(500 + carClickCount * 200, 100);
                     
                     carClickTimer = setTimeout(() => {
-                        console.log('🚗 Таймер сброшен, начинаем заново');
+                        console.log('Таймер сброшен, начинаем заново');
                         carClickCount = 0;
                     }, 1000);
                 }
@@ -2528,65 +2528,60 @@
             carImageElement.style.webkitTouchCallout = 'none';
             carImageElement.style.cursor = 'pointer';
             
-            console.log('✅ Обработчики машинки настроены');
+
         } else {
-            console.log('❌ Элемент машинки не найден!');
+            console.log('Элемент машинки не найден!');
         }
         
-        // Долгое нажатие на заголовок для хакерского режима (улучшено для мобильных)
+        // Долгое нажатие на заголовок для хакерского режима (мобильная версия)
         let titlePressTimer = null;
+        const titleElement = document.querySelector('.random-glitch');
         
-        // Инициализация обработчиков долгого нажатия
-        function initTitleLongPressHandlers() {
-            const titleEl = document.querySelector('.random-glitch');
-            if (!titleEl) return;
-            
-            // Mouse события для десктопа
-            titleEl.addEventListener('mousedown', () => {
-                titlePressTimer = setTimeout(() => {
-                    console.log('💻 Долгое нажатие на заголовок (мышь) - активация хакерского режима!');
-                    toggleHackerMode();
-                    titlePressTimer = null;
-                }, 1500);
-            });
-            
-            titleEl.addEventListener('mouseup', () => {
-                if (titlePressTimer) {
-                    clearTimeout(titlePressTimer);
-                    titlePressTimer = null;
-                }
-            });
-            
-            titleEl.addEventListener('mouseleave', () => {
-                if (titlePressTimer) {
-                    clearTimeout(titlePressTimer);
-                    titlePressTimer = null;
-                }
-            });
-            
-            // Touch события для мобильных (обновлены для совместимости)
-            titleEl.addEventListener('touchstart', (e) => {
-                // Запускаем таймер долгого нажатия
-                titlePressTimer = setTimeout(() => {
-                    console.log('📱 Долгое нажатие на заголовок (тач) - активация хакерского режима!');
-                    toggleHackerMode();
-                    titlePressTimer = null;
-                    triggerVibration([200, 100, 200, 100, 300]);
-                }, 2000); // Увеличиваем до 2 секунд для мобильных, чтобы не мешать обычному тапу
-            }, { passive: true });
-            
-            titleEl.addEventListener('touchcancel', (e) => {
-                if (titlePressTimer) {
-                    clearTimeout(titlePressTimer);
-                    titlePressTimer = null;
-                }
-            });
-            
-            console.log('✅ Обработчики долгого нажатия для хакерского режима настроены');
-        }
+        // Touch события для мобильных
+        titleElement?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            titlePressTimer = setTimeout(() => {
+
+                toggleHackerMode();
+            }, 1500); // 1.5 секунды для мобильных
+        });
         
-        // Инициализируем обработчики
-        initTitleLongPressHandlers();
+        titleElement?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        titleElement?.addEventListener('touchcancel', (e) => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        // Mouse события для десктопа (сохраняем существующую функциональность)
+        titleElement?.addEventListener('mousedown', () => {
+            titlePressTimer = setTimeout(() => {
+
+                toggleHackerMode();
+            }, 1500);
+        });
+        
+        titleElement?.addEventListener('mouseup', () => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        titleElement?.addEventListener('mouseleave', () => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
         
         // Долгое нажатие на статус
         let statusPressTimer = null;
@@ -2674,9 +2669,9 @@
                 // Принудительно активируем audioContext для мобильных
                 if (audioContext.state === 'suspended') {
                     audioContext.resume().then(() => {
-                        console.log('🎵 AudioContext возобновлен для мобильного устройства');
+                        console.log('AudioContext возобновлен для мобильного устройства');
                     }).catch(e => {
-                        console.log('❌ Ошибка возобновления AudioContext:', e);
+                        console.log('Ошибка возобновления AudioContext:', e);
                     });
                 }
                 
@@ -2719,10 +2714,10 @@
                             } catch(e) {}
                         }, 1100);
                         
-                        console.log(`🎵 Проиграна нота ${currentNote === 0 ? 'Ля' : currentNote === 1 ? 'До' : 'Фа'}`);
+                        console.log(`Проиграна нота ${currentNote === 0 ? 'Ля' : currentNote === 1 ? 'До' : 'Фа'}`);
                         
                     } catch(e) {
-                        console.log('❌ Ошибка воспроизведения ноты:', e);
+                        console.log('Ошибка воспроизведения ноты:', e);
                     }
                 };
                 
@@ -2741,14 +2736,14 @@
                 return musicInterval;
                 
             } catch(e) {
-                console.log('❌ Ошибка инициализации музыки:', e);
+                console.log('Ошибка инициализации музыки:', e);
                 // Fallback - просто анимация без звука
                 return setInterval(() => {
                     if (!isPlaying) {
                         clearInterval(musicInterval);
                         return;
                     }
-                    console.log('🎵 Музыка (только анимация) - звук недоступен');
+                    console.log('Музыка (только анимация) - звук недоступен');
                 }, 1800);
             }
         }
@@ -2803,7 +2798,7 @@
                 bar.style.background = '';
             });
             
-            console.log('🎵 Музыка остановлена');
+            console.log('Музыка остановлена');
         }
         
         // Воспроизведение музыки (исправлено для мобильных)
@@ -2814,18 +2809,18 @@
             }
             
             isPlaying = true;
-            console.log('🎵 Воспроизведение простой мелодии...');
+            console.log('Воспроизведение простой мелодии...');
             
             // Показываем информацию о треке
             const track = musicTracks[currentTrackIndex];
-            console.log(`🎧 Сейчас играет: ${track.name}`);
+            console.log(`Сейчас играет: ${track.name}`);
             
             // Простое уведомление для мобильных
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             
             if (isMobile) {
                 // Простое уведомление для мобильных
-                console.log(`📱 Мобильное воспроизведение: ${track.name}`);
+                console.log(`Мобильное воспроизведение: ${track.name}`);
             } else {
                 // Полное уведомление для десктопа
                 const notification = document.createElement('div');
@@ -2893,7 +2888,7 @@
                 stopMusic();
             }
             currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
-            console.log(`🎧 Выбран трек: ${musicTracks[currentTrackIndex].name}`);
+            console.log(`Выбран трек: ${musicTracks[currentTrackIndex].name}`);
         }
         
         // Клик на музыкальные полоски (обновлено с мобильной поддержкой)
@@ -2904,9 +2899,9 @@
             if (isMobile && audioContext && audioContext.state === 'suspended') {
                 try {
                     await audioContext.resume();
-                    console.log('🎵 AudioContext активирован для мобильного устройства');
+
                 } catch(e) {
-                    console.log('❌ Не удалось активировать AudioContext:', e);
+                    console.log('Не удалось активировать AudioContext:', e);
                 }
             }
             
@@ -3064,14 +3059,12 @@
             uptime++;
         }, 1000);
         
-        // Пасхалка переключения ANNA.EXE <-> Artansy.exe (улучшено для мобильных)
+        // Пасхалка переключения ANNA.EXE <-> Artansy.exe
         let isArtansyMode = false;
         
-        // Функция переключения имени
-        function toggleNameMode() {
+        // Интенсивные глитчи при клике на заголовок с пасхалкой
+        document.querySelector('.random-glitch')?.addEventListener('click', () => {
             const title = document.querySelector('.random-glitch');
-            
-            console.log(`📱 Переключение режима имени: ${isArtansyMode ? 'ANNA' : 'ARTANSY'}`);
             
             // Серия быстрых глитчей
             for (let i = 0; i < 5; i++) {
@@ -3096,12 +3089,6 @@
                     `;
                     
                     isArtansyMode = true;
-                    console.log('✨ Переключено на ARTANSY.EXE');
-                    
-                    // Мобильная обратная связь
-                    triggerVibration([100, 50, 100, 50, 200]);
-                    playBeep(800, 200);
-                    
                 } else {
                     // Возвращаем обратно на ANNA.EXE
                     title.textContent = 'ANNA.EXE';
@@ -3113,91 +3100,29 @@
                     title.style.textShadow = '0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41';
                     
                     isArtansyMode = false;
-                    console.log('✨ Возвращено на ANNA.EXE');
-                    
-                    // Мобильная обратная связь
-                    triggerVibration([200, 100, 200]);
-                    playBeep(1000, 200);
                 }
             }, 600);
             
-            // Глитч всех карточек одновременно (только на десктопе для производительности)
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (!isMobile) {
-                setTimeout(() => {
-                    const cards = document.querySelectorAll('.card-glitch');
-                    cards.forEach((card, index) => {
+            // Глитч всех карточек одновременно
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card-glitch');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('glitching');
+                        
+                        // Дополнительные эффекты для пасхалки
+                        if (isArtansyMode) {
+                            card.style.filter = 'hue-rotate(320deg) saturate(1.5) contrast(1.2)';
+                        }
+                        
                         setTimeout(() => {
-                            card.classList.add('glitching');
-                            
-                            // Дополнительные эффекты для пасхалки
-                            if (isArtansyMode) {
-                                card.style.filter = 'hue-rotate(320deg) saturate(1.5) contrast(1.2)';
-                            }
-                            
-                            setTimeout(() => {
-                                card.classList.remove('glitching');
-                                card.style.filter = '';
-                            }, 300);
-                        }, index * 100);
-                    });
-                }, 200);
-            }
-        }
-        
-        // Получаем элемент заголовка для переключения имени
-        const titleForNameToggle = document.querySelector('.random-glitch');
-        
-        if (titleForNameToggle) {
-            // Click для десктопа
-            titleForNameToggle.addEventListener('click', (e) => {
-                // Проверяем, что это НЕ долгое нажатие для хакерского режима
-                if (!titlePressTimer) {
-                    toggleNameMode();
-                }
-            });
-            
-            // Touch события для мобильных
-            let touchStartTime = 0;
-            let touchMoved = false;
-            
-            titleForNameToggle.addEventListener('touchstart', (e) => {
-                touchStartTime = Date.now();
-                touchMoved = false;
-            }, { passive: true });
-            
-            titleForNameToggle.addEventListener('touchmove', (e) => {
-                touchMoved = true;
-            }, { passive: true });
-            
-            titleForNameToggle.addEventListener('touchend', (e) => {
-                const touchDuration = Date.now() - touchStartTime;
-                
-                // Только если это быстрый тап (не долгое нажатие) и без движения
-                if (touchDuration < 1000 && !touchMoved) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Отменяем таймер долгого нажатия если он есть
-                    if (titlePressTimer) {
-                        clearTimeout(titlePressTimer);
-                        titlePressTimer = null;
-                    }
-                    
-                    console.log('📱 Мобильный тап по заголовку - переключение имени');
-                    toggleNameMode();
-                }
-            }, { passive: false });
-            
-            console.log('✅ Обработчики переключения имени настроены для мобильных и десктопа');
-        } else {
-            console.log('❌ Элемент заголовка для переключения имени не найден');
-        }
-        
-        // Убеждаемся, что все переменные определены
-        if (typeof titleElement !== 'undefined') {
-            console.log('⚠️ Старая переменная titleElement все еще существует, удаляем ссылки');
-        }
+                            card.classList.remove('glitching');
+                            card.style.filter = '';
+                        }, 300);
+                    }, index * 100);
+                });
+            }, 200);
+        });
         
         // Старый глитч эффект для заголовка (оставляем как дополнительный)
         setInterval(() => {
@@ -3232,7 +3157,7 @@
                 
                 // Проверяем, если это кнопка портфолио
                 if (button.textContent.includes('ACCESS_PORTFOLIO') || button.textContent.includes('portfolio')) {
-                    console.log('🎯 Переход на портфолио!');
+                    console.log('Переход на портфолио!');
                     // Простая обратная связь
                     triggerVibration([100]);
                     playBeep(1000, 150);
@@ -3346,13 +3271,13 @@
                         isLoading = false;
                         
                         // Перенаправление на Telegram
-                        console.log('🚀 Перенаправляем на Telegram: https://t.me/artansy');
+                        console.log('Перенаправляем на Telegram: https://t.me/artansy');
                         const opened = window.open('https://t.me/artansy', '_blank');
                         if (!opened) {
-                            console.log('❌ Всплывающее окно заблокировано, пробуем location.href');
+                            console.log('Всплывающее окно заблокировано, пробуем location.href');
                             window.location.href = 'https://t.me/artansy';
                         } else {
-                            console.log('✅ Новая вкладка открыта успешно');
+                            console.log('Новая вкладка открыта успешно');
                         }
                     }, 1500);
                 }
@@ -3508,11 +3433,11 @@
         
         // Инициализация обработчика версии
         function initVersionClickHandler() {
-            console.log('=== ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКА ВЕРСИИ ===');
+
             
             // Ищем элемент версии разными способами
             let versionElement = document.getElementById('versionClick');
-            console.log('Поиск по ID "versionClick":', versionElement);
+
             
             if (!versionElement) {
                 // Альтернативный поиск по содержимому
@@ -3527,10 +3452,7 @@
             }
             
             if (versionElement) {
-                console.log('✅ Элемент версии найден! Настраиваем обработчики...');
-                console.log('Элемент:', versionElement);
-                console.log('Текст элемента:', versionElement.textContent);
-                console.log('ID элемента:', versionElement.id);
+
                 
                 // Очищаем старые обработчики
                 versionElement.onclick = null;
@@ -3540,7 +3462,7 @@
                 versionElement.onclick = function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('🎉 КЛИК ПО ВЕРСИИ СРАБОТАЛ!');
+
                     toggleVintageMode();
                 };
                 
@@ -3548,7 +3470,7 @@
                 versionElement.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('🎉 ADDEVENTLISTENER КЛИК ПО ВЕРСИИ СРАБОТАЛ!');
+
                     toggleVintageMode();
                 }, { capture: true });
                 
@@ -3580,15 +3502,11 @@
                     this.style.boxShadow = '';
                 });
                 
-                // Тестовый клик для проверки
-                console.log('🧪 Тестируем работоспособность...');
                 
-                console.log('✅ Обработчик версии успешно настроен!');
-                console.log('📍 Для активации: кликни на "VERSION: 2.0.25" в подвале страницы');
+
                 return true;
             } else {
-                console.log('❌ Элемент версии НЕ НАЙДЕН!');
-                console.log('🔍 Доступные span элементы:');
+
                 document.querySelectorAll('span').forEach((span, index) => {
                     console.log(`Span ${index}:`, span.textContent);
                 });
@@ -3597,7 +3515,7 @@
         }
         
         // Множественные попытки инициализации
-        console.log('🚀 Запуск инициализации обработчика версии...');
+
         
         // Попытка 1: сразу
         setTimeout(() => {
@@ -3611,7 +3529,6 @@
                         setTimeout(() => {
                             console.log('--- Попытка 3 (1000мс) ---');
                             if (!initVersionClickHandler()) {
-                                console.log('❌ Все попытки инициализации не удались');
                                 // Создаем альтернативный элемент
                                 const footer = document.querySelector('footer');
                                 if (footer) {
@@ -3620,7 +3537,7 @@
                                     altButton.style.marginTop = '10px';
                                     altButton.onclick = toggleVintageMode;
                                     footer.appendChild(altButton);
-                                    console.log('✅ Создана альтернативная кнопка винтажного режима');
+   
                                 }
                             }
                         }, 1000);
@@ -3633,7 +3550,7 @@
         window.toggleVintageMode = toggleVintageMode;
         window.initVersionClickHandler = initVersionClickHandler;
         window.testVintageMode = () => {
-            console.log('🧪 Тестовый запуск винтажного режима');
+
             toggleVintageMode();
         };
         
@@ -3935,7 +3852,7 @@
                 // Показывает список команд
                 const commandList = Object.keys(secretCommands).join(', ');
                 alert(`Доступные секретные команды:\n\n${commandList}\n\nТакже работают ссылки: faw, artansy, anna`);
-                console.log('HELP команда выполнена!');
+                console.log('команда выполнена!');
             }
         };
         
@@ -4002,7 +3919,7 @@
                 // Усиленная вибрация для секретной панели
                 triggerVibration([100, 50, 100]);
                 
-                console.log('✨ SECRET_COMMANDS.EXE активирована с эффектами свечения!');
+                console.log('SECRET_COMMANDS.EXE активирована с эффектами свечения!');
             } else {
                 commandsPanel.classList.remove('active');
                 toggleBtn.classList.remove('active');
@@ -4012,7 +3929,7 @@
                 playBeep(400, 100);
                 triggerVibration([50]);
                 
-                console.log('💫 SECRET_COMMANDS.EXE деактивирована');
+                console.log('SECRET_COMMANDS.EXE деактивирована');
             }
         }
         
@@ -4037,7 +3954,7 @@
                     input.classList.remove('success');
                 }, 500);
                 
-                console.log(`✅ Команда "${command}" выполнена!`);
+                console.log(`Команда "${command}" выполнена!`);
             } else {
                 // Команда не найдена - ошибка
                 input.classList.remove('success');
@@ -4052,7 +3969,7 @@
                     input.classList.remove('error');
                 }, 1000);
                 
-                console.log(`❌ Неизвестная команда: "${command}"`);
+                console.log(`Неизвестная команда: "${command}"`);
             }
         }
         
@@ -4103,7 +4020,7 @@
             
             // Проверяем поддержку вибрации (без запроса разрешений)
             if (navigator.vibrate) {
-                console.log('Вибрация поддерживается');
+
             } else {
                 console.log('Вибрация не поддерживается этим браузером');
             }
@@ -4111,18 +4028,6 @@
             // Уведомление о мобильных пасхалках
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             
-            console.log('📱 Мобильные пасхалки активированы!');
-            console.log('🔄 Двойной тап по статусу [ONLINE] → Режим хаоса');
-            console.log('👆 Долгое нажатие на заголовок → Хакерский режим');
-            console.log('⌨️ Секретные команды доступны!');
-            console.log('🎮 Клик на кнопку ⌨ в правом нижнем углу или Ctrl+Shift+X');
-            
-            if (isIOS) {
-                console.log('📳 iOS обнаружен - вибрация заменена улучшенной звуковой обратной связью');
-                console.log('🔊 Звуковые эффекты имитируют паттерны вибрации');
-            } else {
-                console.log('📳 Вибрация при всех пасхалках активна');
-            }
         });
         
     </script>

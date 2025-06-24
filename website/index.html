@@ -1481,6 +1481,65 @@
             z-index: 60001 !important;
         }
         
+        /* Кнопка переключения языка */
+        #languageToggle {
+            padding: 8px 16px;
+            border: 1px solid rgba(100, 100, 100, 0.3);
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-family: 'Fira Code', monospace;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #languageToggle:hover {
+            color: #00ff41 !important;
+            border-color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        #languageToggle:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+        
+        #languageToggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        #languageToggle:hover::before {
+            left: 100%;
+        }
+        
+        /* Индикатор русского режима */
+        .russian-mode #languageToggle {
+            color: #00ff41 !important;
+            border-color: #00ff41 !important;
+            background: rgba(0, 255, 65, 0.15) !important;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.4) !important;
+        }
+        
+        .russian-mode #languageToggle::after {
+            content: ' 🇷🇺';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+        }
+        
         /* Responsivные улучшения */
         @media (max-width: 768px) {
             .text-6xl { font-size: 2.5rem; }
@@ -1489,6 +1548,12 @@
             .text-lg { font-size: 1rem; }
             .grid-cols-3 { grid-template-columns: 1fr; }
             .debug-panel { max-width: 250px; font-size: 10px; }
+            
+            #languageToggle {
+                padding: 10px 20px;
+                font-size: 13px;
+                margin-top: 8px;
+            }
             
             /* Адаптивный ASCII текст для мобильных */
             .ascii-art {
@@ -1637,6 +1702,12 @@
 
 на сайте присутствуют пасхалки попробуй их найти
 (лучше на пк)</div>
+            
+            <div class="mt-4">
+                <div class="text-sm text-gray-400 cursor-pointer hover:text-green-400 transition-colors duration-300" id="languageToggle" title="Переключить на простой русский язык">
+                    если не шаришь в программировании то жми, язык поменяется
+                </div>
+            </div>
         </div>
         
         <!-- Статус система -->
@@ -1946,6 +2017,7 @@
         let vintageMode = false;
         let eyeMode = false;
         let commandsVisible = false;
+        let russianMode = false;
         
         // Мобильные переменные
         let shakeThreshold = 15;
@@ -3546,11 +3618,217 @@
             }
         }, 100);
         
+        // === ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ===
+        
+        // Словарь переводов с технических терминов на простой русский
+        const translations = {
+            // Заголовки и названия
+            'ANNA.EXE': 'АННА',
+            'ARTANSY.EXE': 'АРТАНСИ', 
+            'PROGRAMMER-ARTIST.INIT()': 'ПРОГРАММИСТ И ХУДОЖНИЦА',
+            'CODE.MODULE': 'ПРОГРАММИРОВАНИЕ',
+            'AUTO.MODULE': 'МАШИНА',
+            'ART.MODULE': 'ТВОРЧЕСТВО',
+            'PERSONAL.DATA': 'ЛИЧНАЯ ИНФОРМАЦИЯ',
+            'SYSTEM.QUOTE': 'МОИ МЫСЛИ',
+            'CONTACT.PROTOCOL': 'СВЯЗАТЬСЯ СО МНОЙ',
+            'SECRET_COMMANDS.EXE': 'СЕКРЕТНЫЕ КОМАНДЫ',
+            
+            // Терминальные команды
+            'core_system.exe': 'основная программа',
+            'transport_sys.exe': 'транспортная система',
+            'creative_suite.exe': 'творческие программы',
+            
+            // Статусы и описания
+            '[ONLINE]': '[В СЕТИ]',
+            '[OFFLINE]': '[НЕ В СЕТИ]',
+            'STATUS': 'СТАТУС',
+            'AGE': 'ВОЗРАСТ',
+            'LOCALE': 'СТРАНА',
+            'birth_date:': 'дата рождения:',
+            'education:': 'образование:',
+            'personality:': 'характер:',
+            'attitude:': 'отношение:',
+            'college.completed': 'колледж окончен',
+            'positive.attempts': 'стараюсь быть позитивной',
+            'kind.spirited': 'добрая и весёлая',
+            'mood.indicator': 'индикатор настроения',
+            
+            // Навыки и проценты
+            'JavaScript': 'ДжаваСкрипт (язык программирования)',
+            'Python': 'Питон (язык программирования)',
+            'HTML/CSS': 'HTML/CSS (создание сайтов)',
+            
+            // Проекты
+            'Neural Network': 'Нейронная сеть',
+            'AI-powered classification system': 'Система искусственного интеллекта',
+            'Crypto Tracker': 'Отслеживание криптовалют',
+            'Real-time cryptocurrency monitor': 'Следит за ценами биткоина',
+            'Security Scanner': 'Сканер безопасности',
+            'Network vulnerability assessment': 'Проверка компьютерной безопасности',
+            'STATUS: COMPLETED': 'СТАТУС: ЗАВЕРШЕНО',
+            'STATUS: IN PROGRESS': 'СТАТУС: В РАБОТЕ',
+            'STATUS: PLANNING': 'СТАТУС: ПЛАНИРУЮ',
+            
+            // Машина
+            'CODENAME: "FAZERATTI"': 'КОДОВОЕ ИМЯ: "FAZERATTI"',
+            'COLOR:': 'ЦВЕТ:',
+            'TYPE:': 'СТРАНА:',
+            'SPEED:': 'СКОРОСТЬ:',
+            'RED': 'КРАСНЫЙ',
+            'CHINESE': 'КИТАЙ (в душе японец)',
+            'FAST': 'БЫСТРАЯ',
+            'ACTIVE': 'АКТИВНА',
+            
+            // Творчество
+            'Digital Art': 'Цифровое искусство',
+            'design.protocols': 'программы для дизайна',
+            'Music Covers': 'Музыкальные каверы',
+            'audio.synthesis': 'создание музыки',
+            
+            // Кнопки
+            '> ACCESS_PORTFOLIO.exe': '> ПОСМОТРЕТЬ МОИ РАБОТЫ',
+            '> INIT_CONNECTION.exe': '> НАПИСАТЬ МНЕ',
+            '> EMAIL.BAT': '> ЭЛЕКТРОННАЯ ПОЧТА',
+            '> DISCORD.EXE': '> ДИСКОРД',
+            
+            // Терминал
+            'whoami': 'кто я',
+            'Programmer, Designer, Creator': 'Программист, Дизайнер, Творческий человек',
+            'ls -la skills/': 'показать мои навыки',
+            'drwxr-xr-x  coding     [EXPERT]': 'программирование     [ЭКСПЕРТ]',
+            'drwxr-xr-x  design     [ADVANCED]': 'дизайн              [ПРОДВИНУТЫЙ]',
+            'drwxr-xr-x  music      [CREATIVE]': 'музыка              [ТВОРЧЕСКИЙ]',
+            'drwxr-xr-x  cars       [ENTHUSIAST]': 'машины              [ЛЮБИТЕЛЬ]',
+            'system_info': 'информация о системе',
+            
+            // Подвал
+            'CYBERNET.PROTOCOL': 'КИБЕР-ПРОТОКОЛ',
+            'ALL_RIGHTS.RESERVED': 'ВСЕ ПРАВА ЗАЩИЩЕНЫ',
+            'SYSTEM_UPTIME:': 'ВРЕМЯ РАБОТЫ:',
+            'VERSION:': 'ВЕРСИЯ:',
+            'BUILD:': 'СБОРКА:',
+            'STABLE': 'СТАБИЛЬНАЯ',
+            
+            // Загрузка
+            'Initializing connection...': 'Подключение...',
+            'подкладываем кирпичи под колеса...': 'готовимся к поездке...',
+            'шашкуем по дороге...': 'едем быстро...',
+            'включаем громко музыку...': 'включаем музыку...',
+            'показываем хейтерам фак...': 'игнорируем завистников...',
+            'сплетничаем...': 'болтаем...',
+            'Almost ready...': 'Почти готово...',
+            'Connection established!': 'Соединение установлено!',
+            
+            // Отладка
+            '[DEBUG MODE ACTIVE]': '[РЕЖИМ ОТЛАДКИ АКТИВЕН]',
+            'FPS:': 'КАДРОВ В СЕКУНДУ:',
+            'Memory:': 'Память:',
+            'CPU:': 'ПРОЦЕССОР:',
+            'Uptime:': 'Время работы:',
+            'Glitches:': 'Глитчи:',
+            'Mode:': 'Режим:',
+            'Theme:': 'Тема:',
+            'NORMAL': 'ОБЫЧНЫЙ',
+            'HACKER': 'ХАКЕР',
+            'GREEN': 'ЗЕЛЁНЫЙ',
+            
+            // Команды
+            'enter_command...': 'введи команду...',
+            'Введите секретный код': 'Введи секретный код'
+        };
+        
+        // Функция переключения языка
+        function toggleRussianMode() {
+            russianMode = !russianMode;
+            const toggleButton = document.getElementById('languageToggle');
+            
+            if (russianMode) {
+                console.log('РУССКИЙ РЕЖИМ АКТИВИРОВАН!');
+                
+                // Переводим все элементы на простой русский
+                document.querySelectorAll('*').forEach(element => {
+                    // Пропускаем script и style теги
+                    if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE') return;
+                    
+                    // Переводим текстовое содержимое
+                    if (element.childNodes) {
+                        element.childNodes.forEach(node => {
+                            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                                const originalText = node.textContent.trim();
+                                if (translations[originalText]) {
+                                    node.textContent = node.textContent.replace(originalText, translations[originalText]);
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Переводим атрибуты data-text для глитч эффектов
+                    if (element.hasAttribute('data-text')) {
+                        const dataText = element.getAttribute('data-text');
+                        if (translations[dataText]) {
+                            element.setAttribute('data-text', translations[dataText]);
+                        }
+                    }
+                    
+                    // Переводим placeholder
+                    if (element.hasAttribute('placeholder')) {
+                        const placeholder = element.getAttribute('placeholder');
+                        if (translations[placeholder]) {
+                            element.setAttribute('placeholder', translations[placeholder]);
+                        }
+                    }
+                    
+                    // Переводим title
+                    if (element.hasAttribute('title')) {
+                        const title = element.getAttribute('title');
+                        if (translations[title]) {
+                            element.setAttribute('title', translations[title]);
+                        }
+                    }
+                });
+                
+                // Обновляем кнопку переключения
+                toggleButton.textContent = 'вернуться к изначальному языку';
+                toggleButton.style.color = '#00ff41';
+                
+                // Звук и вибрация при активации
+                playBeep(800, 200);
+                triggerVibration([100, 50, 100]);
+                
+                // Визуальный эффект перевода
+                document.body.style.filter = 'hue-rotate(60deg)';
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                }, 1000);
+                
+            } else {
+                console.log('ВОЗВРАТ К ЯЗЫКУ');
+                
+                // Перезагружаем страницу для возврата к оригинальному тексту
+                location.reload();
+            }
+        }
+        
+        // Обработчик клика на переключатель языка
+        document.getElementById('languageToggle')?.addEventListener('click', () => {
+            toggleRussianMode();
+        });
+        
+        // Альтернативные способы активации (для мобильных)
+        document.getElementById('languageToggle')?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            // Добавляем небольшую задержку для предотвращения случайных нажатий
+            setTimeout(() => {
+                toggleRussianMode();
+            }, 100);
+        });
+        
         // Глобальные функции для отладки
         window.toggleVintageMode = toggleVintageMode;
         window.initVersionClickHandler = initVersionClickHandler;
+        window.toggleRussianMode = toggleRussianMode;
         window.testVintageMode = () => {
-
             toggleVintageMode();
         };
         
@@ -3654,10 +3932,7 @@
                 // Неоновый взрыв - яркие цветные полосы по экрану
                 document.body.style.background = 'repeating-linear-gradient(45deg, #ff00ff, #00ffff 10px, #ffff00 20px, #ff0080 30px)';
                 document.body.style.animation = 'neon-pulse 0.2s infinite';
-                setTimeout(() => {
-                    document.body.style.background = '';
-                    document.body.style.animation = '';
-                }, 3000);
+
                 console.log('NEON команда выполнена!');
             },
             'portal': () => {

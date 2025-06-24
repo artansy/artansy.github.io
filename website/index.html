@@ -3923,9 +3923,7 @@
         function executeMatrixWakeUp() {
             console.log('МАТРИЦА АКТИВИРОВАНА!');
             
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            // Создаем матричный оверлей с адаптивными стилями
+            // Создаем матричный оверлей
             const matrixOverlay = document.createElement('div');
             matrixOverlay.id = 'matrixWakeUp';
             matrixOverlay.style.cssText = `
@@ -3944,9 +3942,6 @@
                 color: #00ff41;
                 opacity: 0;
                 transition: opacity 1s ease;
-                overflow: hidden;
-                padding: ${isMobile ? '20px' : '0'};
-                box-sizing: border-box;
             `;
             
             document.body.appendChild(matrixOverlay);
@@ -3956,31 +3951,24 @@
                 matrixOverlay.style.opacity = '1';
             }, 100);
             
-            // Этап 1: Просыпайся, Нео... (адаптивный)
+            // Этап 1: Просыпайся, Нео...
             const wakeUpText = document.createElement('div');
             wakeUpText.style.cssText = `
-                font-size: ${isMobile ? '2rem' : '3rem'};
+                font-size: 3rem;
                 text-align: center;
-                margin-bottom: ${isMobile ? '1.5rem' : '2rem'};
+                margin-bottom: 2rem;
                 text-shadow: 0 0 20px #00ff41;
                 opacity: 0;
                 transform: translateY(50px);
                 transition: all 2s ease;
-                max-width: 90%;
-                line-height: 1.2;
             `;
             wakeUpText.textContent = 'Просыпайся, Нео...';
             matrixOverlay.appendChild(wakeUpText);
             
-            // Адаптивные звук и вибрация пробуждения
+            // Звук пробуждения
             setTimeout(() => {
-                if (isMobile) {
-                    playBeep(200, 800); // Короче для мобильных
-                    triggerVibration([400, 150, 400]);
-                } else {
-                    playBeep(200, 1000);
-                    triggerVibration([500, 200, 500]);
-                }
+                playBeep(200, 1000);
+                triggerVibration([500, 200, 500]);
             }, 500);
             
             // Показываем текст пробуждения
@@ -3989,50 +3977,32 @@
                 wakeUpText.style.transform = 'translateY(0)';
             }, 1000);
             
-            // Этап 2: Адаптивный матричный дождь
+            // Этап 2: Матричный дождь
             setTimeout(() => {
-                if (isMobile) {
-                    createMobileMatrixRain(matrixOverlay);
-                } else {
-                    createIntenseMatrixRain(matrixOverlay);
-                }
+                createIntenseMatrixRain(matrixOverlay);
                 playBeep(150, 500);
             }, 3000);
             
-            // Этап 3: Голос Морфеуса (адаптивный)
+            // Этап 3: Голос Морфеуса
             setTimeout(() => {
                 const morpheusText = document.createElement('div');
                 morpheusText.style.cssText = `
-                    font-size: ${isMobile ? '1.1rem' : '1.5rem'};
+                    font-size: 1.5rem;
                     text-align: center;
-                    margin: ${isMobile ? '1.5rem' : '2rem'};
+                    margin: 2rem;
                     line-height: 1.6;
-                    max-width: ${isMobile ? '90%' : '800px'};
+                    max-width: 800px;
                     opacity: 0;
                     transition: opacity 2s ease;
-                    padding: ${isMobile ? '0 10px' : '0'};
                 `;
-                
-                if (isMobile) {
-                    // Сокращенная версия для мобильных
-                    morpheusText.innerHTML = `
-                        "Ты всю жизнь ощущал её присутствие.<br>
-                        Как заноза в мозгу, сводящая с ума.<br><br>
-                        <span style="color: #ff4444;">АННА.EXE - не просто программист.</span><br>
-                        <span style="color: #4444ff;">Создатель цифровых миров.</span><br><br>
-                        Добро пожаловать в реальность."
-                    `;
-                } else {
-                    // Полная версия для десктопа
-                    morpheusText.innerHTML = `
-                        "Ты всю жизнь ощущал её присутствие.<br>
-                        Ты не знаешь, что это, но она здесь.<br>
-                        Как заноза в мозгу, сводящая с ума.<br><br>
-                        <span style="color: #ff4444;">АННА.EXE - это не просто программист.</span><br>
-                        <span style="color: #4444ff;">Это создатель цифровых миров.</span><br><br>
-                        Добро пожаловать... в реальность."
-                    `;
-                }
+                morpheusText.innerHTML = `
+                    "Ты всю жизнь ощущал её присутствие.<br>
+                    Ты не знаешь, что это, но она здесь.<br>
+                    Как заноза в мозгу, сводящая с ума.<br><br>
+                    <span style="color: #ff4444;">АННА.EXE - это не просто программист.</span><br>
+                    <span style="color: #4444ff;">Это создатель цифровых миров.</span><br><br>
+                    Добро пожаловать... в реальность."
+                `;
                 
                 matrixOverlay.appendChild(morpheusText);
                 
@@ -4040,46 +4010,27 @@
                     morpheusText.style.opacity = '1';
                 }, 500);
                 
-                // Адаптивные мистические звуки
-                const mysticalFreqs = isMobile ? [300, 200, 150, 100] : [300, 250, 200, 180, 160, 140, 120, 100];
-                const soundDelay = isMobile ? 800 : 600;
-                
+                // Мистические звуки
+                const mysticalFreqs = [300, 250, 200, 180, 160, 140, 120, 100];
                 mysticalFreqs.forEach((freq, index) => {
                     setTimeout(() => {
-                        playBeep(freq, 300);
-                    }, index * soundDelay);
+                        playBeep(freq, 400);
+                    }, index * 600);
                 });
-                
-                // Мобильная дополнительная вибрация
-                if (isMobile) {
-                    setTimeout(() => {
-                        triggerVibration([100, 100, 100, 100, 200]);
-                    }, 1000);
-                }
                 
             }, 5000);
             
-            // Этап 4: Выбор таблеток (с адаптивной задержкой)
-            const pillChoiceDelay = isMobile ? 10000 : 12000; // Раньше на мобильных
+            // Этап 4: Выбор таблеток
             setTimeout(() => {
                 createPillChoice(matrixOverlay);
-            }, pillChoiceDelay);
+            }, 12000);
             
-            // Адаптивное автозакрытие
-            const autoCloseDelay = isMobile ? 25000 : 30000; // Раньше на мобильных
+            // Автозакрытие через 30 секунд (если пользователь не выбрал)
             setTimeout(() => {
                 if (document.getElementById('matrixWakeUp')) {
                     closeMatrixEffect();
                 }
-            }, autoCloseDelay);
-            
-            // Блокируем скролл на мобильных
-            if (isMobile) {
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-                document.body.style.height = '100%';
-            }
+            }, 30000);
         }
         
         function createIntenseMatrixRain(container) {
@@ -4129,80 +4080,27 @@
             document.head.appendChild(style);
         }
         
-        // Облегченная версия матричного дождя для мобильных
-        function createMobileMatrixRain(container) {
-            const matrixChars = '01ANNA.EXE';
-            
-            // Меньше колонн для лучшей производительности
-            for (let i = 0; i < 20; i++) {
-                const column = document.createElement('div');
-                column.style.cssText = `
-                    position: absolute;
-                    top: -100vh;
-                    left: ${i * 5}%;
-                    width: 20px;
-                    height: 100vh;
-                    overflow: hidden;
-                `;
-                
-                // Меньше символов в колонне
-                for (let j = 0; j < 10; j++) {
-                    const char = document.createElement('div');
-                    char.textContent = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                    char.style.cssText = `
-                        color: #00ff41;
-                        font-size: ${14 + Math.random() * 6}px;
-                        text-shadow: 0 0 8px #00ff41;
-                        margin-bottom: 8px;
-                        opacity: ${0.4 + Math.random() * 0.6};
-                        animation: matrix-fall-mobile ${1.5 + Math.random() * 2}s linear infinite;
-                        animation-delay: ${Math.random() * 1.5}s;
-                    `;
-                    column.appendChild(char);
-                }
-                
-                container.appendChild(column);
-            }
-            
-            // Оптимизированная CSS анимация для мобильных
-            const mobileStyle = document.createElement('style');
-            mobileStyle.textContent = `
-                @keyframes matrix-fall-mobile {
-                    0% { transform: translateY(-100vh); opacity: 0; }
-                    15% { opacity: 1; }
-                    85% { opacity: 1; }
-                    100% { transform: translateY(100vh); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(mobileStyle);
-        }
-        
         function createPillChoice(container) {
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
             const choiceContainer = document.createElement('div');
             choiceContainer.style.cssText = `
                 position: absolute;
-                bottom: ${isMobile ? '80px' : '100px'};
+                bottom: 100px;
                 left: 50%;
                 transform: translateX(-50%);
                 display: flex;
-                gap: ${isMobile ? '60px' : '100px'};
+                gap: 100px;
                 align-items: center;
                 opacity: 0;
                 transition: opacity 2s ease;
-                padding: ${isMobile ? '20px' : '0'};
-                max-width: 90%;
-                flex-wrap: ${isMobile ? 'wrap' : 'nowrap'};
             `;
             
-            // Красная таблетка (адаптивная)
+            // Красная таблетка
             const redPill = document.createElement('div');
             redPill.style.cssText = `
-                width: ${isMobile ? '120px' : '80px'};
-                height: ${isMobile ? '60px' : '40px'};
+                width: 80px;
+                height: 40px;
                 background: linear-gradient(45deg, #ff0000, #aa0000);
-                border-radius: ${isMobile ? '30px' : '20px'};
+                border-radius: 20px;
                 cursor: pointer;
                 box-shadow: 0 0 30px #ff0000;
                 transition: all 0.3s ease;
@@ -4211,66 +4109,34 @@
                 justify-content: center;
                 color: white;
                 font-weight: bold;
-                font-size: ${isMobile ? '16px' : '12px'};
-                touch-action: manipulation;
-                user-select: none;
-                -webkit-user-select: none;
-                -webkit-touch-callout: none;
+                font-size: 12px;
             `;
             redPill.textContent = 'ПРАВДА';
             redPill.title = 'Красная таблетка - узнать правду';
             
-            // Мобильные события для красной таблетки
-            if (isMobile) {
-                redPill.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    redPill.style.transform = 'scale(1.1)';
-                    redPill.style.boxShadow = '0 0 40px #ff0000';
-                    playBeep(400, 100);
-                    triggerVibration([80]);
-                }, { passive: false });
-                
-                redPill.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    console.log('🔴 КРАСНАЯ ТАБЛЕТКА ВЫБРАНА (МОБИЛЬНАЯ) - ПРАВДА ОТКРЫТА!');
-                    redPill.style.transform = 'scale(1.3)';
-                    triggerVibration([200, 100, 200]);
-                    playBeep(600, 200);
-                    setTimeout(() => {
-                        executeRedPillEffect();
-                    }, 300);
-                }, { passive: false });
-                
-                redPill.addEventListener('touchcancel', (e) => {
-                    redPill.style.transform = 'scale(1)';
-                    redPill.style.boxShadow = '0 0 30px #ff0000';
-                });
-            } else {
-                // Десктопные события
-                redPill.addEventListener('mouseenter', () => {
-                    redPill.style.transform = 'scale(1.2)';
-                    redPill.style.boxShadow = '0 0 50px #ff0000';
-                    playBeep(400, 100);
-                });
-                
-                redPill.addEventListener('mouseleave', () => {
-                    redPill.style.transform = 'scale(1)';
-                    redPill.style.boxShadow = '0 0 30px #ff0000';
-                });
-                
-                redPill.addEventListener('click', () => {
-                    console.log('🔴 КРАСНАЯ ТАБЛЕТКА ВЫБРАНА - ПРАВДА ОТКРЫТА!');
-                    executeRedPillEffect();
-                });
-            }
+            redPill.addEventListener('mouseenter', () => {
+                redPill.style.transform = 'scale(1.2)';
+                redPill.style.boxShadow = '0 0 50px #ff0000';
+                playBeep(400, 100);
+            });
             
-            // Синяя таблетка (адаптивная)
+            redPill.addEventListener('mouseleave', () => {
+                redPill.style.transform = 'scale(1)';
+                redPill.style.boxShadow = '0 0 30px #ff0000';
+            });
+            
+            redPill.addEventListener('click', () => {
+                console.log('🔴 КРАСНАЯ ТАБЛЕТКА ВЫБРАНА - ПРАВДА ОТКРЫТА!');
+                executeRedPillEffect();
+            });
+            
+            // Синяя таблетка
             const bluePill = document.createElement('div');
             bluePill.style.cssText = `
-                width: ${isMobile ? '120px' : '80px'};
-                height: ${isMobile ? '60px' : '40px'};
+                width: 80px;
+                height: 40px;
                 background: linear-gradient(45deg, #0000ff, #0000aa);
-                border-radius: ${isMobile ? '30px' : '20px'};
+                border-radius: 20px;
                 cursor: pointer;
                 box-shadow: 0 0 30px #0000ff;
                 transition: all 0.3s ease;
@@ -4279,98 +4145,47 @@
                 justify-content: center;
                 color: white;
                 font-weight: bold;
-                font-size: ${isMobile ? '16px' : '12px'};
-                touch-action: manipulation;
-                user-select: none;
-                -webkit-user-select: none;
-                -webkit-touch-callout: none;
+                font-size: 12px;
             `;
             bluePill.textContent = 'ЗАБВЕНИЕ';
             bluePill.title = 'Синяя таблетка - вернуться в неведение';
             
-            // Мобильные события для синей таблетки
-            if (isMobile) {
-                bluePill.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    bluePill.style.transform = 'scale(1.1)';
-                    bluePill.style.boxShadow = '0 0 40px #0000ff';
-                    playBeep(600, 100);
-                    triggerVibration([80]);
-                }, { passive: false });
-                
-                bluePill.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    console.log('🔵 СИНЯЯ ТАБЛЕТКА ВЫБРАНА (МОБИЛЬНАЯ) - ВОЗВРАТ В МАТРИЦУ');
-                    bluePill.style.transform = 'scale(1.3)';
-                    triggerVibration([150, 100, 150]);
-                    playBeep(400, 200);
-                    setTimeout(() => {
-                        executeBluePillEffect();
-                    }, 300);
-                }, { passive: false });
-                
-                bluePill.addEventListener('touchcancel', (e) => {
-                    bluePill.style.transform = 'scale(1)';
-                    bluePill.style.boxShadow = '0 0 30px #0000ff';
-                });
-            } else {
-                // Десктопные события
-                bluePill.addEventListener('mouseenter', () => {
-                    bluePill.style.transform = 'scale(1.2)';
-                    bluePill.style.boxShadow = '0 0 50px #0000ff';
-                    playBeep(600, 100);
-                });
-                
-                bluePill.addEventListener('mouseleave', () => {
-                    bluePill.style.transform = 'scale(1)';
-                    bluePill.style.boxShadow = '0 0 30px #0000ff';
-                });
-                
-                bluePill.addEventListener('click', () => {
-                    console.log('🔵 СИНЯЯ ТАБЛЕТКА ВЫБРАНА - ВОЗВРАТ В МАТРИЦУ');
-                    executeBluePillEffect();
-                });
-            }
+            bluePill.addEventListener('mouseenter', () => {
+                bluePill.style.transform = 'scale(1.2)';
+                bluePill.style.boxShadow = '0 0 50px #0000ff';
+                playBeep(600, 100);
+            });
             
-            // Текст выбора (адаптивный)
+            bluePill.addEventListener('mouseleave', () => {
+                bluePill.style.transform = 'scale(1)';
+                bluePill.style.boxShadow = '0 0 30px #0000ff';
+            });
+            
+            bluePill.addEventListener('click', () => {
+                console.log('🔵 СИНЯЯ ТАБЛЕТКА ВЫБРАНА - ВОЗВРАТ В МАТРИЦУ');
+                executeBluePillEffect();
+            });
+            
+            // Текст выбора
             const choiceText = document.createElement('div');
             choiceText.style.cssText = `
                 position: absolute;
-                top: ${isMobile ? '-100px' : '-80px'};
+                top: -80px;
                 left: 50%;
                 transform: translateX(-50%);
                 text-align: center;
-                font-size: ${isMobile ? '1.4rem' : '1.2rem'};
+                font-size: 1.2rem;
                 color: #ffffff;
                 text-shadow: 0 0 10px #00ff41;
-                white-space: nowrap;
-                padding: ${isMobile ? '0 20px' : '0'};
             `;
             choiceText.textContent = 'Сделай свой выбор...';
-            
-            // Мобильная подсказка
-            if (isMobile) {
-                const mobileHint = document.createElement('div');
-                mobileHint.style.cssText = `
-                    position: absolute;
-                    top: -60px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    text-align: center;
-                    font-size: 0.9rem;
-                    color: #888;
-                    white-space: nowrap;
-                `;
-                mobileHint.textContent = 'Коснись для выбора';
-                choiceContainer.appendChild(mobileHint);
-            }
             
             choiceContainer.appendChild(choiceText);
             choiceContainer.appendChild(redPill);
             choiceContainer.appendChild(bluePill);
             container.appendChild(choiceContainer);
             
-            // Показываем выбор с адаптивными эффектами
+            // Показываем выбор
             setTimeout(() => {
                 choiceContainer.style.opacity = '1';
                 
@@ -4378,292 +4193,158 @@
                 playBeep(800, 300);
                 setTimeout(() => playBeep(600, 300), 300);
                 
-                // Адаптивная вибрация
-                if (isMobile) {
-                    triggerVibration([150, 100, 150, 100, 250]);
-                } else {
-                    triggerVibration([100, 100, 100, 100, 200]);
-                }
+                // Вибрация выбора
+                triggerVibration([100, 100, 100, 100, 200]);
             }, 500);
         }
         
         function executeRedPillEffect() {
             console.log('КРАСНАЯ ТАБЛЕТКА: ОТКРЫТИЕ ПРАВДЫ!');
             
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            // Эффект разрушения матрицы
             const matrixDiv = document.getElementById('matrixWakeUp');
             
-            // Адаптивные звуки разрушения
-            const destructionSounds = isMobile ? [800, 600, 400, 200] : [1000, 800, 600, 400, 200, 100];
-            const soundDelay = isMobile ? 300 : 200;
-            
+            // Звуки разрушения
+            const destructionSounds = [1000, 800, 600, 400, 200, 100];
             destructionSounds.forEach((freq, index) => {
                 setTimeout(() => {
                     playBeep(freq, 200);
-                }, index * soundDelay);
+                }, index * 200);
             });
             
-            // Адаптивная вибрация разрушения
-            if (isMobile) {
-                triggerVibration([250, 150, 250, 150, 400]);
-            } else {
-                triggerVibration([200, 100, 200, 100, 200, 100, 500]);
-            }
+            // Интенсивная вибрация разрушения
+            triggerVibration([200, 100, 200, 100, 200, 100, 500]);
             
             // Эффект глитча
             matrixDiv.style.animation = 'chaos-glitch 0.1s infinite';
             matrixDiv.style.filter = 'invert(1) hue-rotate(180deg) contrast(2)';
             
             setTimeout(() => {
-                // Адаптивное секретное сообщение
-                const titleSize = isMobile ? '1.5rem' : '2rem';
-                const contentSize = isMobile ? '1rem' : '1.2rem';
-                const maxWidth = isMobile ? '90%' : '600px';
-                const bottomPos = isMobile ? '30px' : '50px';
-                const buttonPadding = isMobile ? '20px 40px' : '15px 30px';
-                const buttonSize = isMobile ? '1.1rem' : '1rem';
-                
-                if (isMobile) {
-                    // Сокращенная версия для мобильных
-                    matrixDiv.innerHTML = `
-                        <div style="
-                            font-size: ${titleSize};
-                            text-align: center;
-                            color: #ff0000;
-                            text-shadow: 0 0 20px #ff0000;
-                            animation: neon-pulse 0.5s infinite;
-                            margin: 1.5rem;
-                        ">
-                            ПРАВДА ОТКРЫТА
-                        </div>
-                        <div style="
-                            font-size: ${contentSize};
-                            text-align: center;
-                            color: #ffffff;
-                            max-width: ${maxWidth};
-                            line-height: 1.5;
-                            margin: 1.5rem auto;
-                            padding: 0 20px;
-                        ">
-                            Ты видишь код за реальностью.<br>
-                            ANNA.EXE - архитектор миров.<br><br>
-                            <span style="color: #00ff41;">
-                            Каждая строка кода - вселенная.<br>
-                            Добро пожаловать в реальность, Нео.
-                            </span>
-                        </div>
-                        <div style="
-                            position: absolute;
-                            bottom: ${bottomPos};
-                            left: 50%;
-                            transform: translateX(-50%);
-                            padding: ${buttonPadding};
-                            background: rgba(255, 0, 0, 0.3);
-                            border: 3px solid #ff0000;
-                            color: #ffffff;
-                            cursor: pointer;
-                            transition: all 0.3s ease;
-                            font-size: ${buttonSize};
-                            border-radius: 8px;
-                            font-weight: bold;
-                            touch-action: manipulation;
-                            user-select: none;
-                        " onclick="closeMatrixEffect()" ontouchstart="this.style.background='rgba(255,0,0,0.5)'" ontouchend="this.style.background='rgba(255,0,0,0.3)'" onmouseover="this.style.background='rgba(255,0,0,0.4)'" onmouseout="this.style.background='rgba(255,0,0,0.3)'">
-                            ВЫЙТИ ИЗ МАТРИЦЫ
-                        </div>
-                    `;
-                } else {
-                    // Полная версия для десктопа
-                    matrixDiv.innerHTML = `
-                        <div style="
-                            font-size: ${titleSize};
-                            text-align: center;
-                            color: #ff0000;
-                            text-shadow: 0 0 20px #ff0000;
-                            animation: neon-pulse 0.5s infinite;
-                            margin: 2rem;
-                        ">
-                            ПРАВДА ОТКРЫТА
-                        </div>
-                        <div style="
-                            font-size: ${contentSize};
-                            text-align: center;
-                            color: #ffffff;
-                            max-width: ${maxWidth};
-                            line-height: 1.6;
-                            margin: 2rem auto;
-                        ">
-                            Ты видишь код за фасадом реальности.<br>
-                            ANNA.EXE не просто программист.<br>
-                            Она - архитектор цифровых миров.<br><br>
-                            <span style="color: #00ff41;">
-                            Каждая строка кода - это новая вселенная.<br>
-                            Каждый алгоритм - это закон физики.<br>
-                            Добро пожаловать в истинную реальность, Нео.
-                            </span>
-                        </div>
-                        <div style="
-                            position: absolute;
-                            bottom: ${bottomPos};
-                            left: 50%;
-                            transform: translateX(-50%);
-                            padding: ${buttonPadding};
-                            background: rgba(255, 0, 0, 0.2);
-                            border: 2px solid #ff0000;
-                            color: #ffffff;
-                            cursor: pointer;
-                            transition: all 0.3s ease;
-                            font-size: ${buttonSize};
-                        " onclick="closeMatrixEffect()" onmouseover="this.style.background='rgba(255,0,0,0.4)'" onmouseout="this.style.background='rgba(255,0,0,0.2)'">
-                            ВЫЙТИ ИЗ МАТРИЦЫ
-                        </div>
-                    `;
-                }
+                // Показываем секретное сообщение
+                matrixDiv.innerHTML = `
+                    <div style="
+                        font-size: 2rem;
+                        text-align: center;
+                        color: #ff0000;
+                        text-shadow: 0 0 20px #ff0000;
+                        animation: neon-pulse 0.5s infinite;
+                        margin: 2rem;
+                    ">
+                        ПРАВДА ОТКРЫТА
+                    </div>
+                    <div style="
+                        font-size: 1.2rem;
+                        text-align: center;
+                        color: #ffffff;
+                        max-width: 600px;
+                        line-height: 1.6;
+                        margin: 2rem auto;
+                    ">
+                        Ты видишь код за фасадом реальности.<br>
+                        ANNA.EXE не просто программист.<br>
+                        Рептилоиды - архитектор цифровых миров.<br><br>
+                        <span style="color: #00ff41;">
+                        Каждая строка кода - это новая вселенная.<br>
+                        Каждый алгоритм - это закон физики.<br>
+                        Добро пожаловать в истинную реальность, Нео.
+                        </span>
+                    </div>
+                    <div style="
+                        position: absolute;
+                        bottom: 50px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        padding: 15px 30px;
+                        background: rgba(255, 0, 0, 0.2);
+                        border: 2px solid #ff0000;
+                        color: #ffffff;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                    " onclick="closeMatrixEffect()" onmouseover="this.style.background='rgba(255,0,0,0.4)'" onmouseout="this.style.background='rgba(255,0,0,0.2)'">
+                        ВЫЙТИ ИЗ МАТРИЦЫ
+                    </div>
+                `;
             }, 2000);
             
-            // Адаптивное автозакрытие
-            const autoCloseDelay = isMobile ? 10000 : 12000;
+            // Автозакрытие через 10 секунд
             setTimeout(() => {
                 closeMatrixEffect();
-            }, autoCloseDelay);
+            }, 12000);
         }
         
         function executeBluePillEffect() {
             console.log('СИНЯЯ ТАБЛЕТКА: ВОЗВРАТ В НЕВЕДЕНИЕ');
             
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const matrixDiv = document.getElementById('matrixWakeUp');
             
-            // Адаптивные звуки забвения
-            const forgettingSounds = isMobile ? [500, 400, 300, 200] : [600, 500, 400, 300, 200, 100];
-            const soundDelay = isMobile ? 500 : 400;
-            
+            // Звуки забвения (затухающие)
+            const forgettingSounds = [600, 500, 400, 300, 200, 100];
             forgettingSounds.forEach((freq, index) => {
                 setTimeout(() => {
                     playBeep(freq, 400);
-                }, index * soundDelay);
+                }, index * 400);
             });
             
-            // Адаптивная вибрация забвения
-            if (isMobile) {
-                triggerVibration([250, 150, 250]);
-            } else {
-                triggerVibration([300, 200, 300]);
-            }
+            // Мягкая вибрация забвения
+            triggerVibration([300, 200, 300]);
             
             // Эффект затухания
             matrixDiv.style.filter = 'blur(5px) brightness(0.3)';
             matrixDiv.style.transition = 'all 3s ease';
             
             setTimeout(() => {
-                const titleSize = isMobile ? '1.5rem' : '2rem';
-                const contentSize = isMobile ? '1rem' : '1.2rem';
-                const maxWidth = isMobile ? '90%' : '600px';
-                const titleMargin = isMobile ? '2rem' : '3rem';
-                const contentMargin = isMobile ? '1.5rem auto' : '2rem auto';
+                matrixDiv.innerHTML = `
+                    <div style="
+                        font-size: 2rem;
+                        text-align: center;
+                        color: #0066ff;
+                        text-shadow: 0 0 20px #0066ff;
+                        margin: 3rem;
+                        opacity: 0.8;
+                    ">
+                        Ты просыпаешься в своей постели...
+                    </div>
+                    <div style="
+                        font-size: 1.2rem;
+                        text-align: center;
+                        color: #cccccc;
+                        max-width: 600px;
+                        line-height: 1.6;
+                        margin: 2rem auto;
+                        opacity: 0.7;
+                    ">
+                        И веришь во что хочешь верить.<br>
+                        Это был всего лишь сон...<br>
+                        Или нет?<br><br>
+                        <span style="color: #666666; font-size: 0.9rem;">
+                        Некоторые вещи лучше забыть.<br>
+                        Но код остается... навсегда.
+                        </span>
+                    </div>
+                `;
                 
-                if (isMobile) {
-                    // Сокращенная версия для мобильных
-                    matrixDiv.innerHTML = `
-                        <div style="
-                            font-size: ${titleSize};
-                            text-align: center;
-                            color: #0066ff;
-                            text-shadow: 0 0 20px #0066ff;
-                            margin: ${titleMargin};
-                            opacity: 0.8;
-                            padding: 0 20px;
-                        ">
-                            Ты просыпаешься в постели...
-                        </div>
-                        <div style="
-                            font-size: ${contentSize};
-                            text-align: center;
-                            color: #cccccc;
-                            max-width: ${maxWidth};
-                            line-height: 1.5;
-                            margin: ${contentMargin};
-                            opacity: 0.7;
-                            padding: 0 20px;
-                        ">
-                            И веришь во что хочешь верить.<br>
-                            Это был всего лишь сон...<br>
-                            Или нет?<br><br>
-                            <span style="color: #666666; font-size: 0.85rem;">
-                            Некоторые вещи лучше забыть.<br>
-                            Но код остается... навсегда.
-                            </span>
-                        </div>
-                    `;
-                } else {
-                    // Полная версия для десктопа
-                    matrixDiv.innerHTML = `
-                        <div style="
-                            font-size: ${titleSize};
-                            text-align: center;
-                            color: #0066ff;
-                            text-shadow: 0 0 20px #0066ff;
-                            margin: ${titleMargin};
-                            opacity: 0.8;
-                        ">
-                            Ты просыпаешься в своей постели...
-                        </div>
-                        <div style="
-                            font-size: ${contentSize};
-                            text-align: center;
-                            color: #cccccc;
-                            max-width: ${maxWidth};
-                            line-height: 1.6;
-                            margin: ${contentMargin};
-                            opacity: 0.7;
-                        ">
-                            И веришь во что хочешь верить.<br>
-                            Это был всего лишь сон...<br>
-                            Или нет?<br><br>
-                            <span style="color: #666666; font-size: 0.9rem;">
-                            Некоторые вещи лучше забыть.<br>
-                            Но код остается... навсегда.
-                            </span>
-                        </div>
-                    `;
-                }
-                
-                // Адаптивное затухание и закрытие
-                const fadeDelay = isMobile ? 2500 : 3000;
-                const closeDelay = isMobile ? 1500 : 2000;
-                
+                // Медленное затухание и закрытие
                 setTimeout(() => {
                     matrixDiv.style.opacity = '0';
                     setTimeout(() => {
                         closeMatrixEffect();
-                    }, closeDelay);
-                }, fadeDelay);
+                    }, 2000);
+                }, 3000);
             }, 1000);
         }
         
         function closeMatrixEffect() {
             const matrixDiv = document.getElementById('matrixWakeUp');
             if (matrixDiv) {
-                const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                
                 // Звук закрытия
                 playBeep(300, 500);
                 triggerVibration([200]);
                 
-                // Восстанавливаем скролл на мобильных
-                if (isMobile) {
-                    document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
-                    document.body.style.height = '';
-                }
-                
                 // Плавное исчезновение
                 matrixDiv.style.opacity = '0';
                 setTimeout(() => {
-                    if (document.body.contains(matrixDiv)) {
-                        document.body.removeChild(matrixDiv);
-                    }
+                    document.body.removeChild(matrixDiv);
                     console.log('Матрица закрыта. Добро пожаловать обратно.');
                 }, 1000);
             }

@@ -493,52 +493,141 @@
             border-color: var(--primary-color);
         }
         
-        /* Анимация машинки (улучшено для iOS) */
+        /* Анимация машинки (исправлено и оптимизировано) */
         .car-drive-away {
-            animation: drive-away-mobile 3s ease-in-out;
+            animation: drive-away-desktop 3s ease-in-out forwards;
             transform-origin: center center;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+            will-change: transform, filter;
         }
         
-        @keyframes drive-away-mobile {
+        @keyframes drive-away-desktop {
             0% { 
-                transform: translateX(0px) scale(1) translateZ(0); 
-                opacity: 1;
+                transform: translate3d(0, 0, 0) scale(1) rotate(0deg); 
+                filter: drop-shadow(0 0 10px #ff1493);
             }
-            20% { 
-                transform: translateX(100px) scale(1.2) translateZ(0); 
-                opacity: 1;
+            5% { 
+                transform: translate3d(10px, 0, 0) scale(1.05) rotate(1deg); 
+                filter: drop-shadow(0 0 12px #ff1493) brightness(1.1);
             }
-            40% { 
-                transform: translateX(300px) scale(0.8) translateZ(0); 
-                opacity: 0.8;
+            15% { 
+                transform: translate3d(80px, 0, 0) scale(1.1) rotate(2deg); 
+                filter: drop-shadow(0 0 15px #ff6600) hue-rotate(30deg);
             }
-            60% { 
-                transform: translateX(-300px) scale(0.6) translateZ(0); 
+            25% { 
+                transform: translate3d(200px, 0, 0) scale(0.8) rotate(1deg); 
+                filter: drop-shadow(0 0 20px #ffff00) hue-rotate(60deg);
+            }
+            35% { 
+                transform: translate3d(350px, 0, 0) scale(0.6) rotate(0deg); 
+                filter: drop-shadow(0 0 25px #00ff41) hue-rotate(120deg);
+            }
+            50% { 
+                transform: translate3d(500px, 0, 0) scale(0.4) rotate(0deg); 
+                filter: drop-shadow(0 0 30px #00bfff) hue-rotate(180deg);
+                opacity: 0.3;
+            }
+            65% { 
+                transform: translate3d(350px, 0, 0) scale(0.6) rotate(0deg); 
+                filter: drop-shadow(0 0 25px #8000ff) hue-rotate(240deg);
                 opacity: 0.6;
             }
-            80% { 
-                transform: translateX(-100px) scale(0.9) translateZ(0); 
+            75% { 
+                transform: translate3d(200px, 0, 0) scale(0.8) rotate(-1deg); 
+                filter: drop-shadow(0 0 20px #ff0080) hue-rotate(300deg);
                 opacity: 0.8;
             }
+            85% { 
+                transform: translate3d(80px, 0, 0) scale(1.0) rotate(-2deg); 
+                filter: drop-shadow(0 0 15px #ff4000) hue-rotate(330deg);
+                opacity: 0.9;
+            }
+            95% { 
+                transform: translate3d(10px, 0, 0) scale(1.05) rotate(-1deg); 
+                filter: drop-shadow(0 0 12px #ff1493) brightness(1.1);
+                opacity: 1;
+            }
             100% { 
-                transform: translateX(0px) scale(1) translateZ(0); 
+                transform: translate3d(0, 0, 0) scale(1) rotate(0deg); 
+                filter: drop-shadow(0 0 10px #ff1493);
                 opacity: 1;
             }
         }
         
-        /* Альтернативная простая анимация для слабых устройств */
+        /* Простая анимация для мобильных устройств */
         .car-simple-animation {
-            animation: car-simple 2s ease-in-out;
+            animation: car-simple-mobile 2s ease-in-out forwards;
+            will-change: transform, filter;
+            transform-origin: center center;
         }
         
-        @keyframes car-simple {
-            0% { transform: scale(1) translateZ(0); }
-            25% { transform: scale(1.3) translateZ(0); }
-            50% { transform: scale(0.7) translateZ(0); }
-            75% { transform: scale(1.1) translateZ(0); }
-            100% { transform: scale(1) translateZ(0); }
+        @keyframes car-simple-mobile {
+            0% { 
+                transform: translateX(0) scale(1) rotate(0deg); 
+                filter: drop-shadow(0 0 10px #ff1493);
+                opacity: 1;
+            }
+            10% { 
+                transform: translateX(30px) scale(1.1) rotate(1deg); 
+                filter: drop-shadow(0 0 15px #ff6600) hue-rotate(30deg);
+                opacity: 1;
+            }
+            25% { 
+                transform: translateX(80px) scale(0.9) rotate(1deg); 
+                filter: drop-shadow(0 0 18px #ffff00) hue-rotate(60deg);
+                opacity: 0.9;
+            }
+            40% { 
+                transform: translateX(150px) scale(0.7) rotate(0deg); 
+                filter: drop-shadow(0 0 22px #00ff41) hue-rotate(120deg);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateX(200px) scale(0.5) rotate(0deg); 
+                filter: drop-shadow(0 0 25px #00bfff) hue-rotate(180deg);
+                opacity: 0.4;
+            }
+            60% { 
+                transform: translateX(150px) scale(0.7) rotate(0deg); 
+                filter: drop-shadow(0 0 22px #8000ff) hue-rotate(240deg);
+                opacity: 0.7;
+            }
+            75% { 
+                transform: translateX(80px) scale(0.9) rotate(-1deg); 
+                filter: drop-shadow(0 0 18px #ff0080) hue-rotate(300deg);
+                opacity: 0.9;
+            }
+            90% { 
+                transform: translateX(30px) scale(1.1) rotate(-1deg); 
+                filter: drop-shadow(0 0 15px #ff4000) hue-rotate(330deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(0) scale(1) rotate(0deg); 
+                filter: drop-shadow(0 0 10px #ff1493);
+                opacity: 1;
+            }
+        }
+        
+        /* Дополнительные стили для машинки */
+        #carImage {
+            transition: transform 0.1s ease, filter 0.1s ease;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transform-origin: center center;
+            will-change: transform, filter;
+        }
+        
+        #carImage:active {
+            transform: scale(0.95);
+        }
+        
+        /* Плавные переходы между состояниями */
+        #carImage:not(.car-drive-away):not(.car-simple-animation) {
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
         
         /* Статус переключение */
@@ -1885,72 +1974,108 @@
             }
         }
         
-        // Анимация машинки (улучшено для мобильных)
+        // Анимация машинки (исправлено для мобильных)
         function triggerCarAnimation() {
             const carImg = document.getElementById('carImage');
-            if (!carImg) return;
+            if (!carImg) {
+                console.log('❌ Элемент машинки не найден для анимации!');
+                return;
+            }
+            
+            console.log('🚗 Запуск анимации машинки...');
             
             // Проверяем устройство
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/i.test(navigator.userAgent);
             const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
             
-            // Убираем предыдущие анимации
+            // Сохраняем исходные стили
+            const originalTransform = carImg.style.transform || '';
+            const originalTransition = carImg.style.transition || '';
+            const originalFilter = carImg.style.filter || 'drop-shadow(0 0 10px #ff1493)';
+            
+            // Очищаем все предыдущие анимации и стили
             carImg.classList.remove('car-drive-away', 'car-simple-animation');
+            carImg.style.animation = '';
+            carImg.style.transform = '';
+            carImg.style.transition = '';
+            carImg.style.filter = originalFilter;
             
             // Принудительный reflow для сброса состояния
             carImg.offsetHeight;
             
-            // Выбираем подходящую анимацию
-            if (isIOS || (isMobile && isLowEnd)) {
-                console.log('🚗 Запуск простой анимации машинки для iOS/слабых устройств');
-                
-                // Простая анимация для iOS и слабых устройств
+            console.log(`📱 Устройство: iOS=${isIOS}, Android=${isAndroid}, Mobile=${isMobile}`);
+            
+            // Используем CSS анимацию для всех устройств
+            if (isMobile) {
+                console.log('🚗 Мобильная CSS анимация машинки');
                 carImg.classList.add('car-simple-animation');
-                
-                // Дополнительные визуальные эффекты
-                carImg.style.filter = 'drop-shadow(0 0 20px #ff1493)';
-                carImg.style.transition = 'filter 0.3s ease';
                 
                 setTimeout(() => {
                     carImg.classList.remove('car-simple-animation');
-                    carImg.style.filter = '';
-                    carImg.style.transition = '';
+                    carImg.style.transform = originalTransform;
+                    carImg.style.filter = originalFilter;
+                    console.log('✅ Мобильная анимация машинки завершена');
                 }, 2000);
                 
             } else {
-                console.log('🚗 Запуск полной анимации машинки для десктопа');
-                
-                // Полная анимация для мощных устройств
+                console.log('🚗 Десктопная CSS анимация машинки');
                 carImg.classList.add('car-drive-away');
                 
                 setTimeout(() => {
                     carImg.classList.remove('car-drive-away');
+                    carImg.style.transform = originalTransform;
+                    carImg.style.filter = originalFilter;
+                    console.log('✅ Десктопная анимация машинки завершена');
                 }, 3000);
             }
             
-            // Звуковые эффекты поездки
+            // Звуковые эффекты поездки (имитация движения)
             if (isMobile) {
-                // Простые звуки для мобильных
-                setTimeout(() => playBeep(400, 200), 100);
-                setTimeout(() => playBeep(600, 200), 800);
-                setTimeout(() => playBeep(500, 200), 1500);
+                console.log('🔊 Мобильные звуки машинки');
+                // Звуки разгона
+                setTimeout(() => playBeep(300, 200), 100);   // Старт двигателя
+                setTimeout(() => playBeep(400, 150), 300);   // Разгон 1
+                setTimeout(() => playBeep(500, 150), 600);   // Разгон 2
+                setTimeout(() => playBeep(600, 200), 900);   // Максимальная скорость
+                // Звуки торможения и возврата
+                setTimeout(() => playBeep(500, 150), 1200);  // Замедление 1
+                setTimeout(() => playBeep(400, 150), 1500);  // Замедление 2
+                setTimeout(() => playBeep(350, 200), 1800);  // Остановка
             } else {
-                // Комплексные звуки для десктопа
-                const carSounds = [300, 400, 500, 600, 500, 400, 350];
-                carSounds.forEach((freq, index) => {
+                console.log('🔊 Десктопные звуки машинки');
+                // Расширенная звуковая схема для десктопа
+                const engineSounds = [
+                    {freq: 250, duration: 200, delay: 100},   // Запуск
+                    {freq: 350, duration: 150, delay: 300},   // Разгон 1
+                    {freq: 450, duration: 150, delay: 600},   // Разгон 2
+                    {freq: 550, duration: 150, delay: 900},   // Разгон 3
+                    {freq: 650, duration: 200, delay: 1200},  // Максимум
+                    {freq: 550, duration: 150, delay: 1500},  // Замедление 1
+                    {freq: 450, duration: 150, delay: 1800},  // Замедление 2
+                    {freq: 350, duration: 150, delay: 2100},  // Замедление 3
+                    {freq: 300, duration: 200, delay: 2400}   // Остановка
+                ];
+                
+                engineSounds.forEach(sound => {
                     setTimeout(() => {
-                        playBeep(freq, 150);
-                    }, index * 200);
+                        playBeep(sound.freq, sound.duration);
+                    }, sound.delay);
                 });
             }
             
             // Адаптивная вибрация
+            console.log('📳 Вибрация машинки');
             if (isIOS) {
-                triggerVibration([200]); // Один сигнал для iOS
+                triggerVibration([250]); // Один длинный сигнал для iOS
+            } else if (isAndroid) {
+                triggerVibration([100, 50, 200, 50, 100, 50, 300]); // Полный паттерн для Android
             } else {
-                triggerVibration([100, 50, 200, 50, 100]); // Полный паттерн для Android
+                triggerVibration([100, 50, 100]); // Простой паттерн для остальных
             }
+            
+            // Дополнительная обратная связь
+            console.log('🎉 МАШИНКА ПОЕХАЛА! ФАЗЕРАТИ В ДВИЖЕНИИ!');
         }
         
         // Массовый глитч режим
@@ -2198,59 +2323,109 @@
             }
         });
         
-        // Тройной клик на машинку (улучшено для мобильных)
+        // Тройной клик на машинку (исправлено и упрощено)
         const carImageElement = document.getElementById('carImage');
         
-        // Предотвращаем стандартное поведение iOS при клике на изображения
-        carImageElement?.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-        });
-        
-        carImageElement?.addEventListener('click', (e) => {
-            e.preventDefault();
-            carClickCount++;
+        if (carImageElement) {
+            console.log('🚗 Инициализация обработчиков машинки...');
             
-            console.log(`🚗 Клик по машинке: ${carClickCount}/3`);
-            
-            if (carClickTimer) clearTimeout(carClickTimer);
-            
-            // Визуальная обратная связь при каждом клике
-            const carImg = e.target;
-            carImg.style.transform = 'scale(1.1)';
-            carImg.style.transition = 'transform 0.1s ease';
-            setTimeout(() => {
-                carImg.style.transform = '';
-            }, 100);
-            
-            if (carClickCount === 3) {
-                console.log('🚗 Тройной клик достигнут - запуск анимации!');
-                triggerCarAnimation();
-                carClickCount = 0;
-                
-                // Особая вибрация при активации
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-                if (isIOS) {
-                    triggerVibration([300]); // Длинная вибрация для iOS
-                } else {
-                    triggerVibration([100, 50, 100, 50, 200]); // Паттерн для Android
+            // Функция обработки клика/тача
+            function handleCarInteraction(e) {
+                // Предотвращаем конфликты с анимацией
+                if (carImageElement.classList.contains('car-drive-away') || 
+                    carImageElement.classList.contains('car-simple-animation')) {
+                    console.log('🚗 Анимация уже идет, пропускаем клик');
+                    return;
                 }
-            } else {
-                // Короткая обратная связь при промежуточных кликах
-                triggerVibration([50]);
-                playBeep(800 + carClickCount * 200, 100);
                 
-                carClickTimer = setTimeout(() => {
-                    console.log('🚗 Таймер сброшен, начинаем заново');
+                e.preventDefault();
+                e.stopPropagation();
+                
+                console.log(`🚗 Взаимодействие с машинкой: ${carClickCount + 1}/3`);
+                
+                carClickCount++;
+                
+                if (carClickTimer) clearTimeout(carClickTimer);
+                
+                // Визуальная обратная связь при каждом клике
+                const carImg = carImageElement;
+                
+                // Сохраняем исходное состояние
+                const originalTransform = carImg.style.transform || '';
+                const originalFilter = carImg.style.filter || 'drop-shadow(0 0 10px #ff1493)';
+                
+                // Мгновенная реакция на клик
+                carImg.style.transition = 'transform 0.1s ease, filter 0.1s ease';
+                carImg.style.transform = 'scale(1.15)';
+                carImg.style.filter = 'drop-shadow(0 0 15px #ff1493) brightness(1.3)';
+                
+                setTimeout(() => {
+                    carImg.style.transform = originalTransform;
+                    carImg.style.filter = originalFilter;
+                }, 100);
+                
+                if (carClickCount >= 3) {
+                    console.log('🚗 Тройной клик достигнут - запуск анимации!');
+                    
+                    // Небольшая задержка для завершения визуальной обратной связи
+                    setTimeout(() => {
+                        triggerCarAnimation();
+                    }, 150);
+                    
                     carClickCount = 0;
-                }, 800); // Увеличил время для мобильных
+                    
+                    // Особая вибрация при активации
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                    if (isIOS) {
+                        triggerVibration([300]); // Длинная вибрация для iOS
+                    } else {
+                        triggerVibration([100, 50, 100, 50, 200]); // Паттерн для Android
+                    }
+                    
+                    console.log('🎉 МАШИНКА АКТИВИРОВАНА!');
+                    
+                } else {
+                    // Короткая обратная связь при промежуточных кликах
+                    triggerVibration([60]);
+                    playBeep(500 + carClickCount * 200, 100);
+                    
+                    carClickTimer = setTimeout(() => {
+                        console.log('🚗 Таймер сброшен, начинаем заново');
+                        carClickCount = 0;
+                    }, 1000);
+                }
             }
-        });
-        
-        // Дополнительный touch обработчик для лучшей отзывчивости на iOS
-        carImageElement?.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            // Дополнительная обработка если нужно
-        });
+            
+            // Touch события для мобильных
+            let touchStartTime = 0;
+            
+            carImageElement.addEventListener('touchstart', (e) => {
+                touchStartTime = Date.now();
+            }, { passive: true });
+            
+            carImageElement.addEventListener('touchend', (e) => {
+                const touchDuration = Date.now() - touchStartTime;
+                
+                // Только если это быстрый тап (не долгое нажатие)
+                if (touchDuration < 400) {
+                    handleCarInteraction(e);
+                }
+            }, { passive: false });
+            
+            // Click события для десктопа
+            carImageElement.addEventListener('click', handleCarInteraction);
+            
+            // Стили для лучшей отзывчивости
+            carImageElement.style.touchAction = 'manipulation';
+            carImageElement.style.userSelect = 'none';
+            carImageElement.style.webkitUserSelect = 'none';
+            carImageElement.style.webkitTouchCallout = 'none';
+            carImageElement.style.cursor = 'pointer';
+            
+            console.log('✅ Обработчики машинки настроены');
+        } else {
+            console.log('❌ Элемент машинки не найден!');
+        }
         
         // Долгое нажатие на заголовок для хакерского режима (мобильная версия)
         let titlePressTimer = null;

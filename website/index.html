@@ -958,137 +958,172 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(0, 255, 65, 0.1);
+            background: rgba(0, 255, 65, 0.08);
             border: 2px solid #00ff41;
             color: #00ff41;
-            width: 50px;
-            height: 35px;
+            width: 48px;
+            height: 32px;
             border-radius: 6px;
-            font-family: 'Fira Code', monospace;
-            font-size: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10004;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 3px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .command-toggle::before {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 6px;
-            right: 6px;
-            height: 1.5px;
-            background: #00ff41;
-            border-radius: 1px;
-        }
-        
-        .command-toggle::after {
-            content: '';
-            position: absolute;
-            bottom: 6px;
-            left: 6px;
-            right: 6px;
-            height: 1.5px;
-            background: #00ff41;
-            border-radius: 1px;
-        }
-        
-        .keyboard-keys {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5px;
-            width: 100%;
-            height: 100%;
-            align-items: center;
-            justify-content: center;
-            padding: 7px 3px 7px 3px;
-        }
-        
-        .keyboard-key {
-            width: 5px;
-            height: 5px;
-            background: #00ff41;
-            border-radius: 0.5px;
+            backdrop-filter: blur(5px);
             opacity: 0.8;
         }
         
-        /* Увеличенная кнопка клавиатуры для мобильных */
+        /* Убираем старые псевдоэлементы */
+        .command-toggle::before,
+        .command-toggle::after {
+            display: none;
+        }
+        
+        /* Контейнер клавиатуры */
+        .keyboard-container {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        /* Ряды клавиш */
+        .keyboard-row {
+            display: flex;
+            gap: 1px;
+            justify-content: center;
+        }
+        
+        /* Отдельные клавиши */
+        .keyboard-key {
+            width: 6px;
+            height: 4px;
+            background: #00ff41;
+            border-radius: 1px;
+            opacity: 0.8;
+        }
+        
+        /* Первый ряд - 6 клавиш */
+        .keyboard-row:nth-child(1) .keyboard-key {
+            width: 5px;
+            height: 3px;
+        }
+        
+        /* Второй ряд - 5 клавиш */
+        .keyboard-row:nth-child(2) .keyboard-key {
+            width: 6px;
+            height: 4px;
+        }
+        
+        /* Третий ряд - 4 клавиши */
+        .keyboard-row:nth-child(3) .keyboard-key {
+            width: 7px;
+            height: 4px;
+        }
+        
+        /* Четвертый ряд - пробел */
+        .keyboard-row:nth-child(4) .keyboard-key {
+            width: 20px;
+            height: 3px;
+        }
+        
+        /* Компактная кнопка клавиатуры для мобильных */
         @media (max-width: 768px) {
             .command-toggle {
-                width: 65px;
-                height: 45px;
-                bottom: 25px;
-                right: 25px;
-                border-width: 2px;
-                box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
-                border-radius: 8px;
+                width: 42px;
+                height: 28px;
+                bottom: 15px;
+                right: 15px;
+                border-width: 1px;
+                box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
+                border-radius: 5px;
+                opacity: 0.7;
             }
             
-            .command-toggle::before,
-            .command-toggle::after {
+            .keyboard-container {
+                top: 3px;
+                left: 3px;
+                right: 3px;
+                bottom: 3px;
+                gap: 1px;
+            }
+            
+            .keyboard-row:nth-child(1) .keyboard-key {
+                width: 4px;
                 height: 2px;
-                top: 8px;
-                bottom: 8px;
             }
             
-            .keyboard-key {
+            .keyboard-row:nth-child(2) .keyboard-key {
+                width: 5px;
+                height: 3px;
+            }
+            
+            .keyboard-row:nth-child(3) .keyboard-key {
                 width: 6px;
-                height: 6px;
+                height: 3px;
             }
             
-            .keyboard-keys {
-                padding: 9px 4px 9px 4px;
-                gap: 2px;
+            .keyboard-row:nth-child(4) .keyboard-key {
+                width: 18px;
+                height: 2px;
             }
             
             .command-toggle:hover {
-                width: 70px;
-                height: 50px;
-                box-shadow: 0 0 25px rgba(0, 255, 65, 0.5);
+                width: 46px;
+                height: 32px;
+                opacity: 1;
+                box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
             }
         }
         
         @media (max-width: 480px) {
             .command-toggle {
-                width: 70px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                border-width: 3px;
-                box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-                border-radius: 10px;
+                width: 38px;
+                height: 26px;
+                bottom: 12px;
+                right: 12px;
+                border-width: 1px;
+                box-shadow: 0 0 6px rgba(0, 255, 65, 0.15);
+                border-radius: 4px;
+                opacity: 0.6;
             }
             
-            .command-toggle::before {
-                height: 2.5px;
-                top: 8px;
+            .keyboard-container {
+                top: 2px;
+                left: 2px;
+                right: 2px;
+                bottom: 2px;
+                gap: 1px;
             }
             
-            .command-toggle::after {
-                height: 2.5px;
-                bottom: 8px;
+            .keyboard-row:nth-child(1) .keyboard-key {
+                width: 3px;
+                height: 2px;
             }
             
-            .keyboard-key {
-                width: 7px;
-                height: 7px;
+            .keyboard-row:nth-child(2) .keyboard-key {
+                width: 4px;
+                height: 2px;
             }
             
-            .keyboard-keys {
-                gap: 2.5px;
-                padding: 10px 5px 10px 5px;
+            .keyboard-row:nth-child(3) .keyboard-key {
+                width: 5px;
+                height: 3px;
             }
             
-            .command-toggle:hover {
-                width: 75px;
-                height: 55px;
-                box-shadow: 0 0 30px rgba(0, 255, 65, 0.6);
+            .keyboard-row:nth-child(4) .keyboard-key {
+                width: 16px;
+                height: 2px;
+            }
+            
+            .command-toggle:hover,
+            .command-toggle:active {
+                width: 42px;
+                height: 30px;
+                opacity: 1;
+                box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
             }
         }
         
@@ -1100,13 +1135,40 @@
         
         .command-toggle:hover .keyboard-key {
             background: #00ff88;
-            box-shadow: 0 0 4px #00ff41;
-            animation: key-glow 0.5s ease infinite alternate;
+            box-shadow: 0 0 3px #00ff41;
+            animation: key-pulse 0.6s ease infinite alternate;
+            transition: all 0.2s ease;
         }
         
-        @keyframes key-glow {
-            from { opacity: 0.8; transform: scale(1); }
-            to { opacity: 1; transform: scale(1.1); }
+        /* Анимация клавиш при наведении */
+        @keyframes key-pulse {
+            from { 
+                opacity: 0.8; 
+                transform: scale(1);
+                background: #00ff41;
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1.1);
+                background: #00ff88;
+            }
+        }
+        
+        /* Разные задержки анимации для разных рядов */
+        .command-toggle:hover .keyboard-row:nth-child(1) .keyboard-key {
+            animation-delay: 0s;
+        }
+        
+        .command-toggle:hover .keyboard-row:nth-child(2) .keyboard-key {
+            animation-delay: 0.1s;
+        }
+        
+        .command-toggle:hover .keyboard-row:nth-child(3) .keyboard-key {
+            animation-delay: 0.2s;
+        }
+        
+        .command-toggle:hover .keyboard-row:nth-child(4) .keyboard-key {
+            animation-delay: 0.3s;
         }
         
         .command-toggle.active {
@@ -1330,16 +1392,35 @@
     
     <!-- Кнопка переключения команд -->
     <div class="command-toggle" id="commandToggle" title="Открыть секретные команды">
-        <div class="keyboard-keys">
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
-            <div class="keyboard-key"></div>
+        <div class="keyboard-container">
+            <!-- Первый ряд - цифры -->
+            <div class="keyboard-row">
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+            </div>
+            <!-- Второй ряд - буквы -->
+            <div class="keyboard-row">
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+            </div>
+            <!-- Третий ряд - буквы -->
+            <div class="keyboard-row">
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+                <div class="keyboard-key"></div>
+            </div>
+            <!-- Четвертый ряд - пробел -->
+            <div class="keyboard-row">
+                <div class="keyboard-key"></div>
+            </div>
         </div>
     </div>
     

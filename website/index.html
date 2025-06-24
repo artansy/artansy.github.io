@@ -493,17 +493,52 @@
             border-color: var(--primary-color);
         }
         
-        /* Анимация машинки */
+        /* Анимация машинки (улучшено для iOS) */
         .car-drive-away {
-            animation: drive-away 3s ease-in-out;
+            animation: drive-away-mobile 3s ease-in-out;
+            transform-origin: center center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
         
-        @keyframes drive-away {
-            0% { transform: translateX(0) scale(1); }
-            25% { transform: translateX(50px) scale(1.1); }
-            50% { transform: translateX(200vw) scale(0.5); }
-            75% { transform: translateX(-200vw) scale(0.5); }
-            100% { transform: translateX(0) scale(1); }
+        @keyframes drive-away-mobile {
+            0% { 
+                transform: translateX(0px) scale(1) translateZ(0); 
+                opacity: 1;
+            }
+            20% { 
+                transform: translateX(100px) scale(1.2) translateZ(0); 
+                opacity: 1;
+            }
+            40% { 
+                transform: translateX(300px) scale(0.8) translateZ(0); 
+                opacity: 0.8;
+            }
+            60% { 
+                transform: translateX(-300px) scale(0.6) translateZ(0); 
+                opacity: 0.6;
+            }
+            80% { 
+                transform: translateX(-100px) scale(0.9) translateZ(0); 
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateX(0px) scale(1) translateZ(0); 
+                opacity: 1;
+            }
+        }
+        
+        /* Альтернативная простая анимация для слабых устройств */
+        .car-simple-animation {
+            animation: car-simple 2s ease-in-out;
+        }
+        
+        @keyframes car-simple {
+            0% { transform: scale(1) translateZ(0); }
+            25% { transform: scale(1.3) translateZ(0); }
+            50% { transform: scale(0.7) translateZ(0); }
+            75% { transform: scale(1.1) translateZ(0); }
+            100% { transform: scale(1) translateZ(0); }
         }
         
         /* Статус переключение */
@@ -939,6 +974,43 @@
             justify-content: center;
         }
         
+        /* Увеличенная кнопка клавиатуры для мобильных */
+        @media (max-width: 768px) {
+            .command-toggle {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+                bottom: 30px;
+                right: 30px;
+                border-width: 2px;
+                box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            }
+            
+            .command-toggle:hover {
+                width: 75px;
+                height: 75px;
+                font-size: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .command-toggle {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+                bottom: 25px;
+                right: 25px;
+                border-width: 3px;
+                box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+            }
+            
+            .command-toggle:hover {
+                width: 85px;
+                height: 85px;
+                font-size: 34px;
+            }
+        }
+        
         .command-toggle:hover {
             background: rgba(0, 255, 65, 0.2);
             box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
@@ -1183,7 +1255,7 @@
         
         <!-- Простые надписи -->
         <div class="text-center mt-8">
-            <div class="ascii-art neon-blue cursor-pointer text-lg leading-relaxed" id="asciiClickable">Добол пожаловать на мою страничку
+            <div class="ascii-art neon-blue cursor-pointer text-lg leading-relaxed" id="asciiClickable">Добро пожаловать на мою страничку
 
 на сайте присутствуют пасхалки попробуй их найти
 (лучше на пк)</div>
@@ -1625,14 +1697,72 @@
             }
         }
         
-        // Анимация машинки
+        // Анимация машинки (улучшено для мобильных)
         function triggerCarAnimation() {
             const carImg = document.getElementById('carImage');
-            carImg.classList.add('car-drive-away');
+            if (!carImg) return;
             
-            setTimeout(() => {
-                carImg.classList.remove('car-drive-away');
-            }, 3000);
+            // Проверяем устройство
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isLowEnd = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+            
+            // Убираем предыдущие анимации
+            carImg.classList.remove('car-drive-away', 'car-simple-animation');
+            
+            // Принудительный reflow для сброса состояния
+            carImg.offsetHeight;
+            
+            // Выбираем подходящую анимацию
+            if (isIOS || (isMobile && isLowEnd)) {
+                console.log('🚗 Запуск простой анимации машинки для iOS/слабых устройств');
+                
+                // Простая анимация для iOS и слабых устройств
+                carImg.classList.add('car-simple-animation');
+                
+                // Дополнительные визуальные эффекты
+                carImg.style.filter = 'drop-shadow(0 0 20px #ff1493)';
+                carImg.style.transition = 'filter 0.3s ease';
+                
+                setTimeout(() => {
+                    carImg.classList.remove('car-simple-animation');
+                    carImg.style.filter = '';
+                    carImg.style.transition = '';
+                }, 2000);
+                
+            } else {
+                console.log('🚗 Запуск полной анимации машинки для десктопа');
+                
+                // Полная анимация для мощных устройств
+                carImg.classList.add('car-drive-away');
+                
+                setTimeout(() => {
+                    carImg.classList.remove('car-drive-away');
+                }, 3000);
+            }
+            
+            // Звуковые эффекты поездки
+            if (isMobile) {
+                // Простые звуки для мобильных
+                setTimeout(() => playBeep(400, 200), 100);
+                setTimeout(() => playBeep(600, 200), 800);
+                setTimeout(() => playBeep(500, 200), 1500);
+            } else {
+                // Комплексные звуки для десктопа
+                const carSounds = [300, 400, 500, 600, 500, 400, 350];
+                carSounds.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(freq, 150);
+                    }, index * 200);
+                });
+            }
+            
+            // Адаптивная вибрация
+            if (isIOS) {
+                triggerVibration([200]); // Один сигнал для iOS
+            } else {
+                triggerVibration([100, 50, 200, 50, 100]); // Полный паттерн для Android
+            }
         }
         
         // Массовый глитч режим
@@ -1880,21 +2010,58 @@
             }
         });
         
-        // Тройной клик на машинку
-        document.getElementById('carImage')?.addEventListener('click', () => {
+        // Тройной клик на машинку (улучшено для мобильных)
+        const carImageElement = document.getElementById('carImage');
+        
+        // Предотвращаем стандартное поведение iOS при клике на изображения
+        carImageElement?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+        });
+        
+        carImageElement?.addEventListener('click', (e) => {
+            e.preventDefault();
             carClickCount++;
+            
+            console.log(`🚗 Клик по машинке: ${carClickCount}/3`);
             
             if (carClickTimer) clearTimeout(carClickTimer);
             
+            // Визуальная обратная связь при каждом клике
+            const carImg = e.target;
+            carImg.style.transform = 'scale(1.1)';
+            carImg.style.transition = 'transform 0.1s ease';
+            setTimeout(() => {
+                carImg.style.transform = '';
+            }, 100);
+            
             if (carClickCount === 3) {
+                console.log('🚗 Тройной клик достигнут - запуск анимации!');
                 triggerCarAnimation();
-                triggerVibration([50, 100, 50]); // Вибрация при поездке машинки
                 carClickCount = 0;
+                
+                // Особая вибрация при активации
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                if (isIOS) {
+                    triggerVibration([300]); // Длинная вибрация для iOS
+                } else {
+                    triggerVibration([100, 50, 100, 50, 200]); // Паттерн для Android
+                }
             } else {
+                // Короткая обратная связь при промежуточных кликах
+                triggerVibration([50]);
+                playBeep(800 + carClickCount * 200, 100);
+                
                 carClickTimer = setTimeout(() => {
+                    console.log('🚗 Таймер сброшен, начинаем заново');
                     carClickCount = 0;
-                }, 500);
+                }, 800); // Увеличил время для мобильных
             }
+        });
+        
+        // Дополнительный touch обработчик для лучшей отзывчивости на iOS
+        carImageElement?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            // Дополнительная обработка если нужно
         });
         
         // Долгое нажатие на заголовок для хакерского режима (мобильная версия)
@@ -1990,38 +2157,332 @@
             }
         });
         
-        // Клик на музыкальные полоски (оптимизировано)
-        document.getElementById('musicBars')?.addEventListener('click', () => {
-            // Простая вибрация для мобильных
-            triggerVibration([100]);
+        // Музыкальная система
+        let isPlaying = false;
+        let currentAudio = null;
+        let musicContext = null;
+        let musicAnalyser = null;
+        let musicDataArray = null;
+        let animationFrame = null;
+        let musicInterval = null;
+        
+        // Список треков (можно добавить свои)
+        const musicTracks = [
+            {
+                name: "C-F-A Melody",
+                url: null,
+                type: "generated"
+            },
+            {
+                name: "До-Фа-Ля",
+                url: null,
+                type: "generated"
+            },
+            {
+                name: "Triad Harmony",
+                url: null, 
+                type: "generated"
+            }
+        ];
+        
+        let currentTrackIndex = 0;
+        
+        // Мелодия из трёх нот: До, Фа, Ля (улучшено для мобильных)
+        function generateSimpleMusic() {
+            // Специальная проверка для мобильных браузеров
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             
-            // Только один звук вместо последовательности для мобильных
+            try {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                // Принудительно активируем audioContext для мобильных
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        console.log('🎵 AudioContext возобновлен для мобильного устройства');
+                    }).catch(e => {
+                        console.log('❌ Ошибка возобновления AudioContext:', e);
+                    });
+                }
+                
+                // Ноты: До, Фа, Ля (C5, F5, A5)
+                const notes = [523.25, 698.46, 880.00]; // C5, F5, A5 в Гц
+                let currentNote = 0;
+                
+                const playNote = () => {
+                    if (!isPlaying) return;
+                    
+                    try {
+                        // Создаем одну ноту
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        // Мягкий синусоидальный тон
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(notes[currentNote], audioContext.currentTime);
+                        
+                        // Адаптивная громкость для мобильных
+                        const volume = isMobile ? 0.05 : 0.03;
+                        gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.0);
+                        
+                        // Воспроизводим ноту 1 секунда
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + 1.0);
+                        
+                        // Переключаемся между нотами по порядку: До → Фа → Ля → До → ...
+                        currentNote = (currentNote + 1) % notes.length;
+                        
+                        // Освобождаем ресурсы
+                        setTimeout(() => {
+                            try {
+                                oscillator.disconnect();
+                                gainNode.disconnect();
+                            } catch(e) {}
+                        }, 1100);
+                        
+                        console.log(`🎵 Проиграна нота ${currentNote === 0 ? 'Ля' : currentNote === 1 ? 'До' : 'Фа'}`);
+                        
+                    } catch(e) {
+                        console.log('❌ Ошибка воспроизведения ноты:', e);
+                    }
+                };
+                
+                // Первая нота сразу
+                playNote();
+                
+                // Остальные ноты с интервалом
+                const musicInterval = setInterval(() => {
+                    if (!isPlaying) {
+                        clearInterval(musicInterval);
+                        return;
+                    }
+                    playNote();
+                }, isMobile ? 1500 : 1800); // Быстрее для мобильных
+                
+                return musicInterval;
+                
+            } catch(e) {
+                console.log('❌ Ошибка инициализации музыки:', e);
+                // Fallback - просто анимация без звука
+                return setInterval(() => {
+                    if (!isPlaying) {
+                        clearInterval(musicInterval);
+                        return;
+                    }
+                    console.log('🎵 Музыка (только анимация) - звук недоступен');
+                }, 1800);
+            }
+        }
+        
+        // Анимация полосок под музыку
+        function animateMusicBars() {
+            if (!isPlaying) return;
+            
+            const bars = document.querySelectorAll('.music-bar');
+            
+            // Имитация аудио анализа
+            bars.forEach((bar, index) => {
+                const height = 12 + Math.random() * 20;
+                const brightness = 1 + Math.random() * 0.5;
+                
+                bar.style.height = height + 'px';
+                bar.style.filter = `brightness(${brightness})`;
+                
+                // Цветовые переливы
+                const hue = (Date.now() / 20 + index * 60) % 360;
+                bar.style.background = `linear-gradient(to top, hsl(${hue}, 100%, 50%), hsl(${hue + 60}, 100%, 70%))`;
+            });
+            
+            animationFrame = requestAnimationFrame(animateMusicBars);
+        }
+        
+        // Остановка музыки (исправлено)
+        function stopMusic() {
+            isPlaying = false;
+            
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            if (musicInterval) {
+                clearInterval(musicInterval);
+                musicInterval = null;
+            }
+            
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+            
+            // Возвращаем полоски в исходное состояние
+            const bars = document.querySelectorAll('.music-bar');
+            bars.forEach((bar, index) => {
+                const originalHeights = [12, 20, 16, 24, 18];
+                bar.style.height = originalHeights[index] + 'px';
+                bar.style.filter = '';
+                bar.style.background = '';
+            });
+            
+            console.log('🎵 Музыка остановлена');
+        }
+        
+        // Воспроизведение музыки (исправлено для мобильных)
+        function playMusic() {
+            if (isPlaying) {
+                stopMusic();
+                return;
+            }
+            
+            isPlaying = true;
+            console.log('🎵 Воспроизведение простой мелодии...');
+            
+            // Показываем информацию о треке
+            const track = musicTracks[currentTrackIndex];
+            console.log(`🎧 Сейчас играет: ${track.name}`);
+            
+            // Простое уведомление для мобильных
             const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             
             if (isMobile) {
-                playBeep(800, 200); // Один звук для мобильных
+                // Простое уведомление для мобильных
+                console.log(`📱 Мобильное воспроизведение: ${track.name}`);
             } else {
-                // Полная последовательность для десктопа
-                const frequencies = [400, 600, 800, 1000, 800];
-                frequencies.forEach((freq, index) => {
-                    setTimeout(() => {
-                        playBeep(freq, 150);
-                    }, index * 200); // Увеличенная задержка
-                });
+                // Полное уведомление для десктопа
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="
+                        position: fixed; 
+                        top: 20px; 
+                        left: 50%; 
+                        transform: translateX(-50%); 
+                        background: rgba(0,0,0,0.9); 
+                        color: #00ff41; 
+                        padding: 15px 25px; 
+                        border: 2px solid #00ff41; 
+                        border-radius: 5px; 
+                        font-family: 'Fira Code', monospace; 
+                        z-index: 10000;
+                        animation: slideDown 0.5s ease;
+                    ">
+                        🎵 Playing: ${track.name}<br>
+                        <small>Кликни снова для остановки</small>
+                    </div>
+                    <style>
+                        @keyframes slideDown {
+                            from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                        }
+                    </style>
+                `;
+                document.body.appendChild(notification);
+                
+                // Убираем уведомление через 3 секунды
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.style.animation = 'slideDown 0.5s ease reverse';
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.parentNode.removeChild(notification);
+                            }
+                        }, 500);
+                    }
+                }, 3000);
             }
             
-            // Анимация полосок (без изменений)
-            const bars = document.querySelectorAll('.music-bar');
-            bars.forEach((bar, index) => {
-                setTimeout(() => {
-                    bar.style.transform = 'scaleY(1.5)';
-                    bar.style.filter = 'brightness(1.5)';
-                    setTimeout(() => {
-                        bar.style.transform = '';
-                        bar.style.filter = '';
-                    }, 200);
-                }, index * 50);
-            });
+            // Запускаем простую мелодию с улучшенной мобильной поддержкой
+            musicInterval = generateSimpleMusic();
+            
+            // Запускаем анимацию
+            animateMusicBars();
+            
+            // Вибрация при запуске
+            triggerVibration([100]);
+            
+            // Автостоп через 20 секунд для мобильных, 30 для десктопа
+            const autoStopTime = isMobile ? 20000 : 30000;
+            setTimeout(() => {
+                if (isPlaying) {
+                    stopMusic();
+                }
+            }, autoStopTime);
+        }
+        
+        // Смена трека
+        function nextTrack() {
+            if (isPlaying) {
+                stopMusic();
+            }
+            currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+            console.log(`🎧 Выбран трек: ${musicTracks[currentTrackIndex].name}`);
+        }
+        
+        // Клик на музыкальные полоски (обновлено с мобильной поддержкой)
+        document.getElementById('musicBars')?.addEventListener('click', async () => {
+            // Специальная активация для мобильных браузеров
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            
+            if (isMobile && audioContext && audioContext.state === 'suspended') {
+                try {
+                    await audioContext.resume();
+                    console.log('🎵 AudioContext активирован для мобильного устройства');
+                } catch(e) {
+                    console.log('❌ Не удалось активировать AudioContext:', e);
+                }
+            }
+            
+            // Воспроизводим/останавливаем музыку
+            playMusic();
+        });
+        
+        // Долгое нажатие для смены трека
+        let musicPressTimer = null;
+        const musicBars = document.getElementById('musicBars');
+        
+        // Touch события
+        musicBars?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            musicPressTimer = setTimeout(() => {
+                nextTrack();
+                triggerVibration([200, 100, 200]);
+                playBeep(1200, 200);
+            }, 1000);
+        });
+        
+        musicBars?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (musicPressTimer) {
+                clearTimeout(musicPressTimer);
+                musicPressTimer = null;
+            }
+        });
+        
+        // Mouse события
+        musicBars?.addEventListener('mousedown', () => {
+            musicPressTimer = setTimeout(() => {
+                nextTrack();
+                triggerVibration([200, 100, 200]);
+                playBeep(1200, 200);
+            }, 1000);
+        });
+        
+        musicBars?.addEventListener('mouseup', () => {
+            if (musicPressTimer) {
+                clearTimeout(musicPressTimer);
+                musicPressTimer = null;
+            }
+        });
+        
+        musicBars?.addEventListener('mouseleave', () => {
+            if (musicPressTimer) {
+                clearTimeout(musicPressTimer);
+                musicPressTimer = null;
+            }
         });
         
         // Клик на цветовые индикаторы
@@ -2248,14 +2709,14 @@
         // Убираем старые глитчи карточек, они заменены на новые выше
         
         // Интерактивность для машинки
-        const carImage = document.querySelector('img[alt="FAW VITA"]');
-        if (carImage) {
-            carImage.addEventListener('click', () => {
-                carImage.style.transform = 'scale(1.2) rotate(360deg)';
-                carImage.style.transition = 'transform 0.5s ease';
+        const carImageSpinner = document.querySelector('img[alt="FAW VITA"]');
+        if (carImageSpinner) {
+            carImageSpinner.addEventListener('click', () => {
+                carImageSpinner.style.transform = 'scale(1.2) rotate(360deg)';
+                carImageSpinner.style.transition = 'transform 0.5s ease';
                 
                 setTimeout(() => {
-                    carImage.style.transform = '';
+                    carImageSpinner.style.transform = '';
                 }, 500);
             });
         }
@@ -3097,4 +3558,4 @@
         
     </script>
 </body>
-</html>
+</html>м

@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANNA.EXE - CYBER CODER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Fira+Code:wght@300;400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Fira Code', monospace;
+            background: #0a0a0a;
+            color: #00ff41;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .cyber-font { font-family: 'Orbitron', monospace; }
+        .mono-font { font-family: 'Share Tech Mono', monospace; }
+        
+        /* Киберпанк фон */
+        .cyber-bg {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0,255,65,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,20,147,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0,191,255,0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a0a 100%);
+        }
+        
+        /* Неоновые эффекты */
+        .neon-green {
+            color: #00ff41;
+            text-shadow: 0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41;
+        }
+        
+        .neon-pink {
+            color: #ff1493;
+            text-shadow: 0 0 5px #ff1493, 0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 40px #ff1493;
+        }
+        
+        .neon-blue {
+            color: #00bfff;
+            text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #00bfff;
+        }
+        
+        /* Мерцание неона */
+        .flicker {
+            animation: flicker 2s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* Глитч эффект */
+        .glitch {
+            position: relative;
+            color: #00ff41;
+        }
+        
+        .glitch:hover::before,
+        .glitch:hover::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch:hover::before {
+            animation: glitch-1 0.5s infinite;
+            color: #ff1493;
+            z-index: -1;
+        }
+        
+        .glitch:hover::after {
+            animation: glitch-2 0.5s infinite;
+            color: #00bfff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% { transform: translate(0); }
+            15%, 49% { transform: translate(-2px, -2px); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 20%, 21%, 62%, 63%, 99%, 100% { transform: translate(0); }
+            21%, 62% { transform: translate(2px, 2px); }
+        }
+        
+        /* Киберпанк кнопки */
+        .cyber-button {
+            background: linear-gradient(45deg, transparent, rgba(0,255,65,0.1), transparent);
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 12px 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,65,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-button:hover {
+            box-shadow: 0 0 20px rgba(0,255,65,0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Киберпанк карточки */
+        .cyber-card {
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(26,10,26,0.8));
+            border: 1px solid rgba(0,255,65,0.3);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            transition: all 0.3s ease;
+        }
+        
+        .cyber-card:hover {
+            border-color: #00ff41;
+            box-shadow: 0 0 30px rgba(0,255,65,0.2);
+            transform: translateY(-5px);
+        }
+        
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+        }
+        
+        /* Матричный дождь */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .matrix-char {
+            position: absolute;
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            from { transform: translateY(-100vh); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+        
+        /* Терминал */
+        .terminal {
+            background: rgba(0,0,0,0.9);
+            border: 1px solid #00ff41;
+            font-family: 'Fira Code', monospace;
+            color: #00ff41;
+            padding: 20px;
+            border-radius: 0;
+            position: relative;
+        }
+        
+        .terminal::before {
+            content: 'ANNA@CYBERNET:~$ ';
+            color: #ff1493;
+        }
+        
+        /* Печатная машинка эффект */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #00ff41;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00ff41; }
+        }
+        
+        /* Анимации печатания для терминала (очень быстрые) */
+        .type-anim-1 { animation: type1 0.4s steps(30, end) 0.1s both; }
+        .type-anim-2 { animation: type2 0.3s steps(25, end) 0.6s both; }
+        .type-anim-3 { animation: type3 0.4s steps(20, end) 1.0s both; }
+        .type-anim-4 { animation: type4 0.3s steps(15, end) 1.5s both; }
+        .type-anim-5 { animation: type5 0.3s steps(15, end) 1.9s both; }
+        .type-anim-6 { animation: type6 0.3s steps(15, end) 2.3s both; }
+        .type-anim-7 { animation: type7 0.3s steps(20, end) 2.7s both; }
+        
+        @keyframes type1 { from { width: 0; } to { width: 100%; } }
+        @keyframes type2 { from { width: 0; } to { width: 100%; } }
+        @keyframes type3 { from { width: 0; } to { width: 100%; } }
+        @keyframes type4 { from { width: 0; } to { width: 100%; } }
+        @keyframes type5 { from { width: 0; } to { width: 100%; } }
+        @keyframes type6 { from { width: 0; } to { width: 100%; } }
+        @keyframes type7 { from { width: 0; } to { width: 100%; } }
+        @keyframes type8 { from { width: 0; } to { width: 100%; } }
+        @keyframes type9 { from { width: 0; } to { width: 100%; } }
+        @keyframes type10 { from { width: 0; } to { width: 100%; } }
+        @keyframes type11 { from { width: 0; } to { width: 100%; } }
+        @keyframes type12 { from { width: 0; } to { width: 100%; } }
+        @keyframes type13 { from { width: 0; } to { width: 100%; } }
+        
+        /* Скрытие элементов до анимации */
+        .type-hidden {
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        /* Курсор мигающий */
+        .typing-cursor::after {
+            content: '_';
+            color: #00ff41;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Продвинутые глитч эффекты */
+        .random-glitch {
+            position: relative;
+        }
+        
+        .random-glitch.glitching::before,
+        .random-glitch.glitching::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        
+        .random-glitch.glitching::before {
+            color: #ff1493;
+            animation: chaos-glitch-1 0.3s infinite;
+            z-index: -1;
+            mix-blend-mode: screen;
+        }
+        
+        .random-glitch.glitching::after {
+            color: #00bfff;
+            animation: chaos-glitch-2 0.3s infinite;
+            z-index: -2;
+            mix-blend-mode: screen;
+        }
+        
+        @keyframes chaos-glitch-1 {
+            0% { transform: translate(0); }
+            10% { transform: translate(-2px, 2px); }
+            20% { transform: translate(-4px, -2px); }
+            30% { transform: translate(2px, -4px); }
+            40% { transform: translate(-3px, 1px); }
+            50% { transform: translate(3px, -3px); }
+            60% { transform: translate(-1px, 3px); }
+            70% { transform: translate(4px, -1px); }
+            80% { transform: translate(-4px, 4px); }
+            90% { transform: translate(1px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes chaos-glitch-2 {
+            0% { transform: translate(0); }
+            15% { transform: translate(3px, -2px); }
+            25% { transform: translate(-2px, 3px); }
+            35% { transform: translate(4px, 1px); }
+            45% { transform: translate(-1px, -3px); }
+            55% { transform: translate(-3px, 2px); }
+            65% { transform: translate(2px, 4px); }
+            75% { transform: translate(-4px, -1px); }
+            85% { transform: translate(3px, 3px); }
+            95% { transform: translate(-2px, -4px); }
+            100% { transform: translate(0); }
+        }
+        
+        /* Глитч эффект для карточек */
+        .card-glitch {
+            position: relative;
+            transition: all 0.1s ease;
+        }
+        
+        .card-glitch.glitching {
+            animation: card-distort 0.5s ease-in-out;
+        }
+        
+        @keyframes card-distort {
+            0%, 100% { transform: translate(0); filter: hue-rotate(0deg) saturate(1); }
+            10% { transform: translate(-1px, 1px); filter: hue-rotate(90deg) saturate(1.5); }
+            20% { transform: translate(2px, -1px); filter: hue-rotate(180deg) saturate(0.8); }
+            30% { transform: translate(-2px, 2px); filter: hue-rotate(270deg) saturate(1.2); }
+            40% { transform: translate(1px, -2px); filter: hue-rotate(45deg) saturate(1.8); }
+            50% { transform: translate(-1px, -1px); filter: hue-rotate(315deg) saturate(0.5); }
+            60% { transform: translate(2px, 1px); filter: hue-rotate(135deg) saturate(1.3); }
+            70% { transform: translate(-1px, -1px); filter: hue-rotate(225deg) saturate(1.1); }
+            80% { transform: translate(1px, 2px); filter: hue-rotate(60deg) saturate(1.6); }
+            90% { transform: translate(-2px, -1px); filter: hue-rotate(300deg) saturate(0.9); }
+        }
+        
+        /* Сканлайны */
+        .scanlines::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,65,0.03) 2px,
+                rgba(0,255,65,0.03) 4px
+            );
+            pointer-events: none;
+        }
+        
+        /* Хекс-сетка */
+        .hex-grid {
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(0,255,65,0.15) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        
+        /* Пульсирующие элементы */
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 20px rgba(0,255,65,0.2); }
+            to { box-shadow: 0 0 40px rgba(0,255,65,0.4); }
+        }
+        
+        /* Статистические полосы */
+        .stat-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #00ff41, #ff1493);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* ASCII Art Container */
+        .ascii-art {
+            font-family: 'Fira Code', monospace;
+            white-space: pre;
+            line-height: 1;
+            font-size: 8px;
+            color: #00ff41;
+        }
+        
+        /* Хакерский режим */
+        .hacker-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 20, 0, 0.95);
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .hacker-mode.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .hacker-matrix {
+            position: absolute;
+            font-family: 'Fira Code', monospace;
+            font-size: 18px;
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+            animation: matrix-fall linear infinite;
+            white-space: nowrap;
+        }
+        
+        @keyframes matrix-fall {
+            from { transform: translateY(-100vh); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0.3; }
+        }
+        
+        /* Режим отладки */
+        .debug-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            z-index: 10000;
+            max-width: 300px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+        
+        .debug-panel.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Цветовые схемы */
+        .theme-blue {
+            --primary-color: #00bfff;
+            --secondary-color: #0080ff;
+            --accent-color: #004080;
+        }
+        
+        .theme-red {
+            --primary-color: #ff0040;
+            --secondary-color: #ff4060;
+            --accent-color: #800020;
+        }
+        
+        .theme-purple {
+            --primary-color: #8000ff;
+            --secondary-color: #a040ff;
+            --accent-color: #400080;
+        }
+        
+        .theme-blue .neon-green,
+        .theme-red .neon-green,
+        .theme-purple .neon-green {
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 40px var(--primary-color);
+        }
+        
+        .theme-blue .border-green-500,
+        .theme-red .border-green-500,
+        .theme-purple .border-green-500 {
+            border-color: var(--primary-color);
+        }
+        
+        /* Анимация машинки */
+        .car-drive-away {
+            animation: drive-away 3s ease-in-out;
+        }
+        
+        @keyframes drive-away {
+            0% { transform: translateX(0) scale(1); }
+            25% { transform: translateX(50px) scale(1.1); }
+            50% { transform: translateX(200vw) scale(0.5); }
+            75% { transform: translateX(-200vw) scale(0.5); }
+            100% { transform: translateX(0) scale(1); }
+        }
+        
+        /* Статус переключение */
+        .status-offline {
+            color: #ff0000 !important;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000 !important;
+            animation: danger-pulse 1s infinite;
+        }
+        
+        @keyframes danger-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Массовый глитч режим */
+        .chaos-mode {
+            animation: chaos-glitch 0.1s infinite;
+        }
+        
+        @keyframes chaos-glitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            10% { transform: translate(-2px, 2px); filter: hue-rotate(36deg); }
+            20% { transform: translate(-4px, -2px); filter: hue-rotate(72deg); }
+            30% { transform: translate(2px, -4px); filter: hue-rotate(108deg); }
+            40% { transform: translate(-3px, 1px); filter: hue-rotate(144deg); }
+            50% { transform: translate(3px, -3px); filter: hue-rotate(180deg); }
+            60% { transform: translate(-1px, 3px); filter: hue-rotate(216deg); }
+            70% { transform: translate(4px, -1px); filter: hue-rotate(252deg); }
+            80% { transform: translate(-4px, 4px); filter: hue-rotate(288deg); }
+            90% { transform: translate(1px, -2px); filter: hue-rotate(324deg); }
+            100% { transform: translate(0); filter: hue-rotate(360deg); }
+        }
+        
+        /* 8-битный ретро стиль */
+        .retro-mode {
+            font-family: 'Courier New', monospace !important;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        .retro-mode * {
+            font-family: 'Courier New', monospace !important;
+            border-radius: 0 !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+        
+        .retro-mode .neon-green,
+        .retro-mode .neon-pink,
+        .retro-mode .neon-blue {
+            color: #00ff00 !important;
+            text-shadow: none !important;
+            font-weight: bold;
+        }
+        
+        .retro-mode .cyber-card {
+            background: #000080 !important;
+            border: 2px solid #00ff00 !important;
+            clip-path: none !important;
+        }
+        
+        .retro-mode .cyber-button {
+            background: #008000 !important;
+            border: 2px solid #00ff00 !important;
+            clip-path: none !important;
+            color: #000000 !important;
+            font-weight: bold;
+        }
+        
+        .retro-mode body {
+            background: #000080 !important;
+            color: #00ff00 !important;
+        }
+        
+        .retro-mode .stat-bar {
+            background: #008000 !important;
+        }
+        
+        .retro-mode img {
+            filter: contrast(200%) brightness(0.8) saturate(0);
+        }
+        
+        /* Responsivные улучшения */
+        @media (max-width: 768px) {
+            .text-6xl { font-size: 2.5rem; }
+            .text-4xl { font-size: 1.8rem; }
+            .text-lg { font-size: 1rem; }
+            .grid-cols-3 { grid-template-columns: 1fr; }
+            .debug-panel { max-width: 250px; font-size: 10px; }
+            
+            /* Адаптивный ASCII текст для мобильных */
+            .ascii-art {
+                font-size: 10px;
+                line-height: 1.2;
+                word-break: break-word;
+                white-space: pre-wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .text-lg { font-size: 0.9rem; }
+            .ascii-art {
+                font-size: 9px;
+                line-height: 1.1;
+            }
+        }
+    </style>
+</head>
+
+<body class="cyber-bg scanlines">
+    
+    <!-- Матричный дождь -->
+    <div class="matrix-rain" id="matrixRain"></div>
+    
+    <!-- Хакерский режим -->
+    <div class="hacker-mode" id="hackerMode"></div>
+    
+    <!-- Панель отладки -->
+    <div class="debug-panel" id="debugPanel">
+        <div class="text-xs mb-2">[DEBUG MODE ACTIVE]</div>
+        <div id="debugInfo">
+            <div>FPS: <span id="fps">60</span></div>
+            <div>Memory: <span id="memory">42MB</span></div>
+            <div>CPU: <span id="cpu">15%</span></div>
+            <div>Uptime: <span id="uptime">00:00:00</span></div>
+            <div>Glitches: <span id="glitchCount">0</span></div>
+            <div>Mode: <span id="currentMode">NORMAL</span></div>
+            <div>Theme: <span id="currentTheme">GREEN</span></div>
+        </div>
+    </div>
+    
+    <!-- Хекс-сетка фон -->
+    <div class="hex-grid fixed inset-0 opacity-10"></div>
+    
+    <!-- Главный заголовок -->
+    <header class="text-center py-16 relative">
+        <div class="cyber-font">
+            <h1 class="text-6xl font-black neon-green glitch flicker random-glitch mb-4" data-text="ANNA.EXE">
+                ANNA.EXE
+            </h1>
+            <div class="neon-pink text-2xl mb-6 typewriter inline-block">
+                PROGRAMMER-ARTIST.INIT()
+            </div>
+        </div>
+        
+        <!-- Простые надписи -->
+        <div class="text-center mt-8">
+            <div class="ascii-art neon-blue cursor-pointer text-lg leading-relaxed" id="asciiClickable">это моя страница
+на сайте присутствуют пасхалки попробуй их найти
+(лучше искать на пк)</div>
+        </div>
+        
+        <!-- Статус система -->
+        <div class="mt-8 flex justify-center space-x-8 text-sm mono-font">
+            <div class="text-center">
+                <div class="neon-green status-indicator" id="statusIndicator">[ONLINE]</div>
+                <div class="text-gray-400">STATUS</div>
+            </div>
+            <div class="text-center color-indicator" data-theme="blue">
+                <div class="neon-pink">[20]</div>
+                <div class="text-gray-400">AGE</div>
+            </div>
+            <div class="text-center color-indicator" data-theme="red">
+                <div class="neon-blue">[RU]</div>
+                <div class="text-gray-400">LOCALE</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4">
+        
+        <!-- Терминал секция -->
+        <div class="mb-12">
+            <div class="terminal cyber-card p-6">
+                <div class="text-sm mb-4">
+                    <div class="type-hidden type-anim-1"><span class="neon-pink">anna@cybernet</span><span class="neon-blue">:</span><span class="neon-green">~</span>$ whoami</div>
+                    <div class="type-hidden type-anim-2"><span class="text-white">Programmer, Designer, Creator</span></div>
+                    <div class="type-hidden type-anim-3"><span class="neon-pink">anna@cybernet</span><span class="neon-blue">:</span><span class="neon-green">~</span>$ ls -la skills/</div>
+                    <div class="type-hidden type-anim-4"><span class="text-white">drwxr-xr-x  coding     [EXPERT]</span></div>
+                    <div class="type-hidden type-anim-5"><span class="text-white">drwxr-xr-x  design     [ADVANCED]</span></div>
+                    <div class="type-hidden type-anim-6"><span class="text-white">drwxr-xr-x  music      [CREATIVE]</span></div>
+                    <div class="type-hidden type-anim-7"><span class="text-white">drwxr-xr-x  cars       [ENTHUSIAST]</span></div>
+                    <div class="mt-2"><span class="neon-pink">anna@cybernet</span><span class="neon-blue">:</span><span class="neon-green">~</span>$ <span class="typewriter typing-cursor">system_info</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Основные модули -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            
+            <!-- Модуль: Программирование -->
+            <div class="cyber-card card-glitch p-6 pulse-glow" data-text="CODE.MODULE">
+                <div class="flex items-center mb-4">
+                    <div class="neon-green text-3xl mr-3">⧉</div>
+                    <div>
+                        <h3 class="cyber-font text-xl neon-green">CODE.MODULE</h3>
+                        <div class="text-sm text-gray-400 mono-font">core_system.exe</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="bg-black/50 p-3 border border-green-500/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm">JavaScript</span>
+                            <span class="neon-green text-xs">95%</span>
+                        </div>
+                        <div class="stat-bar bg-gray-800">
+                            <div class="stat-bar bg-gradient-to-r from-green-500 to-green-300" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-black/50 p-3 border border-blue-500/30">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm">Python</span>
+                            <span class="neon-blue text-xs">88%</span>
+                        </div>
+                        <div class="stat-bar bg-gray-800">
+                            <div class="stat-bar bg-gradient-to-r from-blue-500 to-blue-300" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="cyber-button w-full mt-4 mono-font">
+                        > ACCESS_PORTFOLIO.exe
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Модуль: Машины -->
+            <div class="cyber-card card-glitch p-6" data-text="AUTO.MODULE">
+                <div class="flex items-center mb-4">
+                    <div class="neon-pink mr-3">
+                        <img src="BOBAFvRQGLsvAwRQBJILL" alt="FAW VITA" class="w-12 h-8 object-cover rounded border border-pink-500/50 car-image cursor-pointer" id="carImage" style="filter: drop-shadow(0 0 10px #ff1493);">
+                    </div>
+                    <div>
+                        <h3 class="cyber-font text-xl neon-pink">AUTO.MODULE</h3>
+                        <div class="text-sm text-gray-400 mono-font">transport_sys.exe</div>
+                    </div>
+                </div>
+                
+                <div class="bg-black/70 p-4 border border-pink-500/30">
+                    <div class="text-center">
+                        <div class="neon-pink text-lg font-bold mb-2">FAW VITA</div>
+                        <div class="text-sm text-gray-300 mb-2">CODENAME: "FAZERATTI"</div>
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div>COLOR: <span class="text-red-400">RED</span></div>
+                            <div>TYPE: <span class="text-yellow-400">CHINESE</span></div>
+                            <div>SPEED: <span class="text-green-400">FAST</span></div>
+                            <div>STATUS: <span class="text-blue-400">ACTIVE</span></div>
+                        </div>
+                        
+                        <div class="mt-3 flex justify-center space-x-1">
+                            <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Модуль: Творчество -->
+            <div class="cyber-card card-glitch p-6" data-text="ART.MODULE">
+                <div class="flex items-center mb-4">
+                    <div class="neon-blue text-3xl mr-3">◈</div>
+                    <div>
+                        <h3 class="cyber-font text-xl neon-blue">ART.MODULE</h3>
+                        <div class="text-sm text-gray-400 mono-font">creative_suite.exe</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="bg-gradient-to-r from-purple-900/30 to-pink-900/30 p-3 border border-purple-500/30">
+                        <div class="flex items-center">
+                            <span class="text-purple-400 mr-2">▶</span>
+                            <div>
+                                <div class="text-sm">Digital Art</div>
+                                <div class="text-xs text-gray-400">design.protocols</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-900/30 to-green-900/30 p-3 border border-blue-500/30">
+                        <div class="flex items-center">
+                            <span class="text-blue-400 mr-2">♪</span>
+                            <div>
+                                <div class="text-sm">Music Covers</div>
+                                <div class="text-xs text-gray-400">audio.synthesis</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Визуализатор звука -->
+                    <div class="flex justify-center items-end space-x-1 mt-4 music-bars cursor-pointer" id="musicBars">
+                        <div class="w-2 bg-gradient-to-t from-blue-500 to-green-400 rounded-sm animate-pulse music-bar" style="height: 12px; animation-delay: 0s"></div>
+                        <div class="w-2 bg-gradient-to-t from-blue-500 to-green-400 rounded-sm animate-pulse music-bar" style="height: 20px; animation-delay: 0.1s"></div>
+                        <div class="w-2 bg-gradient-to-t from-blue-500 to-green-400 rounded-sm animate-pulse music-bar" style="height: 16px; animation-delay: 0.2s"></div>
+                        <div class="w-2 bg-gradient-to-t from-blue-500 to-green-400 rounded-sm animate-pulse music-bar" style="height: 24px; animation-delay: 0.3s"></div>
+                        <div class="w-2 bg-gradient-to-t from-blue-500 to-green-400 rounded-sm animate-pulse music-bar" style="height: 18px; animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Системная информация -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+            
+            <!-- Персональные данные -->
+            <div class="cyber-card card-glitch p-6" data-text="PERSONAL.DATA">
+                <h3 class="cyber-font text-2xl neon-green mb-6">PERSONAL.DATA</h3>
+                
+                <div class="space-y-4 mono-font">
+                    <div class="flex justify-between border-b border-green-500/20 pb-2">
+                        <span class="text-gray-400">birth_date:</span>
+                        <span class="neon-green">2004-12-16</span>
+                    </div>
+                    <div class="flex justify-between border-b border-green-500/20 pb-2">
+                        <span class="text-gray-400">education:</span>
+                        <span class="neon-blue">college.completed</span>
+                    </div>
+                    <div class="flex justify-between border-b border-green-500/20 pb-2">
+                        <span class="text-gray-400">personality:</span>
+                        <span class="neon-pink">positive.attempts</span>
+                    </div>
+                    <div class="flex justify-between border-b border-green-500/20 pb-2">
+                        <span class="text-gray-400">attitude:</span>
+                        <span class="text-yellow-400">kind.spirited</span>
+                    </div>
+                </div>
+                
+                <!-- Настроение индикатор -->
+                <div class="mt-6">
+                    <div class="text-sm text-gray-400 mb-2">mood.indicator</div>
+                    <div class="flex space-x-2">
+                        <div class="flex-1 h-2 bg-gray-800 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-yellow-400" style="width: 100%"></div>
+                        </div>
+                        <span class="text-xs neon-green">100%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Цитата системы -->
+            <div class="cyber-card card-glitch p-6" data-text="SYSTEM.QUOTE">
+                <h3 class="cyber-font text-2xl neon-pink mb-6">SYSTEM.QUOTE</h3>
+                
+                <div class="bg-black/70 p-4 border-l-4 border-pink-500">
+                    <p class="italic text-gray-300 mb-4">
+                        "Кнш не всегда получается быть позитивной, 
+                        но ничего страшного, я стараюсь"
+                    </p>
+                    <div class="text-right text-sm text-pink-400">- anna.exe</div>
+                </div>
+                
+                <div class="mt-6 bg-gradient-to-r from-pink-900/30 to-purple-900/30 p-4 border border-pink-500/30">
+                    <p class="text-sm text-gray-300">
+                        Не знаю что больше писать... 
+                        Наверно, если напишешь, то узнаешь больше)
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Контактная панель -->
+        <div class="cyber-card card-glitch p-8 text-center mb-12" data-text="CONTACT.PROTOCOL">
+            <h3 class="cyber-font text-3xl neon-green mb-6 glitch" data-text="CONTACT.PROTOCOL">
+                CONTACT.PROTOCOL
+            </h3>
+            
+            <div class="max-w-md mx-auto">
+                <p class="text-lg text-gray-300 mb-6">
+                    Готова к новым подключениям!
+                </p>
+                
+                <button class="cyber-button cyber-font text-lg px-8 py-4 flicker">
+                    > INIT_CONNECTION.exe
+                </button>
+                
+                <!-- Статус индикаторы -->
+                <div class="flex justify-center space-x-4 mt-6 text-xs">
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse"></div>
+                        <span class="text-gray-400">ONLINE</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full mr-1 animate-pulse"></div>
+                        <span class="text-gray-400">READY</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-2 h-2 bg-pink-500 rounded-full mr-1 animate-pulse"></div>
+                        <span class="text-gray-400">ACTIVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Подвал -->
+        <footer class="text-center py-8 border-t border-green-500/30">
+            <div class="mono-font text-sm text-gray-500">
+                © 2025 ANNA.EXE - CYBERNET.PROTOCOL - ALL_RIGHTS.RESERVED
+            </div>
+            <div class="neon-green text-xs mt-2">
+                [SYSTEM_UPTIME: ∞] [VERSION: 2.0.25] [BUILD: STABLE]
+            </div>
+        </footer>
+    </div>
+    
+    <script type="module">
+        // Матричный дождь
+        function createMatrixRain() {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?АННА';
+            const container = document.getElementById('matrixRain');
+            
+            function createChar() {
+                const char = document.createElement('div');
+                char.className = 'matrix-char';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                char.style.left = Math.random() * 100 + '%';
+                char.style.animationDuration = Math.random() * 3 + 2 + 's';
+                char.style.fontSize = Math.random() * 10 + 10 + 'px';
+                container.appendChild(char);
+                
+                setTimeout(() => {
+                    if (char.parentNode) {
+                        char.parentNode.removeChild(char);
+                    }
+                }, 5000);
+            }
+            
+            setInterval(createChar, 100);
+        }
+        
+        // Запуск матричного дождя
+        createMatrixRain();
+        
+        // === ПАСХАЛКИ ===
+        
+        // Переменные для отслеживания
+        let debugMode = false;
+        let hackerMode = false;
+        let isOffline = false;
+        let currentTheme = 'green';
+        let glitchCounter = 0;
+        let carClickCount = 0;
+        let carClickTimer = null;
+        let uptime = 0;
+        let chaosMode = false;
+        let retroMode = false;
+        
+        // Мобильные переменные
+        let shakeThreshold = 15;
+        let lastShakeTime = 0;
+        let shakeDetected = false;
+        
+        // Хакерский режим
+        function toggleHackerMode() {
+            const hackerDiv = document.getElementById('hackerMode');
+            hackerMode = !hackerMode;
+            
+            if (hackerMode) {
+                hackerDiv.classList.add('active');
+                document.getElementById('currentMode').textContent = 'HACKER';
+                createHackerMatrix();
+                
+                // Вибрация при активации хакерского режима
+                triggerVibration([50, 100, 50, 100, 300]);
+                
+                // Автовыключение через 10 секунд
+                setTimeout(() => {
+                    if (hackerMode) toggleHackerMode();
+                }, 10000);
+            } else {
+                hackerDiv.classList.remove('active');
+                hackerDiv.innerHTML = '';
+                document.getElementById('currentMode').textContent = 'NORMAL';
+            }
+        }
+        
+        function createHackerMatrix() {
+            const container = document.getElementById('hackerMode');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            function createHackerChar() {
+                if (!hackerMode) return;
+                
+                const char = document.createElement('div');
+                char.className = 'hacker-matrix';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                char.style.left = Math.random() * 100 + '%';
+                char.style.animationDuration = Math.random() * 2 + 1 + 's';
+                char.style.fontSize = Math.random() * 15 + 15 + 'px';
+                container.appendChild(char);
+                
+                setTimeout(() => {
+                    if (char.parentNode) {
+                        char.parentNode.removeChild(char);
+                    }
+                }, 3000);
+            }
+            
+            const interval = setInterval(() => {
+                if (!hackerMode) {
+                    clearInterval(interval);
+                    return;
+                }
+                createHackerChar();
+            }, 50);
+        }
+        
+        // Режим отладки
+        function toggleDebugMode() {
+            const debugPanel = document.getElementById('debugPanel');
+            debugMode = !debugMode;
+            
+            if (debugMode) {
+                debugPanel.classList.add('active');
+                startDebugUpdates();
+            } else {
+                debugPanel.classList.remove('active');
+            }
+        }
+        
+        function startDebugUpdates() {
+            const updateDebug = () => {
+                if (!debugMode) return;
+                
+                document.getElementById('fps').textContent = Math.floor(Math.random() * 10 + 55);
+                document.getElementById('memory').textContent = Math.floor(Math.random() * 20 + 40) + 'MB';
+                document.getElementById('cpu').textContent = Math.floor(Math.random() * 30 + 10) + '%';
+                document.getElementById('glitchCount').textContent = glitchCounter;
+                document.getElementById('currentTheme').textContent = currentTheme.toUpperCase();
+                
+                // Форматирование времени работы
+                const hours = Math.floor(uptime / 3600);
+                const minutes = Math.floor((uptime % 3600) / 60);
+                const seconds = uptime % 60;
+                document.getElementById('uptime').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                setTimeout(updateDebug, 1000);
+            };
+            updateDebug();
+        }
+        
+        // Смена цветовых схем
+        function changeColorScheme(theme) {
+            document.body.classList.remove('theme-blue', 'theme-red', 'theme-purple');
+            
+            switch(theme) {
+                case 'blue':
+                    document.body.classList.add('theme-blue');
+                    currentTheme = 'blue';
+                    break;
+                case 'red':
+                    document.body.classList.add('theme-red');
+                    currentTheme = 'red';
+                    break;
+                case 'purple':
+                    document.body.classList.add('theme-purple');
+                    currentTheme = 'purple';
+                    break;
+                default:
+                    currentTheme = 'green';
+            }
+        }
+        
+        // Переключение статуса
+        function toggleStatus() {
+            const statusEl = document.getElementById('statusIndicator');
+            isOffline = !isOffline;
+            
+            if (isOffline) {
+                statusEl.textContent = '[OFFLINE]';
+                statusEl.classList.add('status-offline');
+                statusEl.classList.remove('neon-green');
+            } else {
+                statusEl.textContent = '[ONLINE]';
+                statusEl.classList.remove('status-offline');
+                statusEl.classList.add('neon-green');
+            }
+        }
+        
+        // Анимация машинки
+        function triggerCarAnimation() {
+            const carImg = document.getElementById('carImage');
+            carImg.classList.add('car-drive-away');
+            
+            setTimeout(() => {
+                carImg.classList.remove('car-drive-away');
+            }, 3000);
+        }
+        
+        // Массовый глитч режим
+        function toggleChaosMode() {
+            chaosMode = !chaosMode;
+            const allElements = document.querySelectorAll('*');
+            
+            if (chaosMode) {
+                console.log('CHAOS MODE ACTIVATED!');
+                allElements.forEach(el => {
+                    if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE') {
+                        el.classList.add('chaos-mode');
+                    }
+                });
+                
+                // Дополнительные эффекты хаоса
+                document.body.style.filter = 'contrast(1.5) saturate(2) hue-rotate(180deg)';
+                
+                // Интенсивная вибрация для режима хаоса
+                triggerVibration([200, 100, 200, 100, 200, 100, 400]);
+                
+                // Дополнительная вибрация каждые 2 секунды
+                const vibrateInterval = setInterval(() => {
+                    if (chaosMode) {
+                        triggerVibration([100, 50, 100]);
+                    } else {
+                        clearInterval(vibrateInterval);
+                    }
+                }, 2000);
+                
+                // Автовыключение через 10 секунд
+                setTimeout(() => {
+                    if (chaosMode) toggleChaosMode();
+                }, 10000);
+                
+                // Звуковой хаос
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        playBeep(Math.random() * 2000 + 200, 100);
+                    }, i * 100);
+                }
+            } else {
+                console.log('CHAOS MODE DEACTIVATED');
+                allElements.forEach(el => {
+                    el.classList.remove('chaos-mode');
+                });
+                document.body.style.filter = '';
+                
+                // Финальная вибрация при выключении
+                triggerVibration([300]);
+            }
+        }
+        
+        // 8-битный ретро режим
+        function toggleRetroMode() {
+            retroMode = !retroMode;
+            
+            if (retroMode) {
+                console.log('RETRO MODE ACTIVATED!');
+                document.body.classList.add('retro-mode');
+                
+                // Ретро вибрация
+                triggerVibration([100, 50, 100, 50, 100, 50, 200]);
+                
+                // Ретро звуки
+                const retroSounds = [400, 600, 400, 800, 600, 1000];
+                retroSounds.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(freq, 200);
+                    }, index * 150);
+                });
+                
+                // Меняем тексты на ретро стиль
+                const title = document.querySelector('.random-glitch');
+                if (title) {
+                    title.setAttribute('data-original', title.textContent);
+                    title.textContent = 'ANNA.EXE V1.0';
+                }
+                
+                // Меняем ASCII арт
+                const asciiArt = document.querySelector('.ascii-art');
+                if (asciiArt) {
+                    asciiArt.innerHTML = `█████ RETRO MODE ENABLED █████
+█                               █
+█    8-BIT STYLE ACTIVATED      █
+█                               █
+███████████████████████████████████`;
+                }
+                
+            } else {
+                console.log('RETRO MODE DEACTIVATED');
+                document.body.classList.remove('retro-mode');
+                
+                // Восстанавливаем оригинальные тексты
+                const title = document.querySelector('.random-glitch');
+                if (title && title.getAttribute('data-original')) {
+                    title.textContent = title.getAttribute('data-original');
+                }
+                
+                // Восстанавливаем ASCII арт
+                const asciiArt = document.querySelector('.ascii-art');
+                if (asciiArt) {
+                    asciiArt.innerHTML = `это моя страница
+на сайте присутствуют пасхалки попробуй их найти
+(лучше искать на пк)`;
+                }
+                
+                // Вибрация при выключении
+                triggerVibration([200]);
+            }
+        }
+        
+        // Вибрация для мобильных устройств
+        function triggerVibration(pattern = [200]) {
+            if (navigator.vibrate) {
+                navigator.vibrate(pattern);
+                console.log('Вибрация активирована!');
+            } else {
+                console.log('Вибрация не поддерживается');
+            }
+        }
+        
+        // Детектор встряски телефона
+        function initShakeDetection() {
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', handleShake, false);
+                console.log('Детектор встряски инициализирован');
+            } else {
+                console.log('Датчик движения не поддерживается');
+            }
+        }
+        
+        function handleShake(event) {
+            const acceleration = event.accelerationIncludingGravity;
+            if (!acceleration) return;
+            
+            const totalAcceleration = Math.abs(acceleration.x) + Math.abs(acceleration.y) + Math.abs(acceleration.z);
+            const currentTime = new Date().getTime();
+            
+            if (totalAcceleration > shakeThreshold && (currentTime - lastShakeTime) > 1000) {
+                lastShakeTime = currentTime;
+                shakeDetected = true;
+                
+                console.log('Встряска обнаружена! Активация режима хаоса...');
+                triggerVibration([100, 50, 100, 50, 200]); // Паттерн вибрации
+                toggleChaosMode();
+            }
+        }
+        
+        // Звуковые эффекты
+        function playBeep(frequency = 800, duration = 200) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                oscillator.type = 'square';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            } catch(e) {
+                console.log('Audio context not supported');
+            }
+        }
+        
+        // === ОБРАБОТЧИКИ СОБЫТИЙ ===
+        
+        // Клавиатурные комбинации
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Shift+H - Хакерский режим
+            if (e.ctrlKey && e.shiftKey && (e.key === 'H' || e.code === 'KeyH')) {
+                e.preventDefault();
+                toggleHackerMode();
+                console.log('Хакерский режим активирован!');
+            }
+            
+            // Ctrl+Alt+D - Режим отладки
+            if (e.ctrlKey && e.altKey && (e.key === 'D' || e.code === 'KeyD')) {
+                e.preventDefault();
+                toggleDebugMode();
+                console.log('Режим отладки переключен!');
+            }
+            
+            // Ctrl+Shift+C - Массовый глитч режим
+            if (e.ctrlKey && e.shiftKey && (e.key === 'C' || e.code === 'KeyC')) {
+                e.preventDefault();
+                toggleChaosMode();
+                console.log('Режим хаоса активирован!');
+            }
+        });
+        
+        // Тройной клик на машинку
+        document.getElementById('carImage')?.addEventListener('click', () => {
+            carClickCount++;
+            
+            if (carClickTimer) clearTimeout(carClickTimer);
+            
+            if (carClickCount === 3) {
+                triggerCarAnimation();
+                triggerVibration([50, 100, 50]); // Вибрация при поездке машинки
+                carClickCount = 0;
+            } else {
+                carClickTimer = setTimeout(() => {
+                    carClickCount = 0;
+                }, 500);
+            }
+        });
+        
+        // Долгое нажатие на заголовок для хакерского режима (мобильная версия)
+        let titlePressTimer = null;
+        const titleElement = document.querySelector('.random-glitch');
+        
+        // Touch события для мобильных
+        titleElement?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            titlePressTimer = setTimeout(() => {
+                console.log('Долгое нажатие на заголовок - активация хакерского режима!');
+                toggleHackerMode();
+            }, 1500); // 1.5 секунды для мобильных
+        });
+        
+        titleElement?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        titleElement?.addEventListener('touchcancel', (e) => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        // Mouse события для десктопа (сохраняем существующую функциональность)
+        titleElement?.addEventListener('mousedown', () => {
+            titlePressTimer = setTimeout(() => {
+                console.log('Долгое нажатие на заголовок - активация хакерского режима!');
+                toggleHackerMode();
+            }, 1500);
+        });
+        
+        titleElement?.addEventListener('mouseup', () => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        titleElement?.addEventListener('mouseleave', () => {
+            if (titlePressTimer) {
+                clearTimeout(titlePressTimer);
+                titlePressTimer = null;
+            }
+        });
+        
+        // Долгое нажатие на статус
+        let statusPressTimer = null;
+        const statusElement = document.getElementById('statusIndicator');
+        
+        // Touch события для мобильных
+        statusElement?.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            statusPressTimer = setTimeout(() => {
+                toggleStatus();
+                triggerVibration([100, 50, 100]); // Вибрация при смене статуса
+            }, 1000);
+        });
+        
+        statusElement?.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (statusPressTimer) {
+                clearTimeout(statusPressTimer);
+                statusPressTimer = null;
+            }
+        });
+        
+        // Mouse события для десктопа
+        statusElement?.addEventListener('mousedown', () => {
+            statusPressTimer = setTimeout(() => {
+                toggleStatus();
+                triggerVibration([100, 50, 100]);
+            }, 1000);
+        });
+        
+        statusElement?.addEventListener('mouseup', () => {
+            if (statusPressTimer) {
+                clearTimeout(statusPressTimer);
+                statusPressTimer = null;
+            }
+        });
+        
+        statusElement?.addEventListener('mouseleave', () => {
+            if (statusPressTimer) {
+                clearTimeout(statusPressTimer);
+                statusPressTimer = null;
+            }
+        });
+        
+        // Клик на музыкальные полоски
+        document.getElementById('musicBars')?.addEventListener('click', () => {
+            // Вибрация в ритм музыки
+            triggerVibration([100, 50, 100, 50, 100, 50, 200]);
+            
+            // Играем последовательность бипов
+            const frequencies = [400, 600, 800, 1000, 800];
+            frequencies.forEach((freq, index) => {
+                setTimeout(() => {
+                    playBeep(freq, 150);
+                }, index * 100);
+            });
+            
+            // Анимация полосок
+            const bars = document.querySelectorAll('.music-bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.transform = 'scaleY(1.5)';
+                    bar.style.filter = 'brightness(1.5)';
+                    setTimeout(() => {
+                        bar.style.transform = '';
+                        bar.style.filter = '';
+                    }, 200);
+                }, index * 50);
+            });
+        });
+        
+        // Клик на цветовые индикаторы
+        document.querySelectorAll('.color-indicator').forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const theme = indicator.getAttribute('data-theme');
+                if (theme) {
+                    changeColorScheme(theme);
+                } else {
+                    // Если нет темы, переключаем на фиолетовую
+                    changeColorScheme('purple');
+                }
+                
+                // Вибрация при смене темы
+                triggerVibration([50, 50, 50]);
+                
+                // Звуковой сигнал смены темы
+                playBeep(1200, 100);
+            });
+        });
+        
+        // Случайные глитчи для заголовка (поддерживает оба режима)
+        function randomNameGlitch() {
+            glitchCounter++;
+            const title = document.querySelector('.random-glitch');
+            if (title && Math.random() < 0.15) {
+                title.classList.add('glitching');
+                
+                // Случайное искажение текста в зависимости от режима
+                const annaGlitchTexts = ['4NN4.3X3', 'ΛИИΛ.ΣΧΣ', 'ȺȺȺȺ.ΞΞΞ', 'ΔΠΔΠ.ΨΨΨ', 'АННА.ЭКС'];
+                const artansyGlitchTexts = ['4RT4N5Y.3X3', 'ΛΠΤΛΠΣΥ.ΣΧΣ', 'ȺƦŦȺNΣҰ.ΞΞΞ', 'ΔЯŦΔΠΣҰ.ΨΨΨ', 'АРТАНСИ.ЭКС'];
+                
+                const originalText = title.textContent;
+                const isCurrentlyArtansy = originalText.includes('ARTANSY');
+                const glitchTexts = isCurrentlyArtansy ? artansyGlitchTexts : annaGlitchTexts;
+                
+                if (Math.random() < 0.3) {
+                    title.textContent = glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+                    setTimeout(() => {
+                        title.textContent = originalText;
+                    }, 150);
+                }
+                
+                setTimeout(() => {
+                    title.classList.remove('glitching');
+                }, 300);
+            }
+        }
+        
+        // Случайные глитчи для карточек
+        function randomCardGlitch() {
+            glitchCounter++;
+            const cards = document.querySelectorAll('.card-glitch');
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            
+            if (randomCard && Math.random() < 0.25) {
+                randomCard.classList.add('glitching');
+                
+                // Добавляем эффекты искажения
+                const effects = [
+                    'invert(1)',
+                    'hue-rotate(180deg) saturate(2)',
+                    'contrast(2) brightness(0.5)',
+                    'sepia(1) hue-rotate(300deg)',
+                    'grayscale(1) contrast(2)',
+                    'blur(1px) contrast(1.5)'
+                ];
+                
+                const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+                randomCard.style.filter = randomEffect;
+                
+                // Случайное перемещение
+                const xOffset = (Math.random() - 0.5) * 4;
+                const yOffset = (Math.random() - 0.5) * 4;
+                randomCard.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                
+                setTimeout(() => {
+                    randomCard.classList.remove('glitching');
+                    randomCard.style.filter = '';
+                    randomCard.style.transform = '';
+                }, 500);
+            }
+        }
+        
+        // Запуск случайных глитчей
+        setInterval(randomNameGlitch, 1500);
+        setInterval(randomCardGlitch, 1200);
+        
+        // Таймер времени работы
+        setInterval(() => {
+            uptime++;
+        }, 1000);
+        
+        // Пасхалка переключения ANNA.EXE <-> Artansy.exe
+        let isArtansyMode = false;
+        
+        // Интенсивные глитчи при клике на заголовок с пасхалкой
+        document.querySelector('.random-glitch')?.addEventListener('click', () => {
+            const title = document.querySelector('.random-glitch');
+            
+            // Серия быстрых глитчей
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    randomNameGlitch();
+                }, i * 100);
+            }
+            
+            // Пасхалка переключения имени
+            setTimeout(() => {
+                if (!isArtansyMode) {
+                    // Переключаем на ARTANSY.EXE
+                    title.textContent = 'ARTANSY.EXE';
+                    title.setAttribute('data-text', 'ARTANSY.EXE');
+                    title.classList.add('neon-pink');
+                    title.classList.remove('neon-green');
+                    
+                    // Эффект взрыва глитчей
+                    title.style.textShadow = `
+                        0 0 5px #ff1493, 0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 40px #ff1493,
+                        2px 2px 0 #00bfff, -2px -2px 0 #00ff41
+                    `;
+                    
+                    isArtansyMode = true;
+                } else {
+                    // Возвращаем обратно на ANNA.EXE
+                    title.textContent = 'ANNA.EXE';
+                    title.setAttribute('data-text', 'ANNA.EXE');
+                    title.classList.add('neon-green');
+                    title.classList.remove('neon-pink');
+                    
+                    // Возвращаем обычный зеленый эффект
+                    title.style.textShadow = '0 0 5px #00ff41, 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 40px #00ff41';
+                    
+                    isArtansyMode = false;
+                }
+            }, 600);
+            
+            // Глитч всех карточек одновременно
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card-glitch');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('glitching');
+                        
+                        // Дополнительные эффекты для пасхалки
+                        if (isArtansyMode) {
+                            card.style.filter = 'hue-rotate(320deg) saturate(1.5) contrast(1.2)';
+                        }
+                        
+                        setTimeout(() => {
+                            card.classList.remove('glitching');
+                            card.style.filter = '';
+                        }, 300);
+                    }, index * 100);
+                });
+            }, 200);
+        });
+        
+        // Старый глитч эффект для заголовка (оставляем как дополнительный)
+        setInterval(() => {
+            const title = document.querySelector('.random-glitch');
+            if (title && Math.random() < 0.05) {
+                const currentColor = title.classList.contains('neon-pink') ? '#ff1493' : '#00ff41';
+                title.style.textShadow = `
+                    ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #ff1493,
+                    ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 #00bfff,
+                    0 0 10px ${currentColor}
+                `;
+                setTimeout(() => {
+                    const restoreColor = title.classList.contains('neon-pink') ? '#ff1493' : '#00ff41';
+                    title.style.textShadow = `0 0 5px ${restoreColor}, 0 0 10px ${restoreColor}, 0 0 20px ${restoreColor}, 0 0 40px ${restoreColor}`;
+                }, 100);
+            }
+        }, 3000);
+        
+        // Интерактивность для кнопок
+        document.querySelectorAll('.cyber-button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.style.animation = 'none';
+                button.style.transform = 'scale(0.95)';
+                button.style.boxShadow = '0 0 50px rgba(0,255,65,0.8)';
+                
+                setTimeout(() => {
+                    button.style.animation = '';
+                    button.style.transform = '';
+                    button.style.boxShadow = '';
+                }, 200);
+            });
+        });
+        
+        // Анимация статистических полос
+        document.querySelectorAll('.stat-bar > div').forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            setTimeout(() => {
+                bar.style.transition = 'width 2s ease';
+                bar.style.width = width;
+            }, 500);
+        });
+        
+        // Убираем старые глитчи карточек, они заменены на новые выше
+        
+        // Интерактивность для машинки
+        const carImage = document.querySelector('img[alt="FAW VITA"]');
+        if (carImage) {
+            carImage.addEventListener('click', () => {
+                carImage.style.transform = 'scale(1.2) rotate(360deg)';
+                carImage.style.transition = 'transform 0.5s ease';
+                
+                setTimeout(() => {
+                    carImage.style.transform = '';
+                }, 500);
+            });
+        }
+        
+        // Клик по ASCII арту для ретро режима
+        document.getElementById('asciiClickable')?.addEventListener('click', () => {
+            toggleRetroMode();
+        });
+        
+        // Инициализация мобильных функций
+        document.addEventListener('DOMContentLoaded', () => {
+            // Инициализируем детектор встряски
+            initShakeDetection();
+            
+            // Проверяем поддержку вибрации (без запроса разрешений)
+            if (navigator.vibrate) {
+                console.log('Вибрация поддерживается');
+            } else {
+                console.log('Вибрация не поддерживается этим браузером');
+            }
+            
+            // Уведомление о мобильных пасхалках
+            if (window.DeviceMotionEvent) {
+                console.log('📱 Мобильные пасхалки активированы!');
+                console.log('🔄 Встряска телефона → Режим хаоса');
+                console.log('👆 Долгое нажатие на заголовок → Хакерский режим');
+                console.log('📳 Вибрация при всех пасхалках активна');
+            }
+        });
+        
+    </script>
+</body>
+</html>

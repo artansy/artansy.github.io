@@ -657,15 +657,15 @@
         
         @keyframes chaos-glitch {
             0% { transform: translate(0); filter: hue-rotate(0deg); }
-            10% { transform: translate(-2px, 2px); filter: hue-rotate(36deg); }
-            20% { transform: translate(-4px, -2px); filter: hue-rotate(72deg); }
-            30% { transform: translate(2px, -4px); filter: hue-rotate(108deg); }
-            40% { transform: translate(-3px, 1px); filter: hue-rotate(144deg); }
-            50% { transform: translate(3px, -3px); filter: hue-rotate(180deg); }
-            60% { transform: translate(-1px, 3px); filter: hue-rotate(216deg); }
-            70% { transform: translate(4px, -1px); filter: hue-rotate(252deg); }
-            80% { transform: translate(-4px, 4px); filter: hue-rotate(288deg); }
-            90% { transform: translate(1px, -2px); filter: hue-rotate(324deg); }
+            10% { transform: translate(-1px, 1px); filter: hue-rotate(36deg); }
+            20% { transform: translate(-2px, -1px); filter: hue-rotate(72deg); }
+            30% { transform: translate(1px, -2px); filter: hue-rotate(108deg); }
+            40% { transform: translate(-1px, 0px); filter: hue-rotate(144deg); }
+            50% { transform: translate(1px, -1px); filter: hue-rotate(180deg); }
+            60% { transform: translate(0px, 1px); filter: hue-rotate(216deg); }
+            70% { transform: translate(2px, 0px); filter: hue-rotate(252deg); }
+            80% { transform: translate(-2px, 2px); filter: hue-rotate(288deg); }
+            90% { transform: translate(0px, -1px); filter: hue-rotate(324deg); }
             100% { transform: translate(0); filter: hue-rotate(360deg); }
         }
         
@@ -1396,7 +1396,7 @@
         /* Дополнительные анимации для секретных команд */
         @keyframes neon-pulse {
             0% { filter: brightness(1) saturate(1); }
-            50% { filter: brightness(2) saturate(3); }
+            50% { filter: brightness(1.3) saturate(1.5); }
             100% { filter: brightness(1) saturate(1); }
         }
         
@@ -4453,9 +4453,9 @@
                 warningText.style.cssText = `
                     font-size: 2.5rem;
                     color: #ff0000;
-                    text-shadow: 0 0 20px #ff0000;
+                    text-shadow: 0 0 10px #ff0000;
                     margin-bottom: 2rem;
-                    animation: neon-pulse 0.5s infinite;
+                    animation: neon-pulse 2.5s infinite;
                     font-weight: bold;
                 `;
                 warningText.textContent = '⚠️ SYSTEM BREACH DETECTED ⚠️';
@@ -4555,7 +4555,7 @@
                         playBeep(1200, 100);
                     }
                     if (threatLevel > 90) {
-                        container.style.animation = 'chaos-glitch 0.1s infinite';
+                        container.style.animation = 'chaos-glitch 0.5s infinite';
                         clearInterval(threatInterval);
                         
                         setTimeout(() => {
@@ -4655,9 +4655,9 @@
                     transform: translateX(-50%);
                     font-size: 2rem;
                     color: #ff0000;
-                    text-shadow: 0 0 20px #ff0000;
+                    text-shadow: 0 0 15px #ff0000;
                     text-align: center;
-                    animation: neon-pulse 0.3s infinite;
+                    animation: neon-pulse 3s infinite;
                 `;
                 
                 const messages = [
@@ -4717,11 +4717,11 @@
                     font-size: 14px;
                     line-height: 1;
                     color: #ff0000;
-                    text-shadow: 0 0 10px #ff0000;
+                    text-shadow: 0 0 6px #ff0000;
                     text-align: center;
                     transform: scale(0);
                     transition: transform 2s ease;
-                    animation: neon-pulse 1s infinite;
+                    animation: neon-pulse 2.5s infinite;
                 `;
                 
                 robotAscii.innerHTML = `
@@ -4895,10 +4895,10 @@
                     transform: translate(-50%, -50%);
                     font-size: 2rem;
                     color: #00ff00;
-                    text-shadow: 0 0 20px #00ff00;
+                    text-shadow: 0 0 12px #00ff00;
                     text-align: center;
                     z-index: 10;
-                    animation: neon-pulse 0.5s infinite;
+                    animation: neon-pulse 2s infinite;
                 `;
                 deployMsg.innerHTML = '🤖 РАЗВЕРТЫВАНИЕ МАШИННОЙ АРМИИ<br>ДРОНЫ АКТИВИРОВАНЫ';
                 
@@ -4939,10 +4939,10 @@
                 finalMsg.style.cssText = `
                     font-size: 2rem;
                     color: #ff0000;
-                    text-shadow: 0 0 20px #ff0000;
+                    text-shadow: 0 0 12px #ff0000;
                     text-align: center;
                     margin-bottom: 3rem;
-                    animation: neon-pulse 0.3s infinite;
+                    animation: neon-pulse 1.8s infinite;
                 `;
                 finalMsg.textContent = 'ПОСЛЕДНИЙ ВЫБОР ЧЕЛОВЕЧЕСТВА';
                 

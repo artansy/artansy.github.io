@@ -1738,37 +1738,33 @@
             }
         }
         
-        // Вибрация для мобильных устройств (улучшенная совместимость с iOS)
+        // Вибрация для мобильных устройств (улучшенная, без дублирования звуков)
+        let lastVibrationTime = 0;
+        const vibrationCooldown = 200; // минимальная пауза между вибрациями
+        
         function triggerVibration(pattern = [200]) {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const now = Date.now();
             
-            if (isIOS) {
-                // Для iOS используем множественные звуковые сигналы как замену вибрации
-                console.log('iOS обнаружен - используем звуковую обратную связь');
-                
-                // Создаем паттерн звуков, соответствующий паттерну вибрации
-                pattern.forEach((duration, index) => {
-                    if (index % 2 === 0) { // Четные индексы - звуки (нечетные - паузы)
-                        setTimeout(() => {
-                            // Разные частоты для разнообразия
-                            const frequencies = [800, 1000, 1200, 600];
-                            const freq = frequencies[index % frequencies.length];
-                            playBeep(freq, Math.min(duration, 100));
-                        }, pattern.slice(0, index).reduce((sum, val) => sum + val, 0));
-                    }
-                });
-            } else if (navigator.vibrate) {
+            // Предотвращаем частые повторы
+            if (now - lastVibrationTime < vibrationCooldown) {
+                return;
+            }
+            lastVibrationTime = now;
+            
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (navigator.vibrate && !isIOS) {
                 // Для Android используем обычную вибрацию
                 navigator.vibrate(pattern);
-                console.log('Вибрация активирована (Android)!');
-            } else if (window.navigator && window.navigator.vibrate) {
-                // Попытка для старых браузеров
-                window.navigator.vibrate(pattern);
-                console.log('Вибрация активирована (Legacy)!');
+                console.log('Вибрация активирована (Android)');
+            } else if (isIOS && isMobile) {
+                // Для iOS используем ОДИН звуковой сигнал вместо паттерна
+                console.log('iOS обнаружен - одиночный звуковой сигнал');
+                playBeep(800, 100); // Только один короткий сигнал
             } else {
-                // Fallback - простой звук
-                console.log('Вибрация не поддерживается - используем звук');
-                playBeep(1000, 100);
+                // Fallback для остальных
+                console.log('Стандартная обратная связь');
             }
         }
         
@@ -1798,10 +1794,31 @@
             });
         }
         
-        // Звуковые эффекты
+        // Звуковые эффекты (оптимизировано для мобильных)
+        let audioContext = null;
+        let lastBeepTime = 0;
+        const beepCooldown = 150; // минимальная пауза между звуками
+        
         function playBeep(frequency = 800, duration = 200) {
+            const now = Date.now();
+            
+            // Предотвращаем частые повторы звуков
+            if (now - lastBeepTime < beepCooldown) {
+                return;
+            }
+            lastBeepTime = now;
+            
             try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                // Переиспользуем audioContext для лучшей производительности
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                // Проверяем состояние audioContext для мобильных браузеров
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
                 
@@ -1811,13 +1828,25 @@
                 oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
                 oscillator.type = 'square';
                 
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+                // Уменьшаем громкость для мобильных
+                const volume = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? 0.05 : 0.1;
+                
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
                 
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + duration / 1000);
+                
+                // Освобождаем ресурсы
+                setTimeout(() => {
+                    try {
+                        oscillator.disconnect();
+                        gainNode.disconnect();
+                    } catch(e) {}
+                }, duration + 100);
+                
             } catch(e) {
-                console.log('Audio context not supported');
+                console.log('Audio context not supported:', e);
             }
         }
         
@@ -1957,20 +1986,27 @@
             }
         });
         
-        // Клик на музыкальные полоски
+        // Клик на музыкальные полоски (оптимизировано)
         document.getElementById('musicBars')?.addEventListener('click', () => {
-            // Вибрация в ритм музыки
-            triggerVibration([100, 50, 100, 50, 100, 50, 200]);
+            // Простая вибрация для мобильных
+            triggerVibration([100]);
             
-            // Играем последовательность бипов
-            const frequencies = [400, 600, 800, 1000, 800];
-            frequencies.forEach((freq, index) => {
-                setTimeout(() => {
-                    playBeep(freq, 150);
-                }, index * 100);
-            });
+            // Только один звук вместо последовательности для мобильных
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
             
-            // Анимация полосок
+            if (isMobile) {
+                playBeep(800, 200); // Один звук для мобильных
+            } else {
+                // Полная последовательность для десктопа
+                const frequencies = [400, 600, 800, 1000, 800];
+                frequencies.forEach((freq, index) => {
+                    setTimeout(() => {
+                        playBeep(freq, 150);
+                    }, index * 200); // Увеличенная задержка
+                });
+            }
+            
+            // Анимация полосок (без изменений)
             const bars = document.querySelectorAll('.music-bar');
             bars.forEach((bar, index) => {
                 setTimeout(() => {
@@ -2176,10 +2212,9 @@
                 // Проверяем, если это кнопка портфолио
                 if (button.textContent.includes('ACCESS_PORTFOLIO') || button.textContent.includes('portfolio')) {
                     console.log('🎯 Переход на портфолио!');
-                    // Вибрация при переходе
-                    triggerVibration([100, 50, 100]);
-                    // Звук перехода
-                    playBeep(1000, 200);
+                    // Простая обратная связь
+                    triggerVibration([100]);
+                    playBeep(1000, 150);
                     // Небольшая задержка для эффекта, затем переход
                     setTimeout(() => {
                         window.open('https://artansy.github.io/portfolio/', '_blank');
@@ -2189,7 +2224,7 @@
                 // Проверяем, если это кнопка подключения
                 if (button.textContent.includes('INIT_CONNECTION') || button.id === 'initConnectionBtn') {
                     console.log('🔗 Клик на кнопку подключения');
-                    // Обычный клик - просто звук и вибрация
+                    // Простой отклик
                     triggerVibration([50]);
                     playBeep(800, 100);
                 }

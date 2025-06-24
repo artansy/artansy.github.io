@@ -154,7 +154,7 @@
             background: linear-gradient(90deg, transparent, #00ff41, transparent);
         }
         
-        /* Матричный дождь */
+        /* Матричный дождь - отключаем на мобильных */
         .matrix-rain {
             position: fixed;
             top: 0;
@@ -164,6 +164,12 @@
             pointer-events: none;
             z-index: -1;
             opacity: 0.1;
+        }
+        
+        @media (max-width: 768px) {
+            .matrix-rain {
+                display: none;
+            }
         }
         
         .matrix-char {
@@ -973,8 +979,27 @@
             transform: translate(-50%, -50%) scale(1);
             pointer-events: all; /* Включаем события когда панель открыта */
             visibility: visible; /* Показываем элемент */
-            filter: drop-shadow(0 0 30px #00ff41) drop-shadow(0 0 60px #00ff41) drop-shadow(0 0 90px rgba(0, 255, 65, 0.8));
-            animation: command-panel-glow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px #00ff41);
+        }
+        
+        /* Убираем анимации на мобильных */
+        @media (max-width: 768px) {
+            .secret-commands.active {
+                animation: none;
+                filter: drop-shadow(0 0 10px #00ff41);
+            }
+            
+            .command-title {
+                animation: none;
+                text-shadow: 0 0 10px #00ff41;
+            }
+            
+            .command-input {
+                font-size: 18px;
+                padding: 18px 20px;
+                border-width: 3px;
+                background: rgba(0, 80, 0, 0.98);
+            }
         }
         
         .command-container {
@@ -987,6 +1012,7 @@
             overflow: hidden;
         }
         
+        /* Упрощенная рамка без RGB анимации для мобильных */
         .command-container::before {
             content: '';
             position: absolute;
@@ -994,9 +1020,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #00ff41, #00bfff, #ff1493, #ffff00, #00ff41);
-            background-size: 400% 400%;
-            animation: command-border-flow 3s ease infinite;
+            background: #00ff41;
             clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
             z-index: -1;
         }
@@ -1013,20 +1037,14 @@
             z-index: -1;
         }
         
-        /* Анимации для панели команд */
+        /* Упрощенные анимации для панели команд */
         @keyframes command-panel-glow {
             0% { 
-                filter: drop-shadow(0 0 20px #00ff41) drop-shadow(0 0 40px #00ff41) drop-shadow(0 0 60px rgba(0, 255, 65, 0.6));
+                filter: drop-shadow(0 0 15px #00ff41);
             }
             100% { 
-                filter: drop-shadow(0 0 40px #00ff41) drop-shadow(0 0 80px #00ff41) drop-shadow(0 0 120px rgba(0, 255, 65, 0.9));
+                filter: drop-shadow(0 0 25px #00ff41);
             }
-        }
-        
-        @keyframes command-border-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         
         .command-title {
@@ -1054,37 +1072,39 @@
         
         .command-input {
             width: 100%;
-            background: rgba(0, 20, 0, 0.8);
-            border: 1px solid #00ff41;
+            background: rgba(0, 50, 0, 0.95);
+            border: 2px solid #00ff41;
             color: #00ff41;
             font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            padding: 12px 15px;
+            font-size: 16px;
+            padding: 15px 18px;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-transform: lowercase;
             position: relative;
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+            font-weight: 500;
+        }
+        
+        .command-input::placeholder {
+            color: rgba(0, 255, 65, 0.6);
+            font-weight: normal;
         }
         
         .command-input:focus {
-            box-shadow: 
-                0 0 20px rgba(0, 255, 65, 0.8),
-                0 0 40px rgba(0, 255, 65, 0.6),
-                0 0 60px rgba(0, 255, 65, 0.4),
-                inset 0 0 20px rgba(0, 255, 65, 0.1);
-            border-color: #00ff41;
-            background: rgba(0, 30, 0, 0.9);
-            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+            border-color: #00ff88;
+            background: rgba(0, 80, 0, 0.98);
+            color: #00ff88;
         }
         
-        /* Анимации для элементов команд */
+        /* Упрощенные анимации для элементов команд */
         @keyframes command-title-pulse {
             0% { 
-                text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41;
+                text-shadow: 0 0 10px #00ff41;
             }
             100% { 
-                text-shadow: 0 0 15px #00ff41, 0 0 30px #00ff41, 0 0 45px #00ff41, 0 0 60px rgba(0, 255, 65, 0.8);
+                text-shadow: 0 0 20px #00ff41;
             }
         }
         
@@ -1877,8 +1897,14 @@
     </div>
     
     <script type="module">
-        // Матричный дождь
+        // Матричный дождь - только для десктопа
         function createMatrixRain() {
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                console.log('📱 Матричный дождь отключен на мобильных для производительности');
+                return;
+            }
+            
             const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?АННА';
             const container = document.getElementById('matrixRain');
             
@@ -1898,7 +1924,7 @@
                 }, 5000);
             }
             
-            setInterval(createChar, 100);
+            setInterval(createChar, 150); // Замедлили для производительности
         }
         
         // Запуск матричного дождя
@@ -2948,8 +2974,13 @@
             });
         });
         
-        // Случайные глитчи для заголовка (поддерживает оба режима)
+        // Случайные глитчи для заголовка (оптимизировано для мобильных)
         function randomNameGlitch() {
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // Реже на мобильных
+            if (isMobile && Math.random() < 0.8) return;
+            
             glitchCounter++;
             const title = document.querySelector('.random-glitch');
             if (title && Math.random() < 0.15) {
@@ -2976,8 +3007,11 @@
             }
         }
         
-        // Случайные глитчи для карточек (исправлено)
+        // Случайные глитчи для карточек (отключены на мобильных)
         function randomCardGlitch() {
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) return; // Отключаем на мобильных
+            
             glitchCounter++;
             const cards = document.querySelectorAll('.card-glitch');
             if (cards.length === 0) return;
@@ -3013,9 +3047,13 @@
             }
         }
         
-        // Запуск случайных глитчей
-        setInterval(randomNameGlitch, 1500);
-        setInterval(randomCardGlitch, 1200);
+        // Запуск случайных глитчей (реже на мобильных)
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const nameGlitchInterval = isMobile ? 3000 : 1500;
+        const cardGlitchInterval = isMobile ? 4000 : 1200;
+        
+        setInterval(randomNameGlitch, nameGlitchInterval);
+        setInterval(randomCardGlitch, cardGlitchInterval);
         
         // Таймер времени работы
         setInterval(() => {

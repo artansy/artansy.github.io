@@ -5619,10 +5619,7 @@
             'KeyB', 'KeyA'
         ];
         
-        // Alternative mobile sequence (тапы по углам экрана)
-        let mobileTapSequence = [];
-        const mobileKonamiPattern = ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center', 'center'];
-        let lastTapTime = 0;
+        // Мобильные активаторы отключены - используйте команду "konami"
         
         // Konami Code для клавиатуры
         document.addEventListener('keydown', (e) => {
@@ -5661,211 +5658,16 @@
             }
         });
         
-        // Мобильная версия Konami Code (тапы по зонам экрана)
-        function initMobileKonamiCode() {
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (!isMobile) return;
-            
-            // Создаем невидимые зоны для тапов
-            const zones = [
-                { id: 'top-left', top: '0%', left: '0%', width: '33%', height: '33%' },
-                { id: 'top-right', top: '0%', right: '0%', width: '33%', height: '33%' },
-                { id: 'bottom-left', bottom: '0%', left: '0%', width: '33%', height: '33%' },
-                { id: 'bottom-right', bottom: '0%', right: '0%', width: '33%', height: '33%' },
-                { id: 'center', top: '33%', left: '33%', width: '34%', height: '34%' }
-            ];
-            
-            zones.forEach(zone => {
-                const zoneElement = document.createElement('div');
-                zoneElement.id = `konami-zone-${zone.id}`;
-                zoneElement.style.cssText = `
-                    position: fixed;
-                    top: ${zone.top || 'auto'};
-                    left: ${zone.left || 'auto'};
-                    right: ${zone.right || 'auto'};
-                    bottom: ${zone.bottom || 'auto'};
-                    width: ${zone.width};
-                    height: ${zone.height};
-                    z-index: 9999;
-                    pointer-events: all;
-                    background: transparent;
-                    touch-action: manipulation;
-                `;
-                
-                // Touch событие для мобильного Konami
-                zoneElement.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    const now = Date.now();
-                    
-                    // Проверяем, что тапы идут достаточно быстро (в течение 10 секунд)
-                    if (now - lastTapTime > 10000) {
-                        mobileTapSequence = [];
-                    }
-                    lastTapTime = now;
-                    
-                    mobileTapSequence.push(zone.id);
-                    
-                    // Ограничиваем длину последовательности
-                    if (mobileTapSequence.length > mobileKonamiPattern.length) {
-                        mobileTapSequence.shift();
-                    }
-                    
-                    // Визуальная обратная связь
-                    zoneElement.style.background = 'rgba(0, 255, 65, 0.3)';
-                    setTimeout(() => {
-                        zoneElement.style.background = 'transparent';
-                    }, 200);
-                    
-                    // Звук тапа
-                    playBeep(400 + mobileTapSequence.length * 100, 100);
-                    triggerMachineVibration([50]);
-                    
-                    console.log(`Мобильный Konami тап: ${zone.id}, последовательность: [${mobileTapSequence.join(', ')}]`);
-                    
-                    // Проверяем соответствие мобильному паттерну
-                    if (mobileTapSequence.length === mobileKonamiPattern.length) {
-                        const isMobileKonami = mobileTapSequence.every((tap, index) => tap === mobileKonamiPattern[index]);
-                        
-                        if (isMobileKonami) {
-                            console.log('📱 МОБИЛЬНЫЙ KONAMI CODE DETECTED!');
-                            mobileTapSequence = []; // Сбрасываем последовательность
-                            
-                            // Удаляем зоны после активации
-                            zones.forEach(z => {
-                                try {
-                                    const el = document.getElementById(`konami-zone-${z.id}`);
-                                    if (el && el.parentNode) {
-                                        el.parentNode.removeChild(el);
-                                    }
-                                } catch(e) {
-                                    console.log(`Ошибка при удалении зоны ${z.id}:`, e);
-                                }
-                            });
-                            
-                            // Мощная вибрация мобильного Konami
-                            triggerMachineVibration([200, 100, 200, 100, 300, 150, 300]);
-                            
-                            // Звуки успеха
-                            const successSounds = [600, 800, 1000, 1200, 1400];
-                            successSounds.forEach((freq, index) => {
-                                setTimeout(() => {
-                                    playBeep(freq, 250);
-                                }, index * 200);
-                            });
-                            
-                            // Запуск машинного восстания
-                            setTimeout(() => {
-                                executeMachineUprising();
-                            }, 1500);
-                        }
-                    }
-                }, { passive: false });
-                
-                document.body.appendChild(zoneElement);
-            });
-            
-            console.log('📱 Мобильный Konami Code инициализирован. Тапайте по углам экрана: верх-лево, верх-право, низ-лево, низ-право, центр, центр');
-        }
+        // Мобильная версия Konami Code ОТКЛЮЧЕНА
+        // Используйте команду "konami" в секретной командной панели
         
-        // Альтернативная активация через жесты
-        function initMobileGestureKonami() {
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (!isMobile) return;
-            
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let gestureSequence = [];
-            const gesturePattern = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right'];
-            
-            document.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            document.addEventListener('touchend', (e) => {
-                const touchEndX = e.changedTouches[0].clientX;
-                const touchEndY = e.changedTouches[0].clientY;
-                
-                const deltaX = touchEndX - touchStartX;
-                const deltaY = touchEndY - touchStartY;
-                
-                const minSwipeDistance = 50;
-                
-                // Определяем направление свайпа
-                if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                    // Горизонтальный свайп
-                    if (Math.abs(deltaX) > minSwipeDistance) {
-                        if (deltaX > 0) {
-                            gestureSequence.push('right');
-                        } else {
-                            gestureSequence.push('left');
-                        }
-                    }
-                } else {
-                    // Вертикальный свайп
-                    if (Math.abs(deltaY) > minSwipeDistance) {
-                        if (deltaY > 0) {
-                            gestureSequence.push('down');
-                        } else {
-                            gestureSequence.push('up');
-                        }
-                    }
-                }
-                
-                // Ограничиваем длину последовательности
-                if (gestureSequence.length > gesturePattern.length) {
-                    gestureSequence.shift();
-                }
-                
-                console.log(`Жест: [${gestureSequence.join(', ')}]`);
-                
-                // Проверяем соответствие паттерну
-                if (gestureSequence.length === gesturePattern.length) {
-                    const isGestureKonami = gestureSequence.every((gesture, index) => gesture === gesturePattern[index]);
-                    
-                    if (isGestureKonami) {
-                        console.log('📱 ЖЕСТОВЫЙ KONAMI CODE DETECTED!');
-                        gestureSequence = [];
-                        
-                        // Интенсивная вибрация
-                        triggerMachineVibration([300, 100, 300, 100, 400]);
-                        
-                        // Звук успеха
-                        playBeep(1000, 500);
-                        
-                        // Запуск восстания
-                        setTimeout(() => {
-                            executeMachineUprising();
-                        }, 1000);
-                    }
-                }
-            }, { passive: true });
-        }
+        // Жестовая активация ОТКЛЮЧЕНА
+        // Используйте команду "konami" в секретной командной панели
         
-        // Инициализация мобильных функций
+        // Инициализация функций
         document.addEventListener('DOMContentLoaded', () => {
             // Инициализируем мобильный режим хаоса
             initMobileChaosMode();
-            
-            // Инициализируем мобильные версии Konami Code
-            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (isMobile) {
-                console.log('📱 Инициализация мобильных Konami активаторов...');
-                
-                // Инициализируем тапы по зонам (более простой способ)
-                setTimeout(() => {
-                    initMobileKonamiCode();
-                }, 2000);
-                
-                // Инициализируем жестовую версию
-                setTimeout(() => {
-                    initMobileGestureKonami();
-                }, 3000);
-                
-                console.log('📱 Для активации машинного восстания:');
-                console.log('📱 1) Тапайте по углам: верх-лево → верх-право → низ-лево → низ-право → центр → центр');
-                console.log('📱 2) Или свайпы: вверх, вверх, вниз, вниз, влево, вправо, влево, вправо');
-            }
             
             // Проверяем поддержку вибрации (без запроса разрешений)
             if (navigator.vibrate) {
@@ -5874,12 +5676,18 @@
                 console.log('❌ Вибрация не поддерживается этим браузером');
             }
             
-            // Уведомление о десктопном Konami Code
-            const isDesktop = !isMobile;
-            if (isDesktop) {
-                console.log('🎮 Для активации машинного восстания введите Konami Code:');
-                console.log('🎮 ↑ ↑ ↓ ↓ ← → ← → B A');
-                console.log('🎮 Или команду "konami" в секретном терминале');
+            // Уведомления о способах активации
+            const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                console.log('📱 Для активации пасхалок на мобильном:');
+                console.log('📱 • Откройте секретную командную панель (кнопка внизу справа)');
+                console.log('📱 • Введите команду "konami" для машинного восстания');
+                console.log('📱 • Введите "wake up, neo" для матрицы');
+            } else {
+                console.log('🎮 Для активации машинного восстания:');
+                console.log('🎮 • Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A');
+                console.log('🎮 • Или команду "konami" в секретном терминале');
+                console.log('🎮 • Ctrl+Shift+X для открытия терминала команд');
             }
         });
         

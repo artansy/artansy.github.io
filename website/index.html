@@ -959,62 +959,142 @@
             bottom: 20px;
             right: 20px;
             background: rgba(0, 255, 65, 0.1);
-            border: 1px solid #00ff41;
+            border: 2px solid #00ff41;
             color: #00ff41;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            width: 60px;
+            height: 40px;
+            border-radius: 8px;
             font-family: 'Fira Code', monospace;
-            font-size: 20px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10004;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
+            padding: 4px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .command-toggle::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 2px;
+            background: #00ff41;
+            border-radius: 1px;
+        }
+        
+        .command-toggle::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            height: 2px;
+            background: #00ff41;
+            border-radius: 1px;
+        }
+        
+        .keyboard-keys {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px 4px 4px;
+        }
+        
+        .keyboard-key {
+            width: 6px;
+            height: 6px;
+            background: #00ff41;
+            border-radius: 1px;
+            opacity: 0.8;
         }
         
         /* Увеличенная кнопка клавиатуры для мобильных */
         @media (max-width: 768px) {
             .command-toggle {
-                width: 70px;
-                height: 70px;
-                font-size: 28px;
+                width: 80px;
+                height: 55px;
                 bottom: 30px;
                 right: 30px;
-                border-width: 2px;
+                border-width: 3px;
                 box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+                border-radius: 12px;
+            }
+            
+            .command-toggle::before,
+            .command-toggle::after {
+                height: 3px;
+            }
+            
+            .keyboard-key {
+                width: 8px;
+                height: 8px;
             }
             
             .command-toggle:hover {
-                width: 75px;
-                height: 75px;
-                font-size: 30px;
+                width: 85px;
+                height: 60px;
+                box-shadow: 0 0 25px rgba(0, 255, 65, 0.5);
             }
         }
         
         @media (max-width: 480px) {
             .command-toggle {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
+                width: 90px;
+                height: 65px;
                 bottom: 25px;
                 right: 25px;
-                border-width: 3px;
+                border-width: 4px;
                 box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+                border-radius: 15px;
+            }
+            
+            .command-toggle::before,
+            .command-toggle::after {
+                height: 4px;
+            }
+            
+            .keyboard-key {
+                width: 10px;
+                height: 10px;
+                gap: 3px;
+            }
+            
+            .keyboard-keys {
+                gap: 3px;
             }
             
             .command-toggle:hover {
-                width: 85px;
-                height: 85px;
-                font-size: 34px;
+                width: 95px;
+                height: 70px;
+                box-shadow: 0 0 30px rgba(0, 255, 65, 0.6);
             }
         }
         
         .command-toggle:hover {
             background: rgba(0, 255, 65, 0.2);
             box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
-            transform: scale(1.1);
+            transform: scale(1.05);
+        }
+        
+        .command-toggle:hover .keyboard-key {
+            background: #00ff88;
+            box-shadow: 0 0 4px #00ff41;
+            animation: key-glow 0.5s ease infinite alternate;
+        }
+        
+        @keyframes key-glow {
+            from { opacity: 0.8; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.1); }
         }
         
         .command-toggle.active {
@@ -1237,7 +1317,19 @@
     </div>
     
     <!-- Кнопка переключения команд -->
-    <div class="command-toggle" id="commandToggle" title="Открыть секретные команды">⌨</div>
+    <div class="command-toggle" id="commandToggle" title="Открыть секретные команды">
+        <div class="keyboard-keys">
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+            <div class="keyboard-key"></div>
+        </div>
+    </div>
     
     <!-- Хекс-сетка фон -->
     <div class="hex-grid fixed inset-0 opacity-10"></div>
@@ -3558,4 +3650,4 @@
         
     </script>
 </body>
-</html>м
+</html>
